@@ -1,0 +1,79 @@
+<div class="container-page">
+    <aside class="dashboard-menu">
+        <div class="statistique-item">
+            <h2 class="statistique-item-title">Opened</h2>
+            <h6 class="text-center p-3 page-title">{{ statistics.opened }}</h6>
+        </div>
+        <div class="statistique-item">
+            <h2 class="statistique-item-title">Resolved</h2>
+            <h6 class="text-center p-3 page-title">{{ statistics.resolved }}</h6>          
+        </div>
+        <div class="statistique-item">
+            <h2 class="statistique-item-title">Unresolved</h2>
+            <h6 class="text-center p-3 page-title">{{ statistics.unresolved }}</h6>
+        </div>
+    </aside>
+    <main class="statistique-main">
+        <div class="statistique-main-filter">
+            <div class="statistique-main-filter-item">
+                <div class="mr-2">
+                    <label class="page-title mr-2">Number :</label>
+                    <input type="radio" [(ngModel)]="selectedMode" (change)="updateChartData()" value="number" />
+                </div>
+                <div>
+                    <label class="page-title mr-2">Percent :</label>
+                    <input type="radio" [(ngModel)]="selectedMode" (change)="updateChartData()" value="percent" />
+                </div>
+            </div>
+            <div class="statistique-main-filter-item my-2">
+                <div class="dashboard-menu-item-1">
+                    <h1 class="page-title">Customers :</h1>
+                    <select 
+                        [(ngModel)]="client" 
+                        (change)="updateChartData()"
+                        class="ml-2 dashboard-menu-item-select" 
+                    >
+                        <option value="">All</option>
+                        <option *ngFor="let customer of customers" [value]="customer.customer_uuid">{{ customer.customer_name }}</option>
+                    </select>
+                </div>
+            </div>    
+            <div class="statistique-main-filter-item">
+                <div class="dashboard-menu-item-1">
+                    <h1 class="page-title">Ship :</h1>
+                    <select 
+                        [(ngModel)]="ship" 
+                        (change)="updateChartData()"
+                        class="ml-2 dashboard-menu-item-select" 
+                    >
+                        <option value="">All</option>
+                        <option *ngFor="let ship of ships" [value]="ship.ship_uuid">{{ ship.ship_name }}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="chartOptions" class="statistique-main-info bg-white">
+            <h2 class="bg-custom text-center page-title text-white py-2">Tickets per status</h2>
+            <div id="chart" class="px-6 py-4">
+                <apx-chart
+                    [series]="chartOptions.series"
+                    [chart]="chartOptions.chart"
+                    [dataLabels]="chartOptions.dataLabels"
+                    [plotOptions]="chartOptions.plotOptions"
+                    [yaxis]="chartOptions.yaxis"
+                    [xaxis]="chartOptions.xaxis"
+                    [legend]="chartOptions.legend"
+                    [colors]="chartOptions.colors"
+                    [grid]="chartOptions.grid"
+                ></apx-chart>
+            </div>
+            
+        </div>
+    </main>
+    <div class="statistique-time mt-4">
+        <div *ngFor="let option of durationOptions" class="flex justify-center">
+            <label class="page-title mr-2">{{ option.label }}</label>
+            <input type="radio" [checked]="selectedDuration === option.value" (click)="updateDuration(option.value)" />
+        </div>
+    </div>      
+</div>
