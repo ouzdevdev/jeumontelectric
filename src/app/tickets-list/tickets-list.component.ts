@@ -13,8 +13,8 @@ import * as jsPDF from 'jspdf';
 export class TicketsListComponent implements OnInit {
   isfilter: boolean = false;
   currentPage: number = 1;
-  isLoading = true; 
-  tickets: any[] = []; 
+  isLoading = true;
+  tickets: any[] = [];
   askedDescription: string = '';
   count: number = 0;
   sortOption: string = '';
@@ -30,7 +30,7 @@ export class TicketsListComponent implements OnInit {
   statusFilter: number = 0;
   exportType: string = '';
   selectedOptionSort: string = 'asc';
-  
+
   constructor(
     private ticketsService: TicketsService,
     private sharedTitleService: SharedTitleService,
@@ -43,7 +43,7 @@ export class TicketsListComponent implements OnInit {
     this.fetchCustomers();
     this.fetchStatus();
   }
-  
+
   resetFilter() {
     this.isfilter = false;
     this.isLoading = true;
@@ -53,7 +53,57 @@ export class TicketsListComponent implements OnInit {
     this.fetchTickets();
     this.toggleFilter();
   }
-  
+   goToPage(pageNumber: number): void {
+    if (pageNumber >= 1 && pageNumber <= this.totalPages) {
+      this.currentPage = pageNumber;
+      this.fetchTickets();
+    }
+  }
+
+  getPageNumbers(currentPage: number, totalPages: number): any[] {
+    const pageNumbers = [];
+    const maxDisplayedPages = 5;
+
+    if (totalPages <= maxDisplayedPages) {
+      for (let i = 1; i <= totalPages; i++) {
+        pageNumbers.push(i);
+      }
+    } else {
+      const leftOffset = Math.floor(maxDisplayedPages / 2);
+      let start = currentPage - leftOffset;
+      let end = currentPage + leftOffset;
+
+      if (start <= 0) {
+        start = 1;
+        end = maxDisplayedPages;
+      }
+
+      if (end > totalPages) {
+        end = totalPages;
+        start = end - maxDisplayedPages + 1;
+      }
+
+      if (start > 1) {
+        pageNumbers.push(1);
+        if (start > 2) {
+          pageNumbers.push('...');
+        }
+      }
+
+      for (let i = start; i <= end; i++) {
+        pageNumbers.push(i);
+      }
+
+      if (end < totalPages) {
+        if (end < totalPages - 1) {
+          pageNumbers.push('...');
+        }
+        pageNumbers.push(totalPages);
+      }
+    }
+
+    return pageNumbers;
+  }
   fetchStatus() {
     this.infosService.getStatuses().subscribe(
       data => {
@@ -84,11 +134,11 @@ export class TicketsListComponent implements OnInit {
   applyClientFilter(client: string) {
     this.isfilter = true;
     this.client = client;
-    this.isLoading = true; 
+    this.isLoading = true;
     this.fetchTickets();
     this.toggleFilter();
   }
-  
+
   private fetchCustomers(): void {
     this.infosService.getCustomers().subscribe(
       data => {
@@ -110,7 +160,7 @@ export class TicketsListComponent implements OnInit {
       },
       (error) => {
         this.isLoading = false;
-        alert(error.error.message); 
+        alert(error.error.message);
         console.error('Erreur:', error);
       }
     );
@@ -199,7 +249,7 @@ export class TicketsListComponent implements OnInit {
     const header = Object.keys(data[0]).join(',');
     const rows = data.map(item => Object.values(item).join(','));
     return `${header}\n${rows.join('\n')}`;
-  }  
+  }
 
   private exportToXls() {
     const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.tickets);
@@ -210,27 +260,27 @@ export class TicketsListComponent implements OnInit {
 
   private exportToPDF() {
     const doc = new jsPDF.jsPDF({
-      orientation: 'portrait',  
-      unit: 'mm',              
-      format: 'a4',            
+      orientation: 'portrait',
+      unit: 'mm',
+      format: 'a4',
     });
-  
-    let yPosition = 10; 
+
+    let yPosition = 10;
     const pageHeight = doc.internal.pageSize.height;
-  
+
     this.tickets.forEach((ticket, index) => {
       const ticketData = `Ticket ${ticket.asked_ref}: ${ticket.asked_created_date}\nDescription: ${ticket.asked_description}`;
-      const textLines = doc.splitTextToSize(ticketData, 180); 
-      
+      const textLines = doc.splitTextToSize(ticketData, 180);
+
       if (yPosition + doc.getTextDimensions(textLines).h > pageHeight - 10) {
         doc.addPage();
-        yPosition = 10; 
+        yPosition = 10;
       }
-  
+
       doc.text(textLines, 10, yPosition);
-      yPosition += doc.getTextDimensions(textLines).h + 10; 
+      yPosition += doc.getTextDimensions(textLines).h + 10;
     });
-  
+
     doc.save('tickets.pdf');
   }
 

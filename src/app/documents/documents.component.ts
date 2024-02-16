@@ -22,8 +22,8 @@ export class DocumentsComponent implements OnInit {
   minSize!: number;
   maxSize!: number;
   sizeUnit: string = 'Ko';
-  startDate!: string ; 
-  endDate!: string ;   
+  startDate!: string ;
+  endDate!: string ;
 
   constructor(
     private sharedTitleService: SharedTitleService,
@@ -33,13 +33,13 @@ export class DocumentsComponent implements OnInit {
   ngOnInit() {
     this.sharedTitleService.changeTitle('searchDocument');
     this.fetchDocuments(
-      this.currentPage, 
+      this.currentPage,
       this.pageSize,
-      this.containsText, 
+      this.containsText,
       this.doesNotContainText,
       this.linkedWordsText,
-      this.selectedCategory, 
-      this.minSize, 
+      this.selectedCategory,
+      this.minSize,
       this.maxSize,
       this.sizeUnit,
       this.startDate,
@@ -47,7 +47,69 @@ export class DocumentsComponent implements OnInit {
     );
     this.fetchCategories();
   }
+ goToPage(pageNumber: any): void {
+    const parsedPageNumber = parseInt(pageNumber, 10);
+    if (!isNaN(parsedPageNumber)) {
+      this.currentPage = Math.max(1, Math.min(parsedPageNumber, this.totalPages));
+      this.fetchDocuments(
+        this.currentPage,
+        this.pageSize,
+        this.containsText,
+        this.doesNotContainText,
+        this.linkedWordsText,
+        this.selectedCategory,
+        this.minSize,
+        this.maxSize,
+        this.sizeUnit,
+        this.startDate,
+        this.endDate
+      );
+    }
+  }
+  getPageNumbers(currentPage: number, totalPages: number): any[] {
+    const pageNumbers = [];
+    const maxDisplayedPages = 5;
 
+    if (totalPages <= maxDisplayedPages) {
+      for (let i = 1; i <= totalPages; i++) {
+        pageNumbers.push(i);
+      }
+    } else {
+      const leftOffset = Math.floor(maxDisplayedPages / 2);
+      let start = currentPage - leftOffset;
+      let end = currentPage + leftOffset;
+
+      if (start <= 0) {
+        start = 1;
+        end = maxDisplayedPages;
+      }
+
+      if (end > totalPages) {
+        end = totalPages;
+        start = end - maxDisplayedPages + 1;
+      }
+
+      if (start > 1) {
+        pageNumbers.push(1);
+        if (start > 2) {
+          pageNumbers.push('...');
+        }
+      }
+
+      for (let i = start; i <= end; i++) {
+        pageNumbers.push(i);
+      }
+
+      if (end < totalPages) {
+        if (end < totalPages - 1) {
+          pageNumbers.push('...');
+        }
+        pageNumbers.push(totalPages);
+      }
+    }
+
+    return pageNumbers;
+  }
   get totalPages() {
     return Math.ceil(this.count / this.pageSize);
   }
@@ -60,26 +122,26 @@ export class DocumentsComponent implements OnInit {
 
 
   fetchDocuments(
-    page: number, 
+    page: number,
     pageSize: number,
-    containsText: string, 
+    containsText: string,
     doesNotContainText: string,
     linkedWordsText: string,
-    selectedCategory: number, 
-    minSize: number, 
+    selectedCategory: number,
+    minSize: number,
     maxSize: number,
     sizeUnit: string,
     startDate: any,
     endDate: any
   ): void {
     this.infosService.getDocuments(
-      page, 
+      page,
       pageSize,
-      containsText, 
+      containsText,
       doesNotContainText,
       linkedWordsText,
-      selectedCategory, 
-      minSize, 
+      selectedCategory,
+      minSize,
       maxSize,
       sizeUnit,
       startDate,
@@ -97,7 +159,7 @@ export class DocumentsComponent implements OnInit {
       }
     );
   }
-  
+
   fetchCategories(): void {
     this.infosService.getCtageories().subscribe(
       data => {
@@ -127,13 +189,36 @@ export class DocumentsComponent implements OnInit {
     }
 
     this.fetchDocuments(
-      this.currentPage, 
+      this.currentPage,
       this.pageSize,
-      this.containsText, 
+      this.containsText,
       this.doesNotContainText,
       this.linkedWordsText,
-      this.selectedCategory, 
-      this.minSize, 
+      this.selectedCategory,
+      this.minSize,
+      this.maxSize,
+      this.sizeUnit,
+      this.startDate,
+      this.endDate
+    );
+  }
+  GetPage(offset: number): void {
+    this.isLoading = true;
+    this.currentPage = offset;
+    if (this.currentPage < 1) {
+      this.currentPage = 1;
+    } else if (this.currentPage > this.totalPages) {
+      this.currentPage = this.totalPages;
+    }
+
+    this.fetchDocuments(
+      this.currentPage,
+      this.pageSize,
+      this.containsText,
+      this.doesNotContainText,
+      this.linkedWordsText,
+      this.selectedCategory,
+      this.minSize,
       this.maxSize,
       this.sizeUnit,
       this.startDate,
@@ -145,13 +230,13 @@ export class DocumentsComponent implements OnInit {
     this.isLoading = true;
 
     this.fetchDocuments(
-      this.currentPage, 
+      this.currentPage,
       this.pageSize,
-      this.containsText, 
+      this.containsText,
       this.doesNotContainText,
       this.linkedWordsText,
-      this.selectedCategory, 
-      this.minSize, 
+      this.selectedCategory,
+      this.minSize,
       this.maxSize,
       this.sizeUnit,
       this.startDate,

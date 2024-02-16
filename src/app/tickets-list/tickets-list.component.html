@@ -36,12 +36,12 @@
                     <label class="mr-2 page-title">Desc</label>
                     <input type="radio" name="sortOption" [(ngModel)]="selectedOptionSort" (ngModelChange)="onSortOptionChange()" value="desc" />
                 </div>
-            </div>  
+            </div>
             <div class="relative dashboard-menu-item-2">
-                <button 
-                    class="col-span-1 page-title flex justify-center" (click)="toggleFilter()" 
+                <button
+                    class="col-span-1 page-title flex justify-center" (click)="toggleFilter()"
                     [class.active]="showFilter"
-                    [class.filter]="isfilter" 
+                    [class.filter]="isfilter"
                 >
                     <img alt="filter" src="assets/icons/filter.png" class="header-buttons-item-logo"/>
                     {{ 'filter' | translate }}
@@ -49,21 +49,21 @@
                 <div *ngIf="showFilter" class="rounded-[10px] text-[10px] absolute top-[120px] -left-[65px] transform -translate-y-1/2 bg-white border border-dotted border-[#E30039] py-1 px-2" style="z-index: 2;">
                     <div class="flex">
                         <h1 class="font-semibold mr-2">Type</h1>
-                        <button 
+                        <button
                             class="p-1 border border-solid border-black mr-2 rounded-[10px]"
                             [ngClass]="{ 'selected': typeFilter === 'PRFS' }"
                             (click)="applyTypeFilter('PRFS')"
                         >
                             PRFS
                         </button>
-                        <button 
+                        <button
                             class="p-1 border border-solid border-black mr-2 rounded-[10px]"
                             [ngClass]="{ 'selected': typeFilter === 'PRFM' }"
                             (click)="applyTypeFilter('PRFM')"
                         >
                             PRFM
                         </button>
-                        <button 
+                        <button
                             class="p-1 border border-solid border-black mr-2 rounded-[10px]"
                             [ngClass]="{ 'selected': typeFilter === 'PRMA' }"
                             (click)="applyTypeFilter('PRMA')"
@@ -91,7 +91,7 @@
                         <button (click)="resetFilter()" class="bg-custom px-4 py-2 border border-solid border-black rounded-[10px] text-white">Reset</button>
                     </div>
                 </div>
-            </div>       
+            </div>
             <div class="relative dashboard-menu-item-2">
                 <button class="col-span-1 page-title flex justify-center" (click)="toggleExport()" [class.active]="showExport">
                     <img alt="export" src="assets/icons/export.png" class="header-buttons-item-logo"/>
@@ -100,25 +100,25 @@
                 <div *ngIf="showExport" class="z-40 text-[10px] rounded-[10px] absolute  top-[80px] -left-[65px] transform -translate-y-1/2 bg-white border border-dotted border-[#E30039] py-1 px-2">
                     <div class="flex">
                         <button
-                            [ngClass]="{ 'selected': exportType === 'csv' }" 
-                            (click)="exportTypeSet('csv')" 
+                            [ngClass]="{ 'selected': exportType === 'csv' }"
+                            (click)="exportTypeSet('csv')"
                             class="py-1 px-2 border border-solid border-black mr-2 rounded-[10px]">csv</button>
-                        <button 
-                            [ngClass]="{ 'selected': exportType === 'json' }" 
-                            (click)="exportTypeSet('json')" 
+                        <button
+                            [ngClass]="{ 'selected': exportType === 'json' }"
+                            (click)="exportTypeSet('json')"
                             class="py-1 px-2 border border-solid border-black mr-2 rounded-[10px]">json</button>
-                        <button 
-                            [ngClass]="{ 'selected': exportType === 'pdf' }" 
-                            (click)="exportTypeSet('pdf')" 
+                        <button
+                            [ngClass]="{ 'selected': exportType === 'pdf' }"
+                            (click)="exportTypeSet('pdf')"
                             class="py-1 px-2 border border-solid border-black mr-2 rounded-[10px]">pdf</button>
-                        <button 
-                            [ngClass]="{ 'selected': exportType === 'xls' }" 
-                            (click)="exportTypeSet('xls')" 
+                        <button
+                            [ngClass]="{ 'selected': exportType === 'xls' }"
+                            (click)="exportTypeSet('xls')"
                             class="py-1 px-2 border border-solid border-black mr-2 rounded-[10px]">xls</button>
                     </div>
                     <div class="flex justify-center items-center mt-2">
-                        <button 
-                            (click)="exportData()" 
+                        <button
+                            (click)="exportData()"
                             class="bg-custom font-semibold py-1 px-4 text-white rounded-[10px]">Export</button>
                     </div>
                 </div>
@@ -154,9 +154,16 @@
             <app-ticket *ngFor="let ticket of tickets; let i = index" [data]="ticket"></app-ticket>
         </ng-template>
     </main>
-    <div class="pagination">
-        <button (click)="changePage(-1)" class="pagination-button">Previous</button>
-        <span class="pagination-title mx-2">Page <strong class="pagination-page">{{ currentPage }}</strong> of <strong class="pagination-page">{{ totalPages }}</strong></span>
-        <button (click)="changePage(1)" class="pagination-button">Next</button>
-    </div>
+      <div class="pagination">
+            <button (click)="changePage(-1)" class="pagination-button">Previous</button>
+
+            <ng-container *ngFor="let pageNumber of getPageNumbers(currentPage, totalPages)">
+                <button *ngIf="pageNumber !== '...'" [class.active]="pageNumber === currentPage" (click)="goToPage(pageNumber)" class="pagination-button">{{ pageNumber }}</button>
+                <span *ngIf="pageNumber === '...'">{{ pageNumber }}</span>
+            </ng-container>
+
+            <input [(ngModel)]="currentPage" (keyup.enter)="goToPage(currentPage)" class="pagination-input" type="number" min="1" [max]="totalPages" />
+
+            <button (click)="changePage(1)" class="pagination-button">Next</button>
+        </div>
 </div>

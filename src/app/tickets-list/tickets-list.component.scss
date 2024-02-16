@@ -34,3 +34,13 @@ button.active {
   color: white;
   background-color: #E30039;
 }
+.pagination {
+    display: flex;
+    // justify-content: space-between;
+    align-items: center;
+}
+
+.pagination-button,
+.pagination-input {
+    margin: 0 0.2rem; /* Adjust spacing as needed */
+}
