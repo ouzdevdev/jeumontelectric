@@ -36,7 +36,7 @@
                 </div>
             </div>
                  <div class="mx-1">
-                      <p class="ticket-description overflow-x-hidden overflow-y-scroll custom-scrollbar">
+                      <p class="ticket-description overflow-x-hidden overflow-y-auto custom-scrollbar">
                           {{ data.asked_description }}
                       </p>
 
@@ -178,25 +178,25 @@
         <div class="ticket-flex-center pb-4">
             <div class="">
                 <h1 class="ticket-title-element-gras">Description</h1>
-                <p [style.backgroundColor]="'rgba(' + getColorRGB(data.Status.status_color) + ', 0.5)'" class="ticket-descriptions overflow-x-hidden overflow-y-scroll custom-scrollbar">
+                <p [style.backgroundColor]="'rgba(' + getColorRGB(data.Status.status_color) + ', 0.5)'" class="ticket-descriptions overflow-x-hidden overflow-y-auto custom-scrollbar">
                     {{ data.asked_description }}
                 </p>
             </div>
             <div class="">
                 <h1 class="ticket-title-element-gras">Incident report</h1>
-                <p [style.backgroundColor]="'rgba(' + getColorRGB(data.Status.status_color) + ', 0.5)'" class="ticket-descriptions overflow-x-hidden overflow-y-scroll custom-scrollbar">
+                <p [style.backgroundColor]="'rgba(' + getColorRGB(data.Status.status_color) + ', 0.5)'" class="ticket-descriptions overflow-x-hidden overflow-y-auto custom-scrollbar">
                     {{ data.Incident_report }}
                 </p>
             </div>
             <div class="">
                 <h1 class="ticket-title-element-gras">Analysis</h1>
-                <p [style.backgroundColor]="'rgba(' + getColorRGB(data.Status.status_color) + ', 0.5)'" class="ticket-descriptions overflow-x-hidden overflow-y-scroll custom-scrollbar">
+                <p [style.backgroundColor]="'rgba(' + getColorRGB(data.Status.status_color) + ', 0.5)'" class="ticket-descriptions overflow-x-hidden overflow-y-auto custom-scrollbar">
                     {{ data.prfs_analyse }}
                 </p>
             </div>
             <div class="">
                 <h1 class="ticket-title-element-gras">Root Cause</h1>
-                <p [style.backgroundColor]="'rgba(' + getColorRGB(data.Status.status_color) + ', 0.5)'" class="ticket-descriptions overflow-x-hidden overflow-y-scroll custom-scrollbar">
+                <p [style.backgroundColor]="'rgba(' + getColorRGB(data.Status.status_color) + ', 0.5)'" class="ticket-descriptions overflow-x-hidden overflow-y-auto custom-scrollbar">
                     {{ data.prfs_root_cause }}
                 </p>
             </div>

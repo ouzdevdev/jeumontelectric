@@ -21,11 +21,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- <div class="mx-1">
-                    <p class="ticket-descriptionsprm w-52 overflow-x-hidden overflow-y-scroll custom-scrollbar">
-                        {{ data.asked_description }}
-                    </p>
-                </div> -->
+
                 <div class="ticket-col-between">
                     <div class="ticket-flex-start">
                         <img src="assets/icons/user.png" alt="user" class="logo-user" />
@@ -37,8 +33,8 @@
                     </div>
                 </div>
             </div>
-                  <div class="mx-1">
-                      <p class="ticket-description overflow-x-hidden overflow-y-scroll custom-scrollbar">
+              <div class="mx-1">
+                      <p class="ticket-description overflow-x-hidden overflow-y-auto custom-scrollbar">
                           {{ data.asked_description }}
                       </p>
 
@@ -160,7 +156,7 @@
         <div class="ticket-flex-center pb-4">
             <div class="">
                 <h1 class="ticket-title-element-gras">Description</h1>
-                <p [style.backgroundColor]="'rgba(' + getColorRGB(data.Status.status_color) + ', 0.5)'" class="ticket-descriptions w-52 overflow-x-hidden overflow-y-scroll custom-scrollbar">
+                <p [style.backgroundColor]="'rgba(' + getColorRGB(data.Status.status_color) + ', 0.5)'" class="ticket-descriptions w-52 overflow-x-hidden overflow-y-auto custom-scrollbar">
                     {{ data.asked_description }}
                 </p>
             </div>
