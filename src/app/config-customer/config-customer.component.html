@@ -1,25 +1,25 @@
 <div class="grid grid-cols-4 font-inter text-sm font-semibold h-[100%]">
-    <div class="h-[85%] overflow-hidden col-span-1 mx-4 my-6">
-        <form [formGroup]="form" (ngSubmit)="onSubmit()" class="h-[100%] bg-[#FFF] rounded-[10px]">
+    <div class="bg-[#FFF] m-4 font-semibold rounded-[10px] h-[100%]">
+        <form [formGroup]="form" (ngSubmit)="onSubmit()" class="h-[50%] bg-[#FFF] rounded-[10px]">
             <div class="bg-custom text-[#F5F5F5] flex justify-center items-center h-[15%] rounded-t-[10px]">
                 <h1>Add customer</h1>
             </div>
             <div class="p-4 h-[85%] flex flex-col justify-between">
                 <div>
-                    <div class="flex flex-col justify-center items-center mb-2">
+                    <div class="flex flex-col justify-center text-base items-center mb-2">
                         <label>SIRET</label>
                         <input formControlName="customer_siret" placeholder="Siret" type="text" class="p-1 font-normal border border-solid border-[#E30039]" />
                     </div>
-                    <div class="flex flex-col justify-center items-center mb-2">
+                    <div class="flex flex-col justify-center text-base items-center mb-2">
                         <label>Name</label>
                         <input formControlName="customer_name" placeholder="Name" type="text" class="p-1 font-normal border border-solid border-[#E30039]" />
                     </div>
-                    <div class="flex flex-col justify-center items-center mb-2">
+                    <div class="flex flex-col text-base justify-center items-center mb-2">
                         <label>Description</label>
                         <input formControlName="customer_description" placeholder="Description" type="text" class="p-1 font-normal border border-solid border-[#E30039]" />
                     </div>
                 </div>
-                <div class="flex justify-center items-center mb-2">
+                <div class="flex justify-center text-base items-center mb-2">
                     <button type="submit" class="flex items-center justify-center bg-custom text-white rounded-[10px] border border-solid border-black p-2">
                         <img src="assets/icons/save.png" class="w-5 h-5 mr-2"/>
                         Confirm
@@ -28,14 +28,14 @@
             </div>
         </form>
     </div>
-    <div class="h-[95%] overflow-hidden col-span-3">
+    <div class="h-[50%] overflow-hidden col-span-3">
         <div class="h-[100%] col-span-3 bg-[#FFF] m-4 rounded-[10px]">
             <div class="bg-custom text-[#F5F5F5] flex justify-center items-center h-[15%] rounded-t-[10px]">
                 <h1>Field list</h1>
             </div>
             <div class="p-4 grid grid-cols-3 rounded-b-[10px] h-[85%]">
-                <div class="px-6 h-[95%] overflow-hidden">
-                    <div class="h-[10%]">
+                <div class="px-6 h-[50%] overflow-hidden">
+                    <div class="h-[10%] text-base">
                         <label class="text-center mb-2">Customers</label>
                     </div>
                     <div class="p-2 border border-solid border-black h-[90%] overflow-y-scroll custom-scrollbar">
@@ -50,24 +50,24 @@
                         </h2>
                     </div>
                 </div>
-                <div class="px-6 h-[95%] overflow-hidden">
+                <div class="px-6 h-[95%] text-base overflow-hidden">
                     <div class="h-[10%]">
                         <label class="text-center mb-2">Fleets</label>
                     </div>
                     <div class="h-[90%]">
                         <div class="h-[75%] p-2 border border-solid border-black overflow-y-scroll custom-scrollbar">
                             <h2 class="my-4 cursor-pointer" (click)="selectFleet(0, '', '')" [ngClass]="{ 'selected-customer':  idFleet === 0 }">All</h2>
-                            <h2 
-                                *ngFor="let fleet of fleets" 
+                            <h2
+                                *ngFor="let fleet of fleets"
                                 class="my-4 cursor-pointer"
                                 (click)="selectFleet(fleet.fleet_id,fleet.fleet_name, fleet.fleet_description)"
                                 [ngClass]="{ 'selected-customer': fleet.fleet_id === idFleet }"
                             >
                                 {{ fleet.fleet_name }}
                             </h2>
-                        </div>       
+                        </div>
                         <div class="h-[20%] flex justify-start items-start">
-                            <button 
+                            <button
                                 (click)="toggleCreationFleet()"
                                 class="flex items-center mt-4 justify-center bg-custom mr-2 text-white rounded-[10px] border border-solid border-black py-2 px-8"
                             >
@@ -81,26 +81,26 @@
                             >
                                 <img src="assets/icons/update.png" class="w-5 h-5" />
                             </button>
-                        </div>         
+                        </div>
                     </div>
                 </div>
                 <div class="px-6 h-[95%] overflow-hidden">
                     <div class="h-[10%]">
-                        <label class="text-center mb-2">Ships</label>
+                        <label class="text-center mb-2 text-base">Ships</label>
                     </div>
                     <div class="h-[90%]">
                         <div class="h-[75%] p-2 border border-solid border-black overflow-y-scroll custom-scrollbar">
-                            <h2 
-                                *ngFor="let ship of ships" 
+                            <h2
+                                *ngFor="let ship of ships"
                                 class="my-4 cursor-pointer"
                                 (click)="selectShip(ship.ship_uuid, ship.ship_name, ship.ship_description)"
                                 [ngClass]="{ 'selected-customer': ship.ship_uuid === uuidShip }"
                             >
                                 {{ ship.ship_name }}
                             </h2>
-                        </div>  
+                        </div>
                         <div class="h-[20%] flex justify-start items-center">
-                            <button 
+                            <button
                                 (click)="toggleCreationShip()"
                                 class="flex items-center mt-4 justify-center bg-custom mr-2 text-white rounded-[10px] border border-solid border-black py-2 px-8"
                             >
@@ -114,7 +114,7 @@
                             >
                                 <img src="assets/icons/update.png" class="w-5 h-5"/>
                             </button>
-                        </div>              
+                        </div>
                     </div>
                 </div>
             </div>
@@ -130,22 +130,22 @@
         <div>
             <img (click)="toggleCreationShip()" src="assets/icons/close.png" class="w-6 h-6 cursor-pointer"/>
         </div>
-    </div>   
+    </div>
     <div class="flex flex-col justify-center items-center">
         <label class="my-3 font-bold">Name</label>
         <input type="text" class="p-2 text-black bg-white border border-solid border-[#E30039]" [(ngModel)]="nameShip" name="nameShip" />
     </div>
 
     <div class="flex justify-around px-6 mt-8 mb-2">
-        <button 
-            class="flex items-center justify-center border border-solid border-black rounded-[10px] mr-6 bg-custom text-white font-bold shadow-lg py-1 px-3" 
+        <button
+            class="flex items-center justify-center border border-solid border-black rounded-[10px] mr-6 bg-custom text-white font-bold shadow-lg py-1 px-3"
             (click)="createNewShip()"
-        >   
+        >
             <img src="assets/icons/save.png" class="mr-2"/>
             Confirm
         </button>
-        <button 
-            class="flex items-center justify-center border border-solid border-black rounded-[10px] bg-[#FFFFFF] text-custom font-bold shadow-lg py-1 px-3" 
+        <button
+            class="flex items-center justify-center border border-solid border-black rounded-[10px] bg-[#FFFFFF] text-custom font-bold shadow-lg py-1 px-3"
             (click)="toggleCreationShip()"
         >
             <img src="assets/icons/cancel.png" class="mr-2 w-6 h-6" />
@@ -162,26 +162,26 @@
         <div>
             <img (click)="toggleCreationFleet()" src="assets/icons/close.png" class="w-6 h-6 cursor-pointer"/>
         </div>
-    </div>   
+    </div>
     <div class="flex flex-col justify-center items-center">
         <label class="my-3 font-bold">Name</label>
         <input type="text" class="p-2 text-black bg-white border border-solid border-[#E30039]" [(ngModel)]="nameFleet" name="nameFleet" />
-    </div>   
+    </div>
     <div class="flex flex-col justify-center items-center">
         <label class="my-3 font-bold">Description</label>
         <input type="text" class="p-2 text-black bg-white border border-solid border-[#E30039]" [(ngModel)]="descFleet" name="descFleet" />
     </div>
 
     <div class="flex justify-around px-6 mt-8 mb-2">
-        <button 
-            class="flex items-center justify-center border border-solid border-black rounded-[10px] mr-6 bg-custom text-white font-bold shadow-lg py-1 px-3" 
+        <button
+            class="flex items-center justify-center border border-solid border-black rounded-[10px] mr-6 bg-custom text-white font-bold shadow-lg py-1 px-3"
             (click)="createNewFleet()"
-        >   
+        >
             <img src="assets/icons/save.png" class="mr-2" />
             Confirm
         </button>
-        <button 
-            class="flex items-center justify-center border border-solid border-black rounded-[10px] bg-[#FFFFFF] text-custom font-bold shadow-lg py-1 px-3" 
+        <button
+            class="flex items-center justify-center border border-solid border-black rounded-[10px] bg-[#FFFFFF] text-custom font-bold shadow-lg py-1 px-3"
             (click)="toggleCreationFleet()"
         >
             <img src="assets/icons/cancel.png" class="mr-2 w-6 h-6" />
@@ -198,26 +198,26 @@
         <div>
             <img (click)="toggleUpdateFleet()" src="assets/icons/close.png" class="w-6 h-6 cursor-pointer"/>
         </div>
-    </div>   
+    </div>
     <div class="flex flex-col justify-center items-center">
         <label class="my-3 font-bold">Name</label>
         <input type="text" class="p-2 text-black bg-white border border-solid border-[#E30039]" [(ngModel)]="nameFleet" name="nameFleet" />
-    </div>   
+    </div>
     <div class="flex flex-col justify-center items-center">
         <label class="my-3 font-bold">Description</label>
         <input type="text" class="p-2 text-black bg-white border border-solid border-[#E30039]" [(ngModel)]="descFleet" name="descFleet" />
     </div>
 
     <div class="flex justify-around px-6 mt-8 mb-2">
-        <button 
-            class="flex items-center justify-center border border-solid border-black rounded-[10px] mr-6 bg-custom text-white font-bold shadow-lg py-1 px-3" 
+        <button
+            class="flex items-center justify-center border border-solid border-black rounded-[10px] mr-6 bg-custom text-white font-bold shadow-lg py-1 px-3"
             (click)="updateFleet()"
-        >   
+        >
             <img src="assets/icons/save.png" class="mr-2" />
             Confirm
         </button>
-        <button 
-            class="flex items-center justify-center border border-solid border-black rounded-[10px] bg-[#FFFFFF] text-custom font-bold shadow-lg py-1 px-3" 
+        <button
+            class="flex items-center justify-center border border-solid border-black rounded-[10px] bg-[#FFFFFF] text-custom font-bold shadow-lg py-1 px-3"
             (click)="toggleUpdateFleet()"
         >
             <img src="assets/icons/cancel.png" class="mr-2 w-6 h-6" />
@@ -234,26 +234,26 @@
         <div>
             <img (click)="toggleUpdateShip()" src="assets/icons/close.png" class="w-6 h-6 cursor-pointer"/>
         </div>
-    </div>   
+    </div>
     <div class="flex flex-col justify-center items-center">
         <label class="my-3 font-bold">Name</label>
         <input type="text" class="p-2 text-black bg-white border border-solid border-[#E30039]" [(ngModel)]="nameShip" name="nameShip" />
-    </div>   
+    </div>
     <div class="flex flex-col justify-center items-center">
         <label class="my-3 font-bold">Description</label>
         <input type="text" class="p-2 text-black bg-white border border-solid border-[#E30039]" [(ngModel)]="descShip" name="descShip" />
     </div>
 
     <div class="flex justify-around px-6 mt-8 mb-2">
-        <button 
-            class="flex items-center justify-center border border-solid border-black rounded-[10px] mr-6 bg-custom text-white font-bold shadow-lg py-1 px-3" 
+        <button
+            class="flex items-center justify-center border border-solid border-black rounded-[10px] mr-6 bg-custom text-white font-bold shadow-lg py-1 px-3"
             (click)="updateShip()"
-        >   
+        >
             <img src="assets/icons/save.png" class="mr-2" />
             Confirm
         </button>
-        <button 
-            class="flex items-center justify-center border border-solid border-black rounded-[10px] bg-[#FFFFFF] text-custom font-bold shadow-lg py-1 px-3" 
+        <button
+            class="flex items-center justify-center border border-solid border-black rounded-[10px] bg-[#FFFFFF] text-custom font-bold shadow-lg py-1 px-3"
             (click)="toggleUpdateShip()"
         >
             <img src="assets/icons/cancel.png" class="mr-2 w-6 h-6" />

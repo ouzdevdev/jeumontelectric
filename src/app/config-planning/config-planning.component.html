@@ -1,5 +1,5 @@
 <div class="font-inter grid h-[100%] ">
-    <div class="bg-[#FFF] m-4 font-semibold rounded-[10px] h-[90%]">
+    <div class="bg-[#FFF] m-4 font-semibold rounded-[10px] h-[100%]">
         <div class="bg-custom text-[#F5F5F5] flex justify-center items-center h-[15%] rounded-t-[10px]">
             <h1>Create an on-call duty</h1>
         </div>
@@ -14,7 +14,7 @@
                         </ng-container>
                     </select>
                 </div>
-                
+
                 <div class="flex flex-col justify-center items-center">
                     <label class="text-base">Year Number</label>
                     <select class="p-2 border border-solid border-black" [(ngModel)]="idYear">
@@ -23,7 +23,7 @@
                             <option *ngIf="year.year_id >= currentYear" [value]="year.year_id">{{ year.year_label }}</option>
                         </ng-container>
                     </select>
-                </div>                
+                </div>
             </div>
             <div class="grid grid-cols-2">
                 <div class="bg-[#D9D9D9] m-4 rounded-md">

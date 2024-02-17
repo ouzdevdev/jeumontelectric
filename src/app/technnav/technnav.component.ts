@@ -23,14 +23,14 @@ export class TechnnavComponent implements OnInit {
   customers: any[] = [];
   status: any[] = [];
   client: string = '';
-  searchDescription: string = ''; 
+  searchDescription: string = '';
   selectedOptionSort: string = 'asc';
   count: number = 0;
-  pageSize: number = 40; 
+  pageSize: number = 30;
   typeFilter: string = '';
   statusFilter: number = 0;
   exportType: string = '';
-  
+
   constructor(
     private ticketsService: TicketsService,
     private sharedTitleService: SharedTitleService,
@@ -47,7 +47,7 @@ export class TechnnavComponent implements OnInit {
   }
 
   isSalesSupportDisabled(): boolean {
-    return this.authService.getUserRole() === 3 
+    return this.authService.getUserRole() === 3
   }
 
   resetFilter() {
@@ -99,7 +99,7 @@ export class TechnnavComponent implements OnInit {
 
   applyClientFilter(client: string) {
     this.client = client;
-    this.isLoading = true; 
+    this.isLoading = true;
     this.fetchTickets();
   }
 
@@ -130,7 +130,7 @@ export class TechnnavComponent implements OnInit {
     this.isLoading = true;
     this.fetchTickets();
   }
-  
+
   onSortOptionChange() {
     this.isLoading = true;
     this.fetchTickets();

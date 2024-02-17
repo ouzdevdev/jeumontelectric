@@ -1,20 +1,25 @@
-<div class="font-inter text-sm font-semibold h-[100%]">
-    <div class="p-4 mx-4 h-[100%]">
-        <div class="bg-custom text-[#F5F5F5] h-[15%] rounded-t-[10px] flex justify-center items-center">
+<div class="font-inter grid h-[100%]">
+    <div class="bg-[#FFF] m-4 font-semibold rounded-[10px] h-[90%]">
+        <div class="bg-custom text-[#F5F5F5] flex justify-center items-center h-[20%] rounded-t-[10px]">
             <h1>Tags</h1>
         </div>
-        <div class="p-4 bg-[#fff] rounded-b-[10px] h-[85%]">
+        <div class="h-[10%] flex flex-col justify-between p-4 rounded-b-[10px]">
             <div class="flex flex-col justify-center items-center m-14">
                 <select class="font-normal border border-solid border-black w-[300px] p-3" [(ngModel)]="selectedTag">
-                    <option value="0" selected disabled>None</option>
-                    <option *ngFor="let tag of tags" [value]="tag.tag_id">{{ tag.tag_label }}</option>    
+                    <option value="0" >None</option>
+                    <option *ngFor="let tag of tags" [value]="tag.tag_id">{{ tag.tag_label }}</option>
                 </select>
             </div>
-            <div class="flex flex-col justify-center my-6">
-                <button *ngIf="!selectedTag" (click)="toggleCreateTag()">Add</button>
-                <button *ngIf="selectedTag" class="py-3">Edit</button>
-                <button *ngIf="selectedTag" class="py-3">Delete</button>
-            </div>
+           <div class="flex justify-center items-center">
+              <button *ngIf="!selectedTag" (click)="toggleCreateTag()" class="button-style add-button button-style edit-button bg-[#0063AF] mr-2 mb-9 text-white rounded-[10px]">
+                  <img src="assets/icons/create-ticket.png" class="w-5 h-5 mr-2" alt="Add Icon"/>
+                  <span>Add</span>
+              </button>
+              <button *ngIf="selectedTag" class="button-style edit-button bg-custom mr-2 text-white rounded-[10px] mb-9 "><img src="assets/icons/update.png" class="w-5 h-5 mr-2">Edit</button>
+              <button *ngIf="selectedTag" class="button-style edit-button bg-[#D9D9D9] mr-2 text-white rounded-[10px] mb-9"> <img  src="assets/icons/delete.png" class="w-4 h-5 mr-2">Delete</button>
+              <button *ngIf="selectedTag" (click)="untoggleCreateTag()" class="button-style bg-[#D9D9D9]  delete-button mb-9"> <img  src="assets/icons/cancel.png" class="w-4 h-5 mr-2">Cancel</button>
+          </div>
+
         </div>
     </div>
 </div>
@@ -27,20 +32,20 @@
         <div>
             <img (click)="toggleCreateTag()" src="assets/icons/close.png" class="w-6 h-6 cursor-pointer" />
         </div>
-    </div>   
-    <form [formGroup]="form" class="flex flex-col justify-center items-center">
+    </div>
+    <form [formGroup]="form" class="flex flex-col  h-[50%] justify-center items-center">
         <label class="my-3 font-bold">New tag</label>
         <input type="text" formControlName="tag_label" placeholder="Tag" class="text-black p-2 w-[170px] bg-white border border-solid border-[#E30039]" />
     </form>
     <div class="flex justify-center items-center py-6">
         <button
-            (click)="createTag()" 
+            (click)="createTag()"
             class="flex items-center justify-center bg-custom mr-2 text-white rounded-[10px] border border-solid border-black py-2 px-8"
         >
             <img src="assets/icons/save.png" class="w-5 h-5 mr-2" />
             Save
         </button>
-        <button 
+        <button
             (click)="toggleCreateTag()"
             class="flex items-center justify-center bg-white text-custom rounded-[10px] border border-solid border-black py-2 px-8"
         >

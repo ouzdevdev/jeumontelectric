@@ -10,12 +10,12 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 export class ConfigCategorieComponent  implements OnInit {
   form!: FormGroup;
   tags: any[] = [];
-  isCreateTagVisible: boolean = false;  
+  isCreateTagVisible: boolean = false;
   selectedTag:number = 0 ;
 
   constructor(
     private fb: FormBuilder,
-    private tagsService: TagsService, 
+    private tagsService: TagsService,
   ) {}
 
   ngOnInit() {
@@ -37,10 +37,12 @@ export class ConfigCategorieComponent  implements OnInit {
   }
 
   toggleCreateTag () {
-    this.isCreateTagVisible = !this.isCreateTagVisible; 
+    this.isCreateTagVisible = !this.isCreateTagVisible;
   }
-
-  createTag () { 
+ untoggleCreateTag () {
+    this.selectedTag=0 ;
+  }
+  createTag () {
     const formData = this.form.value;
     this.tagsService.createTag(formData).subscribe(
       response => {

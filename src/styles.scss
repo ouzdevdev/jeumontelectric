@@ -8,6 +8,14 @@
 $primaryColor: rgb(0, 99, 175);
 $secondeColor: rgb(233, 79, 53);
 
+@media screen and (min-width: 80rem) {
+ body {
+    padding: 1000;
+    margin: 1000;
+}
+}
+
+
 body {
     padding: 0;
     margin: 0;
