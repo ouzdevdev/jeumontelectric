@@ -40,7 +40,7 @@ export class CreatePrfmComponent implements OnInit {
   ngOnInit(): void {
     this.sharedTitleService.changeTitle('PRFM CREATION');
     this.form = this.fb.group({
-      asked_description: new FormControl('', [Validators.required, Validators.minLength(1)]),
+      asked_description: new FormControl('', [Validators.required, Validators.minLength(32)]),
       customer_uuid: [''],
       prfm_resume: new FormControl('', [Validators.required, Validators.minLength(32)]),
       fleet_id: [''],

@@ -46,7 +46,7 @@ export class CreatePrfsComponent implements OnInit {
   ngOnInit(): void {
     this.sharedTitleService.changeTitle('PRFS CREATION');
     this.form = this.fb.group({
-      asked_description: new FormControl('', [Validators.required, Validators.minLength(1)]),
+      asked_description: new FormControl('', [Validators.required, Validators.minLength(32)]),
       customer_uuid: new FormControl('', [Validators.required]),
       fleet_id: new FormControl('', [Validators.required]),
       ship_uuid: new FormControl('', [Validators.required]),

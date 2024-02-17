@@ -1,4 +1,4 @@
-import { Constants } from '../utils/constants'; 
+import { Constants } from '../utils/constants';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -9,7 +9,7 @@ import { AuthService } from './auth.service';
 })
 
 export class TicketsService {
-  private apiUrl = Constants.apiUrl; 
+  private apiUrl = Constants.apiUrl;
 
   constructor(
     private http: HttpClient,
@@ -145,7 +145,7 @@ export class TicketsService {
 
     return this.http.get(`${this.apiUrl}/asked/chart/client`, { headers: this.getHeaders(), params });
   }
-  
+
   getOneAskedData(asked_uuid: any): Observable<any> {
     return this.http.get(`${this.apiUrl}/asked/${asked_uuid}`, { headers: this.getHeaders() });
   }
@@ -208,11 +208,11 @@ export class TicketsService {
 
   updateAskedPRMA(data: any, asked_uuid: any, user_uuid: string): Observable<any> {
     return this.http.put(`${this.apiUrl}/prma/${asked_uuid}/${user_uuid}`, data, { headers: this.getHeaders() });
-  }  
+  }
 
   updateAskedPRFM(data: any, asked_uuid: any, user_uuid: string): Observable<any> {
     return this.http.put(`${this.apiUrl}/prfm/${asked_uuid}/${user_uuid}`, data, { headers: this.getHeaders() });
-  }  
+  }
 
   askedAddTag(data: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/askedTag`,  data ,{ headers: this.getHeaders() });

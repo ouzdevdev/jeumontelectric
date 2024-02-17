@@ -6,7 +6,7 @@
         </div>
         <div class="statistique-item">
             <h2 class="statistique-item-title">Resolved</h2>
-            <h6 class="text-center p-3 page-title">{{ statistics.resolved }}</h6>          
+            <h6 class="text-center p-3 page-title">{{ statistics.resolved }}</h6>
         </div>
         <div class="statistique-item">
             <h2 class="statistique-item-title">Unresolved</h2>
@@ -28,23 +28,23 @@
             <div class="statistique-main-filter-item my-2">
                 <div class="dashboard-menu-item-1">
                     <h1 class="page-title">Customers :</h1>
-                    <select 
-                        [(ngModel)]="client" 
+                    <select
+                        [(ngModel)]="client"
                         (change)="updateChartData()"
-                        class="ml-2 dashboard-menu-item-select" 
+                        class="ml-2 dashboard-menu-item-select"
                     >
                         <option value="">All</option>
                         <option *ngFor="let customer of customers" [value]="customer.customer_uuid">{{ customer.customer_name }}</option>
                     </select>
                 </div>
-            </div>    
+            </div>
             <div class="statistique-main-filter-item">
                 <div class="dashboard-menu-item-1">
                     <h1 class="page-title">Ship :</h1>
-                    <select 
-                        [(ngModel)]="ship" 
+                    <select
+                        [(ngModel)]="ship"
                         (change)="updateChartData()"
-                        class="ml-2 dashboard-menu-item-select" 
+                        class="ml-2 dashboard-menu-item-select"
                     >
                         <option value="">All</option>
                         <option *ngFor="let ship of ships" [value]="ship.ship_uuid">{{ ship.ship_name }}</option>
@@ -67,7 +67,7 @@
                     [grid]="chartOptions.grid"
                 ></apx-chart>
             </div>
-            
+
         </div>
     </main>
     <div class="statistique-time mt-4">
@@ -75,5 +75,5 @@
             <label class="page-title mr-2">{{ option.label }}</label>
             <input type="radio" [checked]="selectedDuration === option.value" (click)="updateDuration(option.value)" />
         </div>
-    </div>      
+    </div>
 </div>

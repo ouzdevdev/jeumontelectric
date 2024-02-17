@@ -42,7 +42,7 @@ export type ChartOptions = {
   templateUrl: './statistique-client.component.html',
   styleUrls: ['./statistique-client.component.scss']
 })
-export class StatistiqueClientComponent implements OnInit {  
+export class StatistiqueClientComponent implements OnInit {
   @ViewChild("chart") chart: ChartComponent | undefined;
   chartOptions!: ChartOptions;
   statistics: any = {};
@@ -59,14 +59,14 @@ export class StatistiqueClientComponent implements OnInit {
     { label: '1y', value: 8760 },
     { label: 'All', value: -1 }
   ];
-  selectedDuration: number = -1; 
+  selectedDuration: number = -1;
 
   client: string = '';
   ship: string = '';
 
   constructor(
     private ticketsService: TicketsService,
-    private infosService: InfosService, 
+    private infosService: InfosService,
     private cookieService: CookieService,
     private sharedTitleService: SharedTitleService,
   ) {}
@@ -76,7 +76,7 @@ export class StatistiqueClientComponent implements OnInit {
     this.sharedTitleService.changeTitle('statisticsTickets');
     this.getGlobalStatistics();
     this.updateChartData();
-    
+
   }
 
   getGlobalStatistics() {
@@ -100,7 +100,7 @@ export class StatistiqueClientComponent implements OnInit {
         const seriesData = this.statisticsChart.map((item: any) => {
           return this.selectedMode === 'number' ? item.count : (item.percentage > maxCount ? maxCount : item.percentage);
         });
-  
+
         this.chartOptions = {
           series: [{ name: "distibuted", data: seriesData }],
           chart: { height: 300, type: "bar", events: { click: function(chart, w, e) {}}},
@@ -120,7 +120,7 @@ export class StatistiqueClientComponent implements OnInit {
           },
           yaxis: {
             max: maxCount,
-            tickAmount: 5, 
+            tickAmount: 5,
             labels: {
               style: {
                 colors: "#000",
@@ -130,7 +130,7 @@ export class StatistiqueClientComponent implements OnInit {
               },
               formatter:  (value: any) => {
                 if (this.selectedMode === 'number') {
-                  return Math.floor(value).toString(); 
+                  return Math.floor(value).toString();
                 } else {
                   return Math.floor(value).toString() + ' %';
                 }
@@ -138,14 +138,14 @@ export class StatistiqueClientComponent implements OnInit {
             }
           }
         };
-        
+
       },
       (error) => {
         console.error('Error:', error);
       }
     );
   }
-  
+
 
   updateChartData() {
     if (this.selectedMode === 'number') {
