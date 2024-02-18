@@ -714,7 +714,6 @@ input, select, textarea {
 .ticket {
     display: flex;
     align-items: center;
-    justify-content: space-between;
     padding: .25rem .5rem;
     margin-bottom: .25rem;
     margin-right: .25rem;
@@ -729,7 +728,7 @@ input, select, textarea {
     margin-bottom: .25rem;
     margin-right: .25rem;
     border-radius: .5rem;
-    border: 10px solid #000000;
+    border: 1px solid #000000;
 }
 
 .ticket-left {
@@ -751,9 +750,8 @@ input, select, textarea {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-     width: 30%;
-    //  position: relative;
-    //  border:solid;
+    width: 14rem;
+
 
 }
 
@@ -768,24 +766,24 @@ input, select, textarea {
     font-family: 'Inter';
     width: 13rem;
     height: 6rem;
-    margin-left: 19rem;
+    margin-left: 16.5rem;
     margin-top: -5rem;
 
 }
-// .ticket-descriptions{
-//     display: flex;
-//     justify-content: space-between;
-//     background: #E4E4E4;
-//     padding: .25rem;
-//     border-radius: .5rem;
-//     font-size: .8rem;
-//     font-weight: 400;
-//     font-family: 'Inter';
-//     width: 13rem;
-//     height: 6rem;
-//     margin-left: 0rem;
-//     // margin-top: -5rem;
-// }
+.ticket-descriptions{
+    display: flex;
+    justify-content: space-between;
+    background: #E4E4E4;
+    padding: .25rem;
+    border-radius: .5rem;
+    font-size: .8rem;
+    font-weight: 400;
+    font-family: 'Inter';
+    width: 13rem;
+    height: 6rem;
+    margin-left: 0rem;
+    // margin-top: -5rem;
+}
 
 .ticket-descriptions2{
     display: flex;
