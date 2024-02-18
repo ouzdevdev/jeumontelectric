@@ -4,20 +4,22 @@
             <h1>Tags</h1>
         </div>
         <div class="h-[10%] flex flex-col justify-between p-4 rounded-b-[10px]">
-            <div class="flex flex-col justify-center items-center m-14">
+            <div class="flex flex-col justify-center items-center m-14 mt-[8%]">
                 <select class="font-normal border border-solid border-black w-[300px] p-3" [(ngModel)]="selectedTag">
                     <option value="0" >None</option>
                     <option *ngFor="let tag of tags" [value]="tag.tag_id">{{ tag.tag_label }}</option>
                 </select>
             </div>
            <div class="flex justify-center items-center">
-              <button *ngIf="!selectedTag" (click)="toggleCreateTag()" class="button-style add-button button-style edit-button bg-[#0063AF] mr-2 mb-9 text-white rounded-[10px]">
+              <button *ngIf="!selectedTag" (click)="toggleCreateTag()" class="flex items-center justify-center bg-custom mr-2 text-white rounded-[10px] border border-solid border-black py-2 px-8">
                   <img src="assets/icons/create-ticket.png" class="w-5 h-5 mr-2" alt="Add Icon"/>
                   <span>Add</span>
               </button>
-              <button *ngIf="selectedTag" class="button-style edit-button bg-custom mr-2 text-white rounded-[10px] mb-9 "><img src="assets/icons/update.png" class="w-5 h-5 mr-2">Edit</button>
-              <button *ngIf="selectedTag" class="button-style edit-button bg-[#D9D9D9] mr-2 text-white rounded-[10px] mb-9"> <img  src="assets/icons/delete.png" class="w-4 h-5 mr-2">Delete</button>
-              <button *ngIf="selectedTag" (click)="untoggleCreateTag()" class="button-style bg-[#D9D9D9]  delete-button mb-9"> <img  src="assets/icons/cancel.png" class="w-4 h-5 mr-2">Cancel</button>
+              <div class="flex justify-center items-center mb-14  ">
+                  <button *ngIf="selectedTag" class="flex items-center justify-center bg-custom mr-[2%] text-white rounded-[10px] border border-solid border-black py-2 px-8 "><img src="assets/icons/update.png" class="w-5 h-5 mr-2">Edit</button>
+                  <button *ngIf="selectedTag" class="flex items-center justify-center bg-custom  text-white rounded-[10px] border border-solid border-black py-2 px-8"> <img  src="assets/icons/delete.png" class="w-4 h-5 mr-2">Delete</button>
+                  <button *ngIf="selectedTag" (click)="untoggleCreateTag()" class="flex items-center justify-center bg-[#D9D9D9] ml-[2%] text-white rounded-[10px] border border-solid border-black py-2 px-8"> <img  src="assets/icons/cancel.png" class="w-4 h-5 mr-2">Cancel</button>
+              </div>
           </div>
 
         </div>
