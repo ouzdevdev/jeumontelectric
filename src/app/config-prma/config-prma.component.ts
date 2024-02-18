@@ -27,6 +27,7 @@ export class ConfigPrmaComponent  implements OnInit {
 
   ngOnInit() {
     this.fetchTickets();
+    this.asked= "select";
   }
 
   onSearchChange() {
@@ -51,7 +52,7 @@ export class ConfigPrmaComponent  implements OnInit {
     const user_uuid = this.cookieService.get('user_uuid');
     this.ticketsService.updateAskedPRMA(this.asked, this.asked.asked_uuid, user_uuid).subscribe(
       response => {
-        this.asked = null;
+        this.ngOnInit();
         this.onSearchChange();
       },
       error => {

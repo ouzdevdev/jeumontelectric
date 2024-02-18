@@ -1,6 +1,6 @@
 <div class="grid lg:grid-cols-2 font-inter text-sm font-semibold h-[100%]">
     <div class="bg-[#FFF] m-4  h-[95%] rounded-[10px]">
-        <div class="bg-custom text-[#F5F5F5] flex justify-center items-center h-[15%] rounded-t-[10px]">
+        <div class="bg-custom text-[#F5F5F5] flex justify-center items-center h-[20%] rounded-t-[10px]">
             <h1>Add or edit user</h1>
         </div>
         <form [formGroup]="form" (ngSubmit)="submitFormUser()" class="p-4 mt-5 h-[85%] rounded-b-[10px] flex flex-col justify-between">
@@ -25,14 +25,14 @@
                 </div>
             </div>
             <div>
-                <div class="flex flex-col justify-center items-center mb-12">
+                <div class="flex flex-col justify-center items-center mb-2">
                     <label class="text-center text-base">Role</label>
                     <select formControlName="role_id" class="font-normal border border-solid border-black w-[300px] p-2">
                         <option value="0" disabled>None</option>
                         <option *ngFor="let role of roles" [value]="role.role_id">{{ role.role_description }}</option>
                     </select>
                 </div>
-                <div class="flex justify-center items-center mb-6">
+                <div class="flex justify-center items-center mb-14 mt-16">
                     <button class="flex items-center justify-center bg-custom mr-2 text-white rounded-[10px] border border-solid border-black py-2 px-8">
                         <img src="assets/icons/save.png" class="w-5 h-5 mr-2" />
                         {{ user_uuid ? 'Edit' : 'Add'}}
@@ -49,11 +49,11 @@
         </form>
     </div>
     <div class="bg-[#FFF] m-4 h-[95%] rounded-[10px]">
-        <div class="bg-custom text-[#F5F5F5] flex justify-center items-center h-[15%] rounded-t-[10px]">
+        <div class="bg-custom text-[#F5F5F5] flex justify-center items-center h-[20%] rounded-t-[10px]">
             <h1>Load existing user</h1>
         </div>
         <form [formGroup]="formCheck" class="p-4 h-[85%] rounded-b-[10px] flex flex-col items-center justify-between">
-            <div class="flex flex-col justify-center items-center mt-20">
+            <div class="flex flex-col justify-center items-center mt-[17%]">
                 <label class="text-center text-base mb-4">Identifiant</label>
                 <div class="relative">
                     <input
@@ -73,7 +73,7 @@
                     </div>
                 </div>
             </div>
-            <div class="flex justify-around ">
+            <div class="flex justify-center items-center mb-[5%] ">
                 <button
                     class="flex items-center justify-center bg-custom mr-2 text-white rounded-[10px] border border-solid border-black py-2 px-8"
                     (click)="editUser()"

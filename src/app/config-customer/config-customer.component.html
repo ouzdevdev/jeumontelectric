@@ -1,7 +1,7 @@
 <div class="grid grid-cols-4 font-inter text-sm font-semibold h-[100%]">
-    <div class="bg-[#FFF] m-4 font-semibold rounded-[10px] h-[100%]">
+    <div class="bg-[#FFF] m-4 font-semibold rounded-[10px] h-[97.3%]">
         <form [formGroup]="form" (ngSubmit)="onSubmit()" class="h-[50%] bg-[#FFF] rounded-[10px]">
-            <div class="bg-custom text-[#F5F5F5] flex justify-center items-center h-[15%] rounded-t-[10px]">
+            <div class="bg-custom text-[#F5F5F5] flex justify-center items-center h-[35%] rounded-t-[10px]">
                 <h1>Add customer</h1>
             </div>
             <div class="p-4 h-[85%] flex flex-col justify-between">
@@ -20,7 +20,7 @@
                     </div>
                 </div>
                 <div class="flex justify-center text-base items-center mb-2">
-                    <button type="submit" class="flex items-center justify-center bg-custom text-white rounded-[10px] border border-solid border-black p-2">
+                    <button type="submit" class="flex mt-16 items-center justify-center bg-custom text-white rounded-[10px] border border-solid border-black p-2">
                         <img src="assets/icons/save.png" class="w-5 h-5 mr-2"/>
                         Confirm
                     </button>
@@ -28,17 +28,17 @@
             </div>
         </form>
     </div>
-    <div class="h-[50%] overflow-hidden col-span-3">
+    <div class="h-[100%] overflow-hidden col-span-3">
         <div class="h-[100%] col-span-3 bg-[#FFF] m-4 rounded-[10px]">
-            <div class="bg-custom text-[#F5F5F5] flex justify-center items-center h-[15%] rounded-t-[10px]">
+            <div class="bg-custom text-[#F5F5F5] flex justify-center items-center h-[17%] rounded-t-[10px]">
                 <h1>Field list</h1>
             </div>
-            <div class="p-4 grid grid-cols-3 rounded-b-[10px] h-[85%]">
-                <div class="px-6 h-[50%] overflow-hidden">
-                    <div class="h-[10%] text-base">
+            <div class="p-4 grid grid-cols-3 rounded-b-[10px] h-[93%]">
+                <div class="px-6  overflow-hidden">
+                    <div class="text-base b-4">
                         <label class="text-center mb-2">Customers</label>
                     </div>
-                    <div class="p-2 border border-solid border-black h-[90%] overflow-y-scroll custom-scrollbar">
+                    <div class="p-2 h-[62.5%]  mt-3 border border-solid border-black  overflow-y-scroll custom-scrollbar">
                         <h2 class="my-4 cursor-pointer" (click)="selectCustomer('')" [ngClass]="{ 'selected-customer':  idCustomer === '' }">All</h2>
                         <h2
                             *ngFor="let customer of customers"
@@ -50,11 +50,11 @@
                         </h2>
                     </div>
                 </div>
-                <div class="px-6 h-[95%] text-base overflow-hidden">
-                    <div class="h-[10%]">
+                <div class="px-6 h-[96%] text-base overflow-hidden">
+                    <div class="text-base b-4">
                         <label class="text-center mb-2">Fleets</label>
                     </div>
-                    <div class="h-[90%]">
+                    <div class="h-[93%]">
                         <div class="h-[75%] p-2 border border-solid border-black overflow-y-scroll custom-scrollbar">
                             <h2 class="my-4 cursor-pointer" (click)="selectFleet(0, '', '')" [ngClass]="{ 'selected-customer':  idFleet === 0 }">All</h2>
                             <h2
@@ -69,9 +69,9 @@
                         <div class="h-[20%] flex justify-start items-start">
                             <button
                                 (click)="toggleCreationFleet()"
-                                class="flex items-center mt-4 justify-center bg-custom mr-2 text-white rounded-[10px] border border-solid border-black py-2 px-8"
+                                class="flex items-center mt-5 justify-center bg-custom mr-2 text-white rounded-[10px] border border-solid border-black py-2 px-8"
                             >
-                                <img src="assets/icons/create-ticket.png" class="w-5 h-5 mr-2"/>
+                                <img src="assets/icons/create-ticket.png" class="w-5  mr-2"/>
                                 New Fleet
                             </button>
                             <button
@@ -84,11 +84,11 @@
                         </div>
                     </div>
                 </div>
-                <div class="px-6 h-[95%] overflow-hidden">
-                    <div class="h-[10%]">
-                        <label class="text-center mb-2 text-base">Ships</label>
+                <div class="px-6 h-[96%] overflow-hidden">
+                    <div class="text-base b-4">
+                        <label class="text-center mb-2">Ships</label>
                     </div>
-                    <div class="h-[90%]">
+                    <div class="h-[93%]">
                         <div class="h-[75%] p-2 border border-solid border-black overflow-y-scroll custom-scrollbar">
                             <h2
                                 *ngFor="let ship of ships"
@@ -99,12 +99,12 @@
                                 {{ ship.ship_name }}
                             </h2>
                         </div>
-                        <div class="h-[20%] flex justify-start items-center">
+                        <div class="h-[20%] flex justify-start items-start">
                             <button
                                 (click)="toggleCreationShip()"
-                                class="flex items-center mt-4 justify-center bg-custom mr-2 text-white rounded-[10px] border border-solid border-black py-2 px-8"
+                                class="flex items-center mt-5 justify-center bg-custom mr-2 text-white rounded-[10px] border border-solid border-black py-2 px-8"
                             >
-                                <img src="assets/icons/create-ticket.png" class="w-5 h-5 mr-2" />
+                                <img src="assets/icons/create-ticket.png" class="w-5  mr-2" />
                                 New Ship
                             </button>
                             <button

@@ -9,7 +9,8 @@ import { CookieService } from 'ngx-cookie-service';
   styleUrls: ['./config-prfm.component.scss']
 })
 export class ConfigPrfmComponent  implements OnInit {
-  asked: any;
+  show = true;
+  asked: any ;;
   tickets: any[] = [];
   isLoading: boolean = true;
   searchDescription: string = '';
@@ -27,6 +28,7 @@ export class ConfigPrfmComponent  implements OnInit {
 
   ngOnInit() {
     this.fetchTickets();
+    this.asked= "select a ticket to update";
   }
 
   onSearchChange() {
@@ -51,7 +53,7 @@ export class ConfigPrfmComponent  implements OnInit {
     const user_uuid = this.cookieService.get('user_uuid');
     this.ticketsService.updateAskedPRFM(this.asked, this.asked.asked_uuid, user_uuid).subscribe(
       response => {
-        this.asked = null;
+        this.ngOnInit();
         this.onSearchChange();
       },
       error => {
