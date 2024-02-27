@@ -15,7 +15,7 @@
                 <div class="flex-container-column">
                     <img alt="user" src="assets/icons/user.png" class="logo-user" />
                     <select (change)="changeUser()" formControlName="customer_uuid" class="creation-item-select my-2">
-                        <option value="" disabled>None</option>
+                        <option value="">None</option>
                         <option *ngFor="let customer of customers" [value]="customer.customer_uuid">{{ customer.customer_name }}</option>
                     </select>
                     <div *ngIf="customerUuidControl.hasError('required')" class="page-message-erreur">
@@ -25,7 +25,7 @@
                 <div class="flex-container-column">
                     <img alt="fleet" src="assets/icons/fleet.png" class="logo-ships" />
                     <select (change)="changeFleet()" formControlName="fleet_id" class="creation-item-select my-2">
-                        <option value="" disabled>None</option>
+                        <option value="">None</option>
                         <option *ngFor="let fleet of fleets" [value]="fleet.fleet_id">{{ fleet.fleet_name }}</option>
                     </select>
                     <div *ngIf="fleetIdControl.hasError('required')" class="page-message-erreur">
@@ -35,7 +35,7 @@
                 <div class="flex-container-column">
                     <img alt="ship" src="assets/icons/ship.png" class="logo-ships" />
                     <select formControlName="ship_uuid" class="creation-item-select my-2">
-                        <option value="" disabled>None</option>
+                        <option value="">None</option>
                         <option *ngFor="let ship of ships" [value]="ship.ship_uuid">{{ ship.ship_name }}</option>
                     </select>
                     <div *ngIf="shipUuidControl.hasError('required')" class="page-message-erreur">
@@ -49,21 +49,21 @@
             <div class="flex-container-column">
                 <h1 class="page-title">Type</h1>
                 <select formControlName="skill_id" class="creation-item-select my-2">
-                    <option value="0" disabled>None</option>
+                    <option value="0">None</option>
                     <option *ngFor="let skill of skills" [value]="skill.skill_id">{{ skill.skill_label }}</option>
                 </select>
             </div>
             <div class="flex-container-column">
                 <h1 class="page-title">Type Effect</h1>
                 <select formControlName="effect_type_id" class="creation-item-select my-2">
-                    <option value="0" disabled>None</option>
+                    <option value="0">None</option>
                     <option *ngFor="let effectType of effectTypes" [value]="effectType.effect_type_id">{{ effectType.effect_type_label }}</option>
                 </select>
             </div>
             <div class="flex-container-column">
                 <h1 class="page-title">Effect</h1>
                 <select formControlName="effect_id" class="creation-item-select my-2">
-                    <option value="0" disabled>None</option>
+                    <option value="0">None</option>
                     <option *ngFor="let effect of effects" [value]="effect.effect_id">{{ effect.effect_label }}</option>
                 </select>
                 <button 
@@ -91,7 +91,7 @@
             <div class="flex-container-column">
                 <h1 class="page-title">Complexity</h1>
                 <select formControlName="level_id" class="creation-item-select my-2">
-                    <option value="" disabled>None</option>
+                    <option value="">None</option>
                     <option *ngFor="let level of levels" [value]="level.level_id">{{ level.level_label }}</option>
                 </select>
                 <div *ngIf="levelIdControl.hasError('required')" class="page-message-erreur">
@@ -101,7 +101,7 @@
             <div class="flex-container-column">
                 <h1 class="page-title">Side</h1>
                 <select formControlName="side_id" class="creation-item-select my-2">
-                    <option value="0" disabled>None</option>
+                    <option value="0">None</option>
                     <option *ngFor="let side of sides" [value]="side.side_id">{{ side.side_label }}</option>
                 </select>
             </div>

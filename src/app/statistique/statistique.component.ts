@@ -12,6 +12,8 @@ import {
   ApexGrid
 } from "ng-apexcharts";
 import { InfosService } from '../services/infos.service';
+import { TagsService } from '../services/tags.service';
+import { UsersService } from '../services/users.service';
 
 type ApexXAxis = {
   type?: "category" | "datetime" | "numeric";
@@ -41,7 +43,7 @@ export type ChartOptions = {
   templateUrl: './statistique.component.html',
   styleUrls: ['./statistique.component.scss']
 })
-export class StatistiqueComponent implements OnInit {  
+export class StatistiqueComponent implements OnInit {
   @ViewChild("chart") chart: ChartComponent | undefined;
   chartOptions!: ChartOptions;
   statistics: any = {};
@@ -58,17 +60,33 @@ export class StatistiqueComponent implements OnInit {
     { label: '1y', value: 8760 },
     { label: 'All', value: -1 }
   ];
-  selectedDuration: number = -1; 
+  selectedDuration: number = -1;
   ships: any[] = [];
   customers: any[] = [];
+  skills: any[] = [];
+  effects: any[] = [];
+  sides: any[] = [];
+  tags: any[] = [];
+  effectTypes: any[] = [];
+  levels: any[] = [];
+  users: any[] = [];
 
   client: string = '';
   ship: string = '';
+  user: string = '';
+  skill: number = 0;
+  effect: number = 0;
+  side: number = 0;
+  tag: number = 0;
+  effectType: number = 0;
+  level: number = 0;
 
   constructor(
     private ticketsService: TicketsService,
-    private infosService: InfosService, 
+    private infosService: InfosService,
     private sharedTitleService: SharedTitleService,
+    private tagsService: TagsService,
+    private usersService: UsersService
   ) {}
 
   ngOnInit() {
@@ -76,7 +94,91 @@ export class StatistiqueComponent implements OnInit {
     this.getGlobalStatistics();
     this.updateChartData();
     this.fetchCustomers();
+    this.fetchSkills();
     this.fetchShips();
+    this.fetchEffects();
+    this.fetchSides();
+    this.fetchTags();
+    this.fetchLevels();
+    this.fetchEffectTypes();
+    this.fetchUsersStFSM();
+  }
+
+  private fetchUsersStFSM(): void {
+    this.usersService.findUserSTFSL().subscribe(
+      data => {
+        this.users = data;
+      },
+      error => {
+        console.error('Erreur:', error);
+      }
+    );
+  }
+
+  private fetchLevels(): void {
+    this.infosService.getLevels().subscribe(
+      data => {
+        this.levels = data;
+      },
+      error => {
+        console.error('Erreur:', error);
+      }
+    );
+  }
+
+  private fetchEffectTypes(): void {
+    this.infosService.getEffectTypes().subscribe(
+      data => {
+        this.effectTypes = data;
+      },
+      error => {
+        console.error('Erreur:', error);
+      }
+    );
+  }
+
+  private fetchTags() {
+    this.tagsService.getTags().subscribe(
+      data => {
+        this.tags = data;
+      },
+      error => {
+        console.error('Erreur:', error);
+      }
+    );
+  }
+
+  private fetchSides(): void {
+    this.infosService.getSides().subscribe(
+      data => {
+        this.sides = data;
+      },
+      error => {
+        console.error('Erreur:', error);
+      }
+    );
+  }
+
+  private fetchEffects(): void {
+    this.infosService.getEffects().subscribe(
+      data => {
+        this.effects = data;
+      },
+      error => {
+        console.error('Erreur:', error);
+      }
+    );
+  }
+
+  private fetchSkills(): void {
+    this.infosService.getSkills().subscribe(
+      data => {
+        this.skills = data;
+      },
+      error => {
+        console.error('Erreur:', error);
+      }
+    );
   }
 
   getGlobalStatistics() {
@@ -91,7 +193,18 @@ export class StatistiqueComponent implements OnInit {
   }
 
   getGlobalStatisticsChart() {
-    this.ticketsService.getAskedDataChart(this.selectedDuration, this.client, this.ship).subscribe(
+    this.ticketsService.getAskedDataChart(
+      this.selectedDuration,
+      this.client,
+      this.user,
+      this.ship,
+      this.skill,
+      this.effect,
+      this.side,
+      this.tag,
+      this.effectType,
+      this.level
+    ).subscribe(
       (data) => {
         this.statisticsChart = data.statistics;
         this.askedCount = data.askedCount;
@@ -99,7 +212,7 @@ export class StatistiqueComponent implements OnInit {
         const seriesData = this.statisticsChart.map((item: any) => {
           return this.selectedMode === 'number' ? item.count : (item.percentage > maxCount ? maxCount : item.percentage);
         });
-  
+
         this.chartOptions = {
           series: [{ name: "distibuted", data: seriesData }],
           chart: { height: 300, type: "bar", events: { click: function(chart, w, e) {}}},
@@ -119,7 +232,7 @@ export class StatistiqueComponent implements OnInit {
           },
           yaxis: {
             max: maxCount,
-            tickAmount: 5, 
+            tickAmount: 5,
             labels: {
               style: {
                 colors: "#000",
@@ -129,7 +242,7 @@ export class StatistiqueComponent implements OnInit {
               },
               formatter:  (value: any) => {
                 if (this.selectedMode === 'number') {
-                  return Math.floor(value).toString(); 
+                  return Math.floor(value).toString();
                 } else {
                   return Math.floor(value).toString() + ' %';
                 }
@@ -137,14 +250,14 @@ export class StatistiqueComponent implements OnInit {
             }
           }
         };
-        
+
       },
       (error) => {
         console.error('Error:', error);
       }
     );
   }
-  
+
 
   updateChartData() {
     this.fetchShips();

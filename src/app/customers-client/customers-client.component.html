@@ -59,7 +59,7 @@
                         <td class="p-3">{{ document.doc_type }}</td>
                         <td class="p-3">{{ document.Categorie.cat_label }}</td>
                         <td class="p-3">{{ document.doc_created_date | date:'yyyy MMM dd HH:mm:ss' }}</td>
-                        <td class="p-3">{{ (document.doc_size / (1024 * 1024)) | number: '1.2-2' }} Mo</td>
+                        <td class="p-3">{{ document.doc_size }} o</td>
                     </tr>
                 </tbody>
             </table>

@@ -8,7 +8,7 @@
                 <div class="flex flex-col justify-center items-center">
                     <label class="text-base">Week Number</label>
                     <select class="p-2 border border-solid border-black" [(ngModel)]="idWeek">
-                        <option value="0" selected disabled>None</option>
+                        <option value="0" selected>None</option>
                         <ng-container *ngFor="let week of weeks">
                             <option *ngIf="week.week_id >= currentWeek" [value]="week.week_id">{{ week.week_label }}</option>
                         </ng-container>
@@ -18,7 +18,7 @@
                 <div class="flex flex-col justify-center items-center">
                     <label class="text-base">Year Number</label>
                     <select class="p-2 border border-solid border-black" [(ngModel)]="idYear">
-                        <option value="0" selected disabled>None</option>
+                        <option value="0" selected>None</option>
                         <ng-container *ngFor="let year of years">
                             <option *ngIf="year.year_id >= currentYear" [value]="year.year_id">{{ year.year_label }}</option>
                         </ng-container>

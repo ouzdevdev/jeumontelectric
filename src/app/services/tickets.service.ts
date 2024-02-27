@@ -88,7 +88,7 @@ export class TicketsService {
     return this.http.get(`${this.apiUrl}/asked/client`, { headers: this.getHeaders(), params });
   }
 
-  getAskedData(page: number, description: string, sort: string, typeFilter: string, statusFilter: number, clientFilter: string, sortOption: string, itemSize: number): Observable<any> {
+  getAskedData(page: number, description: string, sort: string, typeFilter: string, statusFilter: number, clientFilter: string, shipFilter: string, sortOption: string, itemSize: number): Observable<any> {
     let params = new HttpParams()
       .set('sort', sort || '')
       .set('item_size', itemSize || 40)
@@ -110,6 +110,10 @@ export class TicketsService {
       params = params.set('clientFilter', clientFilter);
     }
 
+    if (shipFilter) {
+      params = params.set('shipFilter', shipFilter);
+    }
+
     if (sortOption) {
       params = params.set('sortOption', sortOption);
     }
@@ -128,11 +132,29 @@ export class TicketsService {
     return this.http.get(`${this.apiUrl}/asked/statistics/client`, { headers: this.getHeaders(), params});
   }
 
-  getAskedDataChart(selectedDuration: number, client: string, ship: string): Observable<any> {
+  getAskedDataChart(
+    selectedDuration: number, 
+    client: string, 
+    user: string,
+    ship: string,    
+    skill: number,
+    effect: number,
+    side: number,
+    tag: number,
+    effectType: number,
+    level: number
+  ): Observable<any> {
     let params = new HttpParams()
       .set('client', client)
+      .set('user', user)
       .set('ship', ship)
-      .set('selectedDuration', selectedDuration);
+      .set('selectedDuration', selectedDuration)
+      .set('skill', skill)
+      .set('effect', effect)
+      .set('side', side)
+      .set('tag', tag)
+      .set('effectType', effectType)
+      .set('level', level);
 
     return this.http.get(`${this.apiUrl}/asked/chart`, { headers: this.getHeaders(), params });
   }

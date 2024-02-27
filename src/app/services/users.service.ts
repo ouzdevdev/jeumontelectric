@@ -52,6 +52,10 @@ export class UsersService {
     return this.http.get(`${this.apiUrl}/users/email/${email}`, { headers: this.getHeaders() });
   }
 
+  findUserSTFSL(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/users/stfsm`, { headers: this.getHeaders() });
+  }
+
   findUsers(email: string): Observable<any> {
     const params = new HttpParams().set('email', email);
     return this.http.get(`${this.apiUrl}/users`, { headers: this.getHeaders(), params: params });

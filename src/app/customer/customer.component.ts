@@ -24,6 +24,9 @@ export class CustomerComponent implements OnInit {
   shipDescription: string = '';
   user_uuid: string = '';
   ship_uuid: string = '';
+  currentPage: number = 1;
+  count: number = 0;
+  pageSize: number = 10;
 
   constructor(
     private route: ActivatedRoute,
@@ -43,12 +46,16 @@ export class CustomerComponent implements OnInit {
         this.fetchCustomerData();
       }
     });
-    this.fetchDocuments();
+    this.fetchDocuments(this.currentPage, this.pageSize);
     this.fetchMessagesClient();
   }
 
   setText(text: string) {
     this.text = text;
+  }
+
+  get totalPages() {
+    return Math.ceil(this.count / this.pageSize);
   }
 
   fetchCustomerData(): void {
@@ -68,17 +75,105 @@ export class CustomerComponent implements OnInit {
     }
   }
 
-  fetchDocuments(): void {
-    this.infosService.getDocumentsByClient(this.user_uuid).subscribe(
-      data => {
-        this.documents = data; 
-        this.isLoading = false;
-      },
-      error => {
-        console.error('Error:', error);
-        this.isLoading = false;
+
+  fetchDocuments(
+    page: number,
+    pageSize: number
+  ): void {
+    if (!this.ship_uuid) {
+      this.infosService.getDocumentsByClient(this.user_uuid).subscribe(
+        data => {
+          this.documents = data; 
+          this.isLoading = false;
+        },
+        error => {
+          console.error('Error:', error);
+          this.isLoading = false;
+        }
+      );
+    } else {
+      this.infosService.getDocumentsByShip(this.ship_uuid, page, pageSize).subscribe(
+        data => {
+          this.count = data.count;
+          this.documents = data.documentsInterne; 
+          this.isLoading = false;
+        },
+        error => {
+          console.error('Error:', error);
+          if (error.status === 404) {
+            this.documents = []
+            this.count = 0;
+          }
+          this.isLoading = false;
+        }
+      );
+    }
+  }
+
+  changePage(offset: number): void {
+    this.isLoading = true;
+    this.currentPage += offset;
+    if (this.currentPage < 1) {
+      this.currentPage = 1;
+    } else if (this.currentPage > this.totalPages) {
+      this.currentPage = this.totalPages;
+    }
+
+    this.fetchDocuments(this.currentPage, this.pageSize);
+  }
+
+  goToPage(pageNumber: any): void {
+    const parsedPageNumber = parseInt(pageNumber, 10);
+    if (!isNaN(parsedPageNumber)) {
+      this.currentPage = Math.max(1, Math.min(parsedPageNumber, this.totalPages));
+          
+      this.fetchDocuments(this.currentPage, this.pageSize);
+    }
+  }
+
+  getPageNumbers(currentPage: number, totalPages: number): any[] {
+    const pageNumbers = [];
+    const maxDisplayedPages = 5;
+
+    if (totalPages <= maxDisplayedPages) {
+      for (let i = 1; i <= totalPages; i++) {
+        pageNumbers.push(i);
       }
-    );
+    } else {
+      const leftOffset = Math.floor(maxDisplayedPages / 2);
+      let start = currentPage - leftOffset;
+      let end = currentPage + leftOffset;
+
+      if (start <= 0) {
+        start = 1;
+        end = maxDisplayedPages;
+      }
+
+      if (end > totalPages) {
+        end = totalPages;
+        start = end - maxDisplayedPages + 1;
+      }
+
+      if (start > 1) {
+        pageNumbers.push(1);
+        if (start > 2) {
+          pageNumbers.push('...');
+        }
+      }
+
+      for (let i = start; i <= end; i++) {
+        pageNumbers.push(i);
+      }
+
+      if (end < totalPages) {
+        if (end < totalPages - 1) {
+          pageNumbers.push('...');
+        }
+        pageNumbers.push(totalPages);
+      }
+    }
+
+    return pageNumbers;
   }
 
   fetchMessagesClient(): void {
@@ -123,5 +218,6 @@ export class CustomerComponent implements OnInit {
     this.shipName = ship.ship_name;
     this.shipDescription = ship.ship_description;
     this.fetchMessagesClient();
+    this.fetchDocuments(this.currentPage, this.pageSize);
   }
 }

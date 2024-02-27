@@ -1,120 +1,57 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ViewChild } from "@angular/core";
-import { DayPilot, DayPilotSchedulerComponent } from "daypilot-pro-angular";
-import { startOfMonth, endOfMonth } from 'date-fns';
-import { DataService } from "./data.service";
-
+import { Component, ViewEncapsulation, Inject, ViewChild } from '@angular/core';
+import { blockData } from './data';
+import { extend } from '@syncfusion/ej2-base';
+import {
+  EventSettingsModel, View, GroupModel, TimelineViewsService, TimelineMonthService, DayService,
+  ResizeService, DragAndDropService, ResourceDetails, ScheduleComponent
+} from '@syncfusion/ej2-angular-schedule';
 @Component({
   selector: 'app-scheduler',
   templateUrl: './scheduler.component.html',
-  styleUrls: ['./scheduler.component.scss']
+  styleUrls: ['./scheduler.component.scss'],
+  encapsulation: ViewEncapsulation.None,
+  providers: [DayService, TimelineViewsService, TimelineMonthService, ResizeService, DragAndDropService]
 })
 
-export class SchedulerComponent implements AfterViewInit {
+export class SchedulerComponent {
+  @ViewChild('scheduleObj') public scheduleObj: ScheduleComponent | undefined;
+  public data: Record<string, any>[] = extend([], blockData, undefined, true) as Record<string, any>[];
+  public selectedDate: Date = new Date();
+  public currentView: View = 'TimelineDay';
+  public employeeDataSource: Record<string, any>[] = [
+    { Text: 'Alice', Id: 1, GroupId: 1, Color: '#bbdc00' },
+    { Text: 'Nancy', Id: 2, GroupId: 2, Color: '#9e5fff' },
+    { Text: 'Robert', Id: 3, GroupId: 1, Color: '#bbdc00' },
+    { Text: 'Robson', Id: 4, GroupId: 2, Color: '#9e5fff' },
+    { Text: 'Laura', Id: 5, GroupId: 1, Color: '#bbdc00' },
+    { Text: 'Margaret', Id: 6, GroupId: 2, Color: '#9e5fff' }
+  ];
+  public group: GroupModel = { enableCompactView: false, resources: ['Employee'] };
+  public allowMultiple = false;
+  public eventSettings: EventSettingsModel = { dataSource: this.data };
 
-  @ViewChild("scheduler") scheduler!: DayPilotSchedulerComponent;
-  currentDate = new Date();
-  selectedYear = this.currentDate.getFullYear();
-  selectedMonth = this.currentDate.getMonth() + 1;
-  events: any[] = [];
-  filter = { text: "", eventsOnly: false };
+  constructor() {
+  }
 
-  config: DayPilot.SchedulerConfig = {
-    locale: 'fr',
-    timeHeaders: [
-      { groupBy: "Month", format: "MMMM yyyy" },
-      { groupBy: "Day", format: "d" }
-    ],
-    eventHeight: 40,
-    scale: "Day",
-    days: 31,
-    startDate: `${this.selectedYear}-${this.pad(this.selectedMonth, 2)}-01`,
-    treeEnabled: true,
-    durationBarVisible: false,
-    onRowFilter: args => {
-      if (args.row.name.toLowerCase().indexOf(args.filterParam.text.toLowerCase()) < 0) {
-        args.visible = false;
-      }
-      if (args.filterParam.eventsOnly && args.row.events.all().length === 0) {
-        args.visible = false;
-      }
+  public getEmployeeName(value: ResourceDetails): string {
+    const details = value as ResourceDetails;
+    if (details.resource && details.resource.textField !== undefined) {
+      return details.resourceData[details.resource.textField] as string;
     }
-  };
-
-  pad(num: number, size: number): string {
-    let s = num + "";
-    while (s.length < size) s = "0" + s;
-    return s;
+    return '';
   }
-  
-  constructor(
-    private ds: DataService, 
-    private cdr: ChangeDetectorRef
-  ) {}
 
-  ngAfterViewInit(): void {
-    var demoElement = document.querySelector('.scheduler_default_corner');
-
-    if (demoElement) {
-      demoElement.remove();
-      
-      var demoElementHorizontal = document.querySelector('.scheduler_default_divider_horizontal');
-
-      if ( demoElementHorizontal ) {
-        demoElementHorizontal.remove();
-
-        var demoElementDemo = document.querySelector('.scheduler_default_main');
-
-        if (demoElementDemo) {
-          var firstChild = demoElementDemo.firstElementChild;
-
-          if (firstChild) {
-            var newDiv = document.createElement('div');
-
-            newDiv.style.height= '60px';
-
-            firstChild.insertBefore(newDiv, firstChild.firstChild);
-          }
-        }
-      }
+  public getEmployeeDesignation(value: ResourceDetails): string {
+    const details = value as ResourceDetails;
+    if (details.resource && details.resource.textField !== undefined) {
+      const resourceName: string = details.resourceData[details.resource.textField] as string;
+      return details.resourceData['Designation'] as string;
     }
-
-    this.ds.getResources().subscribe(result => this.config.resources = result);
-
-    const from = new DayPilot.Date(startOfMonth(new Date(this.selectedYear, this.selectedMonth - 1)));
-    const to = new DayPilot.Date(endOfMonth(new Date(this.selectedYear, this.selectedMonth - 1)));
-
-    this.ds.getEvents(from, to).subscribe(result => {
-      this.events = result;
-    });
+    return ''; 
   }
 
-  changeText(text: string): void {
-    this.filter.text = text;
-    this.applyFilter();
+  public getEmployeeImageName(value: ResourceDetails): string {
+    return this.getEmployeeName(value).toLowerCase();
   }
 
-  changeWithEvents(val: boolean): void {
-    this.filter.eventsOnly = val;
-    this.applyFilter();
-  }
-
-  changeMonth(): void {
-    this.config.startDate = `${this.selectedYear}-${this.pad(this.selectedMonth, 2)}-01`;
-    const from = new DayPilot.Date(startOfMonth(new Date(this.selectedYear, this.selectedMonth - 1)));
-    const to = new DayPilot.Date(endOfMonth(new Date(this.selectedYear, this.selectedMonth - 1)));
-    this.ds.getEvents(from, to).subscribe(result => {
-      this.events = result;
-    });
-  }
-
-  applyFilter(): void {
-    this.scheduler.control.rows.filter(this.filter);
-  }
-
-  clearFilter(): boolean {
-    this.filter.text = "";
-    this.filter.eventsOnly = false;
-    this.applyFilter();
-    return false;
-  }
 }

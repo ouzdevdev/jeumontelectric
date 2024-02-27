@@ -28,7 +28,7 @@
                         <h1 class="text-custom">*</h1>
                     </div>
                     <select (change)="changeFleet()" formControlName="fleet_id" class="bg-white border border-solid border-black mb-2 px-3 py-1 w-[200px]">
-                        <option value="" disabled>None</option>
+                        <option value="">None</option>
                         <option *ngFor="let fleet of fleets" [value]="fleet.fleet_id">{{ fleet.fleet_name }}</option>
                     </select>
                 </div>
@@ -38,7 +38,7 @@
                         <h1 class="text-custom">*</h1>
                     </div>
                     <select formControlName="ship_uuid" class="bg-white border border-solid border-black mb-2 px-3 py-1 w-[200px]">
-                        <option value="" disabled>None</option>
+                        <option value="" >None</option>
                         <option *ngFor="let ship of ships" [value]="ship.ship_uuid">{{ ship.ship_name }}</option>
                     </select>
                 </div>
@@ -49,14 +49,14 @@
             <div class="mx-6 flex flex-col justify-start items-center">
                 <h1 class="text-center my-2">Production Item<span class="text-custom font-semibold">*</span></h1>
                 <select formControlName="prfm_item_piece" class="bg-white border border-solid border-black mb-2 px-3 py-1 w-full">
-                    <option value="" disabled>None</option>
+                    <option value="">None</option>
                     <option *ngFor="let piece of pieces" [value]="piece.piece_uuid">{{ piece.piece_label }}</option>
                 </select>
             </div>
             <div class="mx-6 flex flex-col justify-start items-center">
                 <h1 class="text-center my-2">Side<span class="text-custom font-semibold">*</span></h1>
                 <select formControlName="side_id" class="bg-white border border-solid border-black mb-2 px-3 py-1 w-full">
-                    <option value="0" disabled>None</option>
+                    <option value="0">None</option>
                     <option *ngFor="let side of sides" [value]="side.side_id">{{ side.side_label }}</option>
                 </select>
             </div>

@@ -1,6 +1,6 @@
 <div class="container-page">
     <div *ngIf="showCalendar; else loading">
-        <div class="rounded-[10px]"><app-scheduler/></div>
+        <div class="rounded-[10px]"><app-schedule-test [addToBackUp]="addToBackUp" [addToEvents]="addToEvents"></app-schedule-test></div>
     </div>
       
     <ng-template #loading>

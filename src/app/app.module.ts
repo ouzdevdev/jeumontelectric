@@ -40,8 +40,7 @@ import { TicketPrmpComponent } from './ticket-prmp/ticket-prmp.component';
 import { UpdatePrfsComponent } from './update-prfs/update-prfs.component';
 import { UpdatePrfmComponent } from './update-prfm/update-prfm.component';
 import { UpdatePrmaComponent } from './update-prma/update-prma.component';
-import { ScheduleModule, RecurrenceEditorModule } from '@syncfusion/ej2-angular-schedule';
-import { DayPilotModule } from "daypilot-pro-angular";
+import { ScheduleModule, ScheduleAllModule, RecurrenceEditorModule, DayService, WeekService, WorkWeekService, MonthService, MonthAgendaService } from '@syncfusion/ej2-angular-schedule';
 
 import { ConfigComponent } from './config/config.component';
 import { ConfigPrfsComponent } from './config-prfs/config-prfs.component';
@@ -63,6 +62,9 @@ import { LogsComponent } from './logs/logs.component';
 import { CustomersClientComponent } from './customers-client/customers-client.component';
 import { GlobalErrorHandler } from './services/global-error-handler.service';
 import { ModelCreateComponent } from './model-create/model-create.component';
+import { ScheduleTestComponent } from './schedule-test/schedule-test.component';
+import { ButtonModule, CheckBoxModule, RadioButtonModule, SwitchModule, ChipListModule, FabModule, SpeedDialModule } from '@syncfusion/ej2-angular-buttons';
+import { TextBoxModule, NumericTextBoxModule, MaskedTextBoxModule, SliderModule, UploaderModule, ColorPickerModule, SignatureModule, RatingModule } from '@syncfusion/ej2-angular-inputs';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -118,9 +120,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     LogsComponent,
     CustomersClientComponent,
     ModelCreateComponent,
+    ScheduleTestComponent,
   ],
   imports: [
-    DayPilotModule,
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
@@ -138,8 +140,15 @@ export function HttpLoaderFactory(http: HttpClient) {
     CommonModule,
     ScheduleModule,
     RecurrenceEditorModule,
+    ScheduleAllModule,
+    ButtonModule, CheckBoxModule, RadioButtonModule, SwitchModule, ChipListModule, FabModule, SpeedDialModule, TextBoxModule, NumericTextBoxModule, MaskedTextBoxModule, SliderModule, UploaderModule, ColorPickerModule, SignatureModule, RatingModule
   ],
   providers: [
+    DayService, 
+    WeekService, 
+    WorkWeekService, 
+    MonthService, 
+    MonthAgendaService,
     DataService,
     CookieService, 
     { 

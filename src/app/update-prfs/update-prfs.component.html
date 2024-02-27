@@ -30,7 +30,7 @@
                     <select 
                         [(ngModel)]="asked.status_id"
                         class="bg-[#F5F5F5] mb-2 px-3 py-1 rounded-[10px] w-full">
-                        <option value="0" disabled>None</option>
+                        <option value="0">None</option>
                         <option *ngFor="let status of allStatus" [value]="status.status_id">{{ status.status_label }}</option>
                     </select>
                 </div>
@@ -53,7 +53,7 @@
                     <select 
                         [(ngModel)]="asked.skill_id"
                         class="bg-[#F5F5F5] mb-2 px-3 py-1 rounded-[10px] w-full">
-                        <option value="0" disabled>None</option>
+                        <option value="0">None</option>
                         <option *ngFor="let skill of skills" [value]="skill.skill_id">{{ skill?.skill_label }}</option>
                     </select>
                 </div>
@@ -76,7 +76,7 @@
                     <select 
                         [(ngModel)]="asked.side_id"
                         class="bg-[#F5F5F5] mb-2 px-3 py-1 rounded-[10px] w-full">
-                        <option value="0" disabled>None</option>
+                        <option value="0">None</option>
                         <option *ngFor="let side of sides" [value]="side.side_id">{{ side.side_label }}</option>
                     </select>
                 </div>
@@ -99,7 +99,7 @@
                     <select 
                         [(ngModel)]="asked.effect_type_id"
                         class="bg-[#F5F5F5] mb-2 px-3 py-1 rounded-[10px] w-full">
-                        <option value="0" disabled>None</option>
+                        <option value="0">None</option>
                         <option *ngFor="let effectType of effectTypes" [value]="effectType.effect_type_id">{{ effectType.effect_type_label }}</option>
                     </select>
                 </div>
@@ -123,7 +123,7 @@
                     <select 
                         [(ngModel)]="asked.level_id"
                         class="bg-[#F5F5F5] mb-2 px-3 py-1 rounded-[10px] w-full">
-                        <option value="0" disabled>None</option>
+                        <option value="0">None</option>
                         <option *ngFor="let level of levels" [value]="level.level_id">{{ level.level_label }}</option>
                     </select>
                 </div>
@@ -134,7 +134,7 @@
                     <div class="px-4">
                         <div class="flex flex-col justify-center items-center">
                             <select *ngIf="!isCustomerEnabled() && !isSalesSupportDisabled()" [(ngModel)]="effect_id" class="bg-white border border-solid border-black mb-2 px-3 py-1 w-full">
-                                <option value="0" disabled>None</option>
+                                <option value="0">None</option>
                                 <option *ngFor="let effect of effects" [value]="effect.effect_id">{{ effect.effect_label }}</option>
                             </select>
                             <button  
@@ -165,7 +165,7 @@
                     <div class="px-4">
                         <div class="flex flex-col justify-center items-center">
                             <select *ngIf="!isCustomerEnabled() && !isSalesSupportDisabled()" [(ngModel)]="tag_id" class="bg-white border border-solid border-black mb-2 px-3 py-1 w-full">
-                                <option value="0" disabled>None</option>
+                                <option value="0">None</option>
                                 <option *ngFor="let tag of tags" [value]="tag.tag_id">{{ tag.tag_label }}</option>
                             </select>
                             <button  

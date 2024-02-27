@@ -20,7 +20,7 @@
                 <select 
                     [(ngModel)]="asked.status_id"
                     class="bg-[#F5F5F5] mb-2 px-3 py-1 rounded-[10px] w-full">
-                    <option value="0" disabled>None</option>
+                    <option value="0">None</option>
                     <option *ngFor="let status of allStatus" [value]="status.status_id">{{ status.status_label }}</option>
                 </select>
             </div>
@@ -43,7 +43,7 @@
                 <select 
                     [(ngModel)]="asked.side_id"
                     class="bg-[#F5F5F5] mb-2 px-3 py-1 rounded-[10px] w-full">
-                    <option value="0" disabled>None</option>
+                    <option value="0">None</option>
                     <option *ngFor="let side of sides" [value]="side.side_id">{{ side.side_label }}</option>
                 </select>
             </div>
@@ -54,7 +54,7 @@
                 <div class="px-4">
                     <div class="flex flex-col justify-center items-center">
                         <select *ngIf="!isCustomerEnabled()" [(ngModel)]="prfs_asked_uuid" class="bg-white border border-solid border-black mb-2 px-3 py-1 w-full">
-                            <option value="" disabled>None</option>
+                            <option value="">None</option>
                             <option *ngFor="let prfs of prfss" [value]="prfs.asked_uuid">{{ prfs.asked_ref }}</option>
                         </select>
                         <button  

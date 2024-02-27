@@ -130,6 +130,14 @@ export class InfosService {
     return this.http.get(`${this.apiUrl}/documents/client`, { headers: this.getHeaders(), params });
   }
 
+  getDocumentsByShip(ship: string, page: number, pageSize: number): Observable<any> {
+    let params = new HttpParams()
+      .set('page', page || 1)
+      .set('pageSize', pageSize || 10)
+
+    return this.http.get(`${this.apiUrl}/documentinterneship/${ship}`, { headers: this.getHeaders(), params  });
+  }
+
   getDocuments(
     page: number, 
     pageSize: number,
@@ -139,7 +147,6 @@ export class InfosService {
     selectedCategory: number, 
     minSize: number, 
     maxSize: number,
-    sizeUnit: string,
     startDate: any,
     endDate: any
   ): Observable<any> {
@@ -152,7 +159,6 @@ export class InfosService {
       .set('selectedCategory', selectedCategory)
       .set('minSize', minSize)
       .set('maxSize', maxSize)
-      .set('sizeUnit', sizeUnit)
       .set('startDate', startDate)
       .set('endDate', endDate)
     return this.http.get(`${this.apiUrl}/documents`, { headers: this.getHeaders(), params });

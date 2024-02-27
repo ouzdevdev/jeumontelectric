@@ -23,7 +23,8 @@ export class TechnnavComponent implements OnInit {
   customers: any[] = [];
   status: any[] = [];
   client: string = '';
-  searchDescription: string = '';
+  ship: string = '';
+  searchDescription: string = ''; 
   selectedOptionSort: string = 'asc';
   count: number = 0;
   pageSize: number = 30;
@@ -112,7 +113,7 @@ export class TechnnavComponent implements OnInit {
   }
 
   fetchTickets() {
-    this.ticketsService.getAskedData(this.currentPage, this.searchDescription, this.sortOption, this.typeFilter, this.statusFilter, this.client, this.selectedOptionSort, this.pageSize).subscribe(
+    this.ticketsService.getAskedData(this.currentPage, this.searchDescription, this.sortOption, this.typeFilter, this.statusFilter, this.client, this.ship, this.selectedOptionSort, this.pageSize).subscribe(
       (data) => {
         this.tickets = data.askedsList;
         this.count = data.count;

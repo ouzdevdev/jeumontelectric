@@ -24,6 +24,8 @@ export class TicketsListComponent implements OnInit {
   customers: any[] = [];
   status: any[] = [];
   client: string = '';
+  ships: any[] = [];
+  ship: string = '';
   searchDescription: string = '';
   pageSize: number = 40;
   typeFilter: string = '';
@@ -42,12 +44,36 @@ export class TicketsListComponent implements OnInit {
     this.fetchTickets();
     this.fetchCustomers();
     this.fetchStatus();
+    this.fetchShips();
+  }
+
+  private fetchShips(): void {
+    if (this.client) {
+      this.infosService.getShipsByCustomer(this.client).subscribe(
+        data => {
+          this.ships = data;
+        },
+        error => {
+          console.error('Erreur:', error);
+        }
+      );
+    } else {
+      this.infosService.getShips().subscribe(
+        data => {
+          this.ships = data;
+        },
+        error => {
+          console.error('Erreur:', error);
+        }
+      );
+    }
   }
 
   resetFilter() {
     this.isfilter = false;
     this.isLoading = true;
     this.client= '';
+    this.ship='';
     this.statusFilter= 0;
     this.typeFilter = '';
     this.fetchTickets();
@@ -135,6 +161,15 @@ export class TicketsListComponent implements OnInit {
     this.isfilter = true;
     this.client = client;
     this.isLoading = true;
+    this.fetchShips();
+    this.fetchTickets();
+    this.toggleFilter();
+  }
+
+  applyShipFilter(ship: string) {
+    this.isfilter = true;
+    this.ship = ship;
+    this.isLoading = true;
     this.fetchTickets();
     this.toggleFilter();
   }
@@ -151,7 +186,7 @@ export class TicketsListComponent implements OnInit {
   }
 
   fetchTickets() {
-    this.ticketsService.getAskedData(this.currentPage, this.searchDescription ,this.sortOption, this.typeFilter, this.statusFilter, this.client, this.selectedOptionSort, this.pageSize).subscribe(
+    this.ticketsService.getAskedData(this.currentPage, this.searchDescription ,this.sortOption, this.typeFilter, this.statusFilter, this.client, this.ship, this.selectedOptionSort, this.pageSize).subscribe(
       (data) => {
         console.log(data);
         this.tickets = data.askedsList;

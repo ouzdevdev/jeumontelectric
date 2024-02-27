@@ -1,0 +1,103 @@
+<div>
+  <div class="flex items-center justify-center gap-4 mb-1">
+    <button class="header-buttons-item" (click)="toggleAddEvent()">Add to planning</button>
+    <!--
+      <button class="header-buttons-item" (click)="toggleUpdateEvent()">Modifier un événement</button>
+    -->
+  </div>
+  <ejs-schedule #scheduleObj width='100%' height='700px' [allowInline]="allowInline" [eventSettings]="eventSettings"
+    [selectedDate]="selectedDate" [group]="group" cssClass="quick-info-popup" [readonly]="true">
+    <e-views>
+      <e-view option="TimelineWeek"></e-view>
+      <e-view option="TimelineMonth"></e-view>
+    </e-views>
+    <e-resources>
+      <e-resource field='EmployeeId' title='Employees' name='Employee' [allowMultiple]='allowMultiple'
+        [dataSource]='employeeDataSource' textField='Name' idField='Id' groupIDField="GroupId" colorField='Color'>
+      </e-resource>
+    </e-resources>
+  </ejs-schedule>
+</div>
+
+<div *ngIf="isAddEventVisible" class="fixed inset-0 bg-black opacity-50 z-40"></div>
+<div *ngIf="isAddEventVisible" class="font-bold absolute top-1/3 left-1/2 rounded-[20px] transform -translate-x-1/2 border border-solid border-[#E30039] bg-white z-50 py-2 shadow-lg ">
+  <div class="flex justify-between px-4 py-1">
+    <div></div>
+    <div>
+      <h1 class="font-bold mb-1">Add to planning file</h1>
+    </div>
+    <div>
+      <img alt="Close" src="assets/icons/close.png" class="w-4 h-4 cursor-pointer" (click)="toggleAddEvent()" />
+    </div>
+  </div>   
+  <div class="px-2">
+    <div class="grid grid-cols-2 ">
+      <div class="flex flex-col justify-center items-center">
+        <label class="text-base">Week Number</label>
+        <select class="p-2 border border-solid border-black" [(ngModel)]="idWeek">
+          <option value="0" selected>None</option>
+          <ng-container *ngFor="let week of weeks">
+            <option *ngIf="week.week_id >= currentWeek" [value]="week.week_id">{{ week.week_label }}</option>
+          </ng-container>
+        </select>
+      </div>
+
+      <div class="flex flex-col justify-center items-center">
+        <label class="text-base">Year Number</label>
+        <select class="p-2 border border-solid border-black" [(ngModel)]="idYear">
+          <option value="0" selected>None</option>
+          <ng-container *ngFor="let year of years">
+            <option *ngIf="year.year_id >= currentYear" [value]="year.year_id">{{ year.year_label }}</option>
+          </ng-container>
+        </select>
+      </div>
+
+      <div class="flex flex-col justify-center items-center">
+        <label class="text-base">User </label>
+        <select>
+          <option value="" selected>None</option>
+          <ng-container *ngFor="let user of addToBackUp">
+            <option [value]="user.Id">{{ user.Name }}</option>
+          </ng-container>
+        </select>
+      </div>
+
+      <div class="flex flex-col justify-center items-center">
+        <label class="text-base">Primary </label>
+        <input type="checkbox" />
+      </div>
+      
+      <div class="flex flex-col justify-center items-center">
+        <label class="text-base">Emergency </label>
+        <input type="checkbox" />
+      </div>
+    </div>
+  </div>   
+  <div class="flex justify-between px-6 py-8">
+    <button class="rounded-[10px] px-8 py-2 border border-black font-bold shadow-lg">Cancel</button>
+    <button class="rounded-[10px] bg-custom text-white font-bold shadow-lg py-2 px-8">Add</button>
+  </div>
+</div>
+
+<!--
+  <div *ngIf="isUpdateEventVisible" class="fixed inset-0 bg-black opacity-50 z-40"></div>
+  <div *ngIf="isUpdateEventVisible" class="font-bold absolute top-1/3 left-1/2 rounded-[20px] transform -translate-x-1/2 border border-solid border-[#E30039] bg-white z-50 py-2 shadow-lg ">
+    <div class="flex justify-between px-4 py-1">
+      <div></div>
+      <div>
+        <h1 class="font-bold mb-1">Delete file</h1>
+      </div>
+      <div>
+        <img alt="Close" src="assets/icons/close.png" class="w-4 h-4 cursor-pointer" (click)="toggleUpdateEvent()" />
+      </div>
+    </div>   
+    <div class="px-2">
+      <hr class="px-2 border border-dashed border-gray-600">
+      <h2 class="text-sm text-center mt-4">Are you certain that you intended to delete this file?</h2>
+    </div>   
+    <div class="flex justify-between px-6 py-8">
+      <button class="rounded-[10px] px-8 py-2 border border-black font-bold shadow-lg">Cancel</button>
+      <button class="rounded-[10px] bg-custom text-white font-bold shadow-lg py-2 px-8">Delete</button>
+    </div>
+  </div>
+-->

@@ -5,21 +5,22 @@
             <h2 class="ml-2 nav-menu-title">Menu</h2>
         </div>
     </div>
-  
+
     <div class="nav-sec-2">
         <h2 class="nav-title">{{ title | translate }}</h2>
     </div>
-  
+
     <div class="nav-sec-3">
         <div *ngIf="isTechnnavRoute()" class="nav-planning font-semibold">
             <div class="nav-planning-item-gray">
                 <div>
-                    <h2 class="nav-planning-item-title">Week {{lastWeek}}</h2> 
-                </div>  
+                    <h2 class="nav-planning-item-title">Week {{lastWeek}}</h2>
+                </div>
+                <div class="user-group">
                 <div *ngFor="let oncall of onCallsLastWeek">
                     <ng-container *ngIf="oncall.primary_backup">
-                        <div class="relative" 
-                            (mouseleave)="isHovered = false && isLast = false && isPrimary = false && mail= ''" 
+                        <div class="relative"
+                            (mouseleave)="isHovered = false && isLast = false && isPrimary = false && mail= ''"
                             (mouseenter)="isHovered = true && isLast = true && isPrimary = true && mail= oncall.user_email"
                         >
                             <div class="icon-user"
@@ -32,7 +33,7 @@
                             >
                                 <h1><span>{{ oncall.user_first_name.charAt(0) }}{{ oncall.user_name.charAt(0) }}{{ oncall.user_name.charAt(oncall.user_name.length - 1) }}</span></h1>
                             </div>
-                            <div class="z-50 absolute top-0 right-20 w-max p-1 bg-white text-black text-[9px] rounded-md border border-solid border-black" 
+                            <div class="z-50 absolute top-0 right-20 w-max p-1 bg-white text-black text-[9px] rounded-md border border-solid border-black"
                                 *ngIf="isHovered && mail === oncall.user_email && isLast && isPrimary">
                                 <div *ngIf="!isCustomerEnabled()">Mail: {{ oncall.user_email }}</div>
                                 <div class="text-[8px]">
@@ -41,9 +42,10 @@
                                 </div>
                             </div>
                         </div>
-                    </ng-container>                   
+                    </ng-container>
                 </div>
-                <div class="nav-planning-item-right">
+                <!-- nav-planning-item-right -->
+                <div class="">
                     <div *ngFor="let oncall of onCallsLastWeek">
                         <ng-container *ngIf="oncall.emergency_backup">
                             <div class="relative" (mouseleave)="isHovered = false && isLast = false && isEmergency = false  && mail= ''" (mouseenter)="isHovered = true && isLast = true && isEmergency = true && mail= oncall.user_email">
@@ -57,7 +59,7 @@
                                 >
                                     <h1><span>{{ oncall.user_first_name.charAt(0) }}{{ oncall.user_name.charAt(0) }}{{ oncall.user_name.charAt(oncall.user_name.length - 1) }}</span></h1>
                                 </div>
-                                <div class="z-50 absolute top-0 right-6 w-max p-1 bg-white text-black text-[9px] rounded-md border border-solid border-black" 
+                                <div class="z-50 absolute top-0 right-6 w-max p-1 bg-white text-black text-[9px] rounded-md border border-solid border-black"
                                     *ngIf="isHovered && isEmergency && mail === oncall.user_email && isLast">
                                     <div *ngIf="!isCustomerEnabled()">Mail: {{ oncall.user_email }} </div>
                                     <div class="text-[8px]">
@@ -66,20 +68,23 @@
                                     </div>
                                 </div>
                             </div>
-                        </ng-container>                                
-                    </div>  
+                        </ng-container>
+                    </div>
+                  </div>
                 </div>
             </div>
             <div class="nav-planning-item-blue my-[2px]">
-                <div>
+                <div >
                     <h2 class="nav-planning-item-title underline">Week {{currentWeek}}</h2>
-                </div>    
+                </div>
+                <div class="user-group">
                 <div *ngFor="let oncall of onCallsThisWeek">
                     <ng-container *ngIf="oncall.primary_backup">
-                        <div class="relative" 
-                            (mouseleave)="isHovered = false && isCurrent = false && isPrimary = false && mail= ''" 
+                        <div class="relative"
+                            (mouseleave)="isHovered = false && isCurrent = false && isPrimary = false && mail= ''"
                             (mouseenter)="isHovered = true && isCurrent = true && isPrimary = true  && mail= oncall.user_email"
                         >
+
                             <div class="icon-user"
                                 [ngClass]="{
                                     'bg-[#E3D617]': oncall.skill_id === 1,
@@ -90,7 +95,8 @@
                             >
                                 <h1><span>{{ oncall.user_first_name.charAt(0) }}{{ oncall.user_name.charAt(0) }}{{ oncall.user_name.charAt(oncall.user_name.length - 1) }}</span></h1>
                             </div>
-                            <div class="z-50 absolute top-0 right-20 w-max p-1 bg-white text-black text-[9px] rounded-md border border-solid border-black" 
+
+                            <div class="z-50 absolute top-0 right-20 w-max p-1 bg-white text-black text-[9px] rounded-md border border-solid border-black"
                                 *ngIf="isHovered && mail === oncall.user_email && isCurrent && isPrimary">
                                 <div *ngIf="!isCustomerEnabled()">Mail: {{ oncall.user_email }} </div>
                                 <div class="text-[8px]">
@@ -99,13 +105,14 @@
                                 </div>
                             </div>
                         </div>
-                    </ng-container>                                  
+                    </ng-container>
                 </div>
-                <div class="nav-planning-item-right">
+                <!-- nav-planning-item-right -->
+                <div class="">
                     <div *ngFor="let oncall of onCallsThisWeek">
                         <ng-container *ngIf="oncall.emergency_backup">
-                            <div class="relative" 
-                                (mouseleave)="isHovered = false && isCurrent = false && isEmergency = false && mail= ''" 
+                            <div class="relative"
+                                (mouseleave)="isHovered = false && isCurrent = false && isEmergency = false && mail= ''"
                                 (mouseenter)="isHovered = true && isCurrent = true && isEmergency = true && mail= oncall.user_email"
                             >
                                 <div class="icon-user"
@@ -118,7 +125,7 @@
                                 >
                                 <h1><span>{{ oncall.user_first_name.charAt(0) }}{{ oncall.user_name.charAt(0) }}{{ oncall.user_name.charAt(oncall.user_name.length - 1) }}</span></h1>
                                 </div>
-                                <div class="z-50 absolute top-0 right-6 w-max p-1 bg-white text-black text-[9px] rounded-md border border-solid border-black" 
+                                <div class="z-50 absolute top-0 right-6 w-max p-1 bg-white text-black text-[9px] rounded-md border border-solid border-black"
                                     *ngIf="isHovered && mail === oncall.user_email && isCurrent && isEmergency">
                                     <div *ngIf="!isCustomerEnabled()">Mail: {{ oncall.user_email }} </div>
                                     <div class="text-[8px]">
@@ -127,18 +134,19 @@
                                     </div>
                                 </div>
                             </div>
-                        </ng-container>                            
+                        </ng-container>
                     </div>
-                </div>  
+                </div>
+                </div>
             </div>
             <div class="nav-planning-item-gray">
                 <div>
-                    <h2 class="nav-planning-item-title">Week {{nextWeek}}</h2> 
+                    <h2 class="nav-planning-item-title">Week {{nextWeek}}</h2>
                 </div>
                 <div *ngFor="let oncall of onCallsNextWeek">
                     <ng-container *ngIf="oncall.primary_backup">
-                        <div class="relative" 
-                            (mouseleave)="isHovered = false && isNext = false && isPrimary = false && mail= ''" 
+                        <div class="relative"
+                            (mouseleave)="isHovered = false && isNext = false && isPrimary = false && mail= ''"
                             (mouseenter)="isHovered = true && isNext = true && isPrimary = true && mail= oncall.user_email"
                         >
                             <div class="icon-user"
@@ -151,7 +159,7 @@
                             >
                             <h1><span>{{ oncall.user_first_name.charAt(0) }}{{ oncall.user_name.charAt(0) }}{{ oncall.user_name.charAt(oncall.user_name.length - 1) }}</span></h1>
                             </div>
-                            <div class="z-50 absolute bottom-0 right-20 w-max p-1 bg-white text-black text-[9px] rounded-md border border-solid border-black" 
+                            <div class="z-50 absolute bottom-0 right-20 w-max p-1 bg-white text-black text-[9px] rounded-md border border-solid border-black"
                                 *ngIf="isHovered && mail === oncall.user_email && isNext && isPrimary">
                                 <div *ngIf="!isCustomerEnabled()">Mail: {{ oncall.user_email }} </div>
                                 <div class="text-[8px]">
@@ -160,13 +168,14 @@
                                 </div>
                             </div>
                         </div>
-                    </ng-container>                                                   
+                    </ng-container>
                 </div>
-                <div class="nav-planning-item-right">
+                <!-- nav-planning-item-right -->
+                <div class="">
                     <div *ngFor="let oncall of onCallsNextWeek">
                         <ng-container *ngIf="oncall.emergency_backup">
-                            <div class="relative" 
-                                (mouseleave)="isHovered = false && isNext = false && isEmergency = false && mail= ''" 
+                            <div class="relative"
+                                (mouseleave)="isHovered = false && isNext = false && isEmergency = false && mail= ''"
                                 (mouseenter)="isHovered = true && isNext = true && isEmergency = true && mail= oncall.user_email"
                             >
                                 <div class="icon-user"
@@ -179,7 +188,7 @@
                                 >
                                 <h1><span>{{ oncall.user_first_name.charAt(0) }}{{ oncall.user_name.charAt(0) }}{{ oncall.user_name.charAt(oncall.user_name.length - 1) }}</span></h1>
                                 </div>
-                                <div class="z-50 absolute bottom-0 right-6 w-max p-1 bg-white text-black text-[9px] rounded-md border border-solid border-black" 
+                                <div class="z-50 absolute bottom-0 right-6 w-max p-1 bg-white text-black text-[9px] rounded-md border border-solid border-black"
                                     *ngIf="isHovered && mail === oncall.user_email && isNext && isEmergency">
                                     <div *ngIf="!isCustomerEnabled()">Mail: {{ oncall.user_email }}</div>
                                     <div class="text-[8px]">
@@ -188,8 +197,8 @@
                                     </div>
                                 </div>
                             </div>
-                        </ng-container>                                 
-                    </div>  
+                        </ng-container>
+                    </div>
                 </div>
             </div>
         </div>
@@ -201,7 +210,7 @@
                 class="w-6 h-6 ml-4"
             />
         </button>
-    </div>    
+    </div>
 </nav>
 
 <div *ngIf="isMenuVisible" class="fixed inset-0 bg-black opacity-50 z-40"></div>
@@ -216,13 +225,13 @@
             <img alt="home" src="assets/icons/dash.png" class="nav-menu-icon mr-2" />
             <h2 class="nav-menu-title ">{{ 'dashboard' | translate }}</h2>
         </button>
-    </div>   
+    </div>
     <hr class="menu-hr">
     <div>
         <button class="menu-title py-[.5rem]" [disabled]="isSalesSupportDisabled()" (click)="createTicket()">{{ 'createTicket' | translate }}</button>
         <h2 class="menu-title py-[.5rem]" routerLink="/statistique" (click)="toggleMenu()">{{ 'statisticsTickets' | translate }}</h2>
         <h2 class="menu-title py-[.5rem]" routerLink="/tickets" (click)="toggleMenu()">{{ 'listingTickets' | translate }}</h2>
-    </div>   
+    </div>
     <hr class="menu-hr">
     <div>
         <h2 class="menu-title py-[.5rem]" routerLink="/document" (click)="toggleMenu()">Document search</h2>

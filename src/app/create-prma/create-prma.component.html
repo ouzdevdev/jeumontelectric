@@ -4,7 +4,7 @@
             <div class="flex-container-column">
                 <img alt="user" src="assets/icons/user.png" class="logo-user" />
                 <select (change)="changeUser()" formControlName="customer_uuid" class="creation-item-select my-2">
-                    <option value="" disabled>None</option>
+                    <option value="">None</option>
                     <option *ngFor="let customer of customers" [value]="customer.customer_uuid">{{ customer.customer_name }}</option>
                 </select>
                 <div *ngIf="customerUuidControl.hasError('required')" class="page-message-erreur">
@@ -14,7 +14,7 @@
             <div class="flex-container-column">
                 <img alt="fleet" src="assets/icons/fleet.png" class="logo-ships" />
                 <select (change)="changeFleet()" formControlName="fleet_id" class="creation-item-select my-2">
-                    <option value="" disabled>None</option>
+                    <option value="">None</option>
                     <option *ngFor="let fleet of fleets" [value]="fleet.fleet_id">{{ fleet.fleet_name }}</option>
                 </select>
                 <div *ngIf="fleetIdControl.hasError('required')" class="page-message-erreur">
@@ -24,7 +24,7 @@
             <div class="flex-container-column">
                 <img alt="ship" src="assets/icons/ship.png" class="logo-ships" />
                 <select formControlName="ship_uuid" class="creation-item-select my-2">
-                    <option value="" disabled>None</option>
+                    <option value="">None</option>
                     <option *ngFor="let ship of ships" [value]="ship.ship_uuid">{{ ship.ship_name }}</option>
                 </select>
                 <div *ngIf="shipUuidControl.hasError('required')" class="page-message-erreur">
@@ -113,7 +113,7 @@
                             <div class="flex-container-between my-1">
                                 <h1 class="creation-title mr-2">Project :</h1>
                                 <select [(ngModel)]="piece_uuid" [ngModelOptions]="{standalone: true}" class="creation-item-select-prma">
-                                    <option value="" disabled>None</option>
+                                    <option value="">None</option>
                                     <option *ngFor="let piece of equipementsinterne" [value]="piece.piece_uuid" >{{ piece.piece_label }}</option>
                                 </select>
                             </div>

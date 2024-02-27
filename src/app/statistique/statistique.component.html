@@ -27,7 +27,7 @@
             </div>
             <div class="statistique-main-filter-item my-2">
                 <div class="dashboard-menu-item-1">
-                    <h1 class="page-title">Customers :</h1>
+                    <h1 class="alignements">Customers :</h1>
                     <select
                         [(ngModel)]="client"
                         (change)="updateChartData()"
@@ -38,9 +38,22 @@
                     </select>
                 </div>
             </div>
+            <div class="statistique-main-filter-item my-2">
+                <div class="dashboard-menu-item-1">
+                    <h1 class="alignements">Users :</h1>
+                    <select
+                        [(ngModel)]="user"
+                        (change)="updateChartData()"
+                        class="ml-2 dashboard-menu-item-select"
+                    >
+                        <option value="">All</option>
+                        <option *ngFor="let user of users" [value]="user.user_uuid">{{ user.user_name }} {{ user.user_first_name }}</option>
+                    </select>
+                </div>
+            </div>
             <div class="statistique-main-filter-item">
                 <div class="dashboard-menu-item-1">
-                    <h1 class="page-title">Ship :</h1>
+                    <h1 class="alignements">Ship :</h1>
                     <select
                         [(ngModel)]="ship"
                         (change)="updateChartData()"
@@ -48,6 +61,84 @@
                     >
                         <option value="">All</option>
                         <option *ngFor="let ship of ships" [value]="ship.ship_uuid">{{ ship.ship_name }}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="statistique-main-filter-item my-2">
+                <div class="dashboard-menu-item-1">
+                    <h1 class="alignements">Type :</h1>
+                    <select
+                        [(ngModel)]="skill"
+                        (change)="updateChartData()"
+                        class="ml-2 dashboard-menu-item-select"
+                    >
+                        <option value="0">None</option>
+                        <option *ngFor="let skill of skills" [value]="skill.skill_id">{{ skill.skill_label }}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="statistique-main-filter-item">
+                <div class="dashboard-menu-item-1">
+                    <h1 class="alignements">Effects :</h1>
+                    <select
+                        [(ngModel)]="effect"
+                        (change)="updateChartData()"
+                        class="ml-2 dashboard-menu-item-select"
+                    >
+                        <option value="0">None</option>
+                        <option *ngFor="let effect of effects" [value]="effect.effect_id">{{ effect.effect_label }}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="statistique-main-filter-item my-2">
+                <div class="dashboard-menu-item-1">
+                    <h1 class="alignements">Side :</h1>
+                    <select
+                        [(ngModel)]="side"
+                        (change)="updateChartData()"
+                        class="ml-2 dashboard-menu-item-select"
+                    >
+                        <option value="0">None</option>
+                        <option *ngFor="let side of sides" [value]="side.side_id">{{ side.side_label }}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="statistique-main-filter-item">
+                <div class="dashboard-menu-item-1">
+                    <h1 class="alignements">Tag :</h1>
+                    <select
+                        [(ngModel)]="tag"
+                        (change)="updateChartData()"
+                        class="ml-2 dashboard-menu-item-select"
+                    >
+                        <option value="0">None</option>
+                        <option *ngFor="let tag of tags" [value]="tag.tag_id">{{ tag.tag_label }}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="statistique-main-filter-item my-2">
+                <div class="dashboard-menu-item-1">
+                    <h1 class="alignements">Type effect :</h1>
+                    <select
+                        [(ngModel)]="effectType"
+                        (change)="updateChartData()"
+                        class="ml-2 dashboard-menu-item-select"
+                    >
+                        <option value="0">None</option>
+                        <option *ngFor="let effectType of effectTypes" [value]="effectType.effect_type_id">{{ effectType.effect_type_label }}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="statistique-main-filter-item">
+                <div class="dashboard-menu-item-1">
+                    <h1 class="alignements">Comp level :</h1>
+                    <select
+                        [(ngModel)]="level"
+                        (change)="updateChartData()"
+                        class="ml-2 dashboard-menu-item-select"
+                    >
+                        <option value="0">None</option>
+                        <option *ngFor="let level of levels" [value]="level.level_id">{{ level.level_label }}</option>
                     </select>
                 </div>
             </div>

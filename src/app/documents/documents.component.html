@@ -50,11 +50,7 @@
                 <input type="text" placeholder="min" [(ngModel)]="minSize" class="creation-item-input-prma" />
                 <h2 class="page-title-element">and</h2>
                 <input type="text" placeholder="max" [(ngModel)]="maxSize" class="creation-item-input-prma" />
-                <select class="creation-item-select-prma" [(ngModel)]="sizeUnit">
-                    <option value="Ko">ko</option>
-                    <option value="Mo">Mo</option>
-                    <option value="Go">Go</option>
-                </select>
+                <h2 class="page-title-element">Octets</h2>
                 <div class="flex justify-center items-center px-1">
                     <button (click)="search()" class="header-buttons-item">Search</button>
                 </div>
@@ -107,7 +103,7 @@
                 </table>
             </ng-template>
         </div>
-       <div class="pagination">
+        <div class="pagination">
             <button (click)="changePage(-1)" class="pagination-button">Previous</button>
 
             <ng-container *ngFor="let pageNumber of getPageNumbers(currentPage, totalPages)">
@@ -119,6 +115,5 @@
 
             <button (click)="changePage(1)" class="pagination-button">Next</button>
         </div>
-
     </div>
 </div>

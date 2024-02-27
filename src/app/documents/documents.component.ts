@@ -21,7 +21,6 @@ export class DocumentsComponent implements OnInit {
   selectedCategory!: number;
   minSize!: number;
   maxSize!: number;
-  sizeUnit: string = 'Ko';
   startDate!: string ;
   endDate!: string ;
 
@@ -41,13 +40,13 @@ export class DocumentsComponent implements OnInit {
       this.selectedCategory,
       this.minSize,
       this.maxSize,
-      this.sizeUnit,
       this.startDate,
       this.endDate
     );
     this.fetchCategories();
   }
- goToPage(pageNumber: any): void {
+  
+  goToPage(pageNumber: any): void {
     const parsedPageNumber = parseInt(pageNumber, 10);
     if (!isNaN(parsedPageNumber)) {
       this.currentPage = Math.max(1, Math.min(parsedPageNumber, this.totalPages));
@@ -60,12 +59,12 @@ export class DocumentsComponent implements OnInit {
         this.selectedCategory,
         this.minSize,
         this.maxSize,
-        this.sizeUnit,
         this.startDate,
         this.endDate
       );
     }
   }
+  
   getPageNumbers(currentPage: number, totalPages: number): any[] {
     const pageNumbers = [];
     const maxDisplayedPages = 5;
@@ -130,7 +129,6 @@ export class DocumentsComponent implements OnInit {
     selectedCategory: number,
     minSize: number,
     maxSize: number,
-    sizeUnit: string,
     startDate: any,
     endDate: any
   ): void {
@@ -143,12 +141,10 @@ export class DocumentsComponent implements OnInit {
       selectedCategory,
       minSize,
       maxSize,
-      sizeUnit,
       startDate,
       endDate
     ).subscribe(
       data => {
-        console.log(data);
         this.count = data.count;
         this.documentsinterne = data.documentsinterne;
         this.isLoading = false;
@@ -197,11 +193,11 @@ export class DocumentsComponent implements OnInit {
       this.selectedCategory,
       this.minSize,
       this.maxSize,
-      this.sizeUnit,
       this.startDate,
       this.endDate
     );
   }
+  
   GetPage(offset: number): void {
     this.isLoading = true;
     this.currentPage = offset;
@@ -220,7 +216,6 @@ export class DocumentsComponent implements OnInit {
       this.selectedCategory,
       this.minSize,
       this.maxSize,
-      this.sizeUnit,
       this.startDate,
       this.endDate
     );
@@ -238,7 +233,6 @@ export class DocumentsComponent implements OnInit {
       this.selectedCategory,
       this.minSize,
       this.maxSize,
-      this.sizeUnit,
       this.startDate,
       this.endDate
     );

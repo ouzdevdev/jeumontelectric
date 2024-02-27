@@ -35,39 +35,34 @@ export class CalendrierComponent implements OnInit {
         data.forEach((userskill: any) => {
           if (userskill.skill_id === 1) {
             this.addToBackUp.push({
-              first_name: userskill.user_first_name,
-              last_name: userskill.user_name,
+              Name: `${userskill.user_first_name} ${userskill.user_name}`,
               Id: userskill.user_uuid,
               GroupId: 1,
               Color: '#E3D617'
             });
           } else if (userskill.skill_id === 2) {
             this.addToBackUp.push({
-              first_name: userskill.user_first_name,
-              last_name: userskill.user_name,
+              Name: `${userskill.user_first_name} ${userskill.user_name}`,
               Id: userskill.user_uuid,
               GroupId: 1,
               Color: '#17AFE3'
             });
           } else if (userskill.skill_id === 3) {
             this.addToBackUp.push({
-              first_name: userskill.user_first_name,
-              last_name: userskill.user_name,
+              Name: `${userskill.user_first_name} ${userskill.user_name}`,
               Id: userskill.user_uuid,
               GroupId: 1,
               Color: '#7DC37D'
             });
           } else {
             this.addToBackUp.push({
-              first_name: userskill.user_first_name,
-              last_name: userskill.user_name,
+              Name: `${userskill.user_first_name} ${userskill.user_name}`,
               Id: userskill.user_uuid,
               GroupId: 1,
               Color: '#D3D3D3'
             });
           }
         });
-        
       },
       error => {
         console.error('Erreur:', error);

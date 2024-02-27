@@ -72,8 +72,8 @@
                         </button>
                     </div>
                     <div class="flex mt-2">
-                        <h1 class="font-semibold mr-2">Status</h1>
-                        <select class="ml-2 border border-black p-1"  [(ngModel)]="statusFilter" (ngModelChange)="applyStatusFilter($event)">
+                        <h1 class="alignements2">Status</h1>
+                        <select class="alignementsSelect"  [(ngModel)]="statusFilter" (ngModelChange)="applyStatusFilter($event)">
                             <option value=0 selected>All</option>
                             <option *ngFor="let stt of status" [value]="stt.status_id" class="flex items-center justify-start">
                                 {{ stt.status_label }}
@@ -81,10 +81,17 @@
                         </select>
                     </div>
                     <div class="flex mt-2">
-                        <h1 class="font-semibold mr-2">Client</h1>
-                        <select class="ml-2 border border-black p-1"  [(ngModel)]="client" (ngModelChange)="applyClientFilter($event)">
-                            <option value="" disabled selected>None</option>
+                        <h1 class="alignements2">Client</h1>
+                        <select class="alignementsSelect"  [(ngModel)]="client" (ngModelChange)="applyClientFilter($event)">
+                            <option value="" selected>None</option>
                             <option *ngFor="let customer of customers" [value]="customer.customer_uuid">{{ customer.customer_name }}</option>
+                        </select>
+                    </div>
+                    <div class="flex mt-2">
+                        <h1 class="alignements2">Ships</h1>
+                        <select class="alignementsSelect"  [(ngModel)]="ship" (ngModelChange)="applyShipFilter($event)">
+                            <option value="" selected>None</option>
+                            <option *ngFor="let ship of ships" [value]="ship.ship_uuid">{{ ship.ship_name }}</option>
                         </select>
                     </div>
                     <div class="flex justify-center mt-2">

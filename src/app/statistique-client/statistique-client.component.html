@@ -6,7 +6,7 @@
         </div>
         <div class="bg-white border border-solid border-black">
             <h2 class="bg-custom border-b border-solid border-black text-center text-white font-semibold py-2">Resolved</h2>
-            <h6 class="text-center p-3 font-bold text-3xl font-inter">{{ statistics.resolved }}</h6>          
+            <h6 class="text-center p-3 font-bold text-3xl font-inter">{{ statistics.resolved }}</h6>
         </div>
         <div class="bg-white border border-solid border-black">
             <h2 class="bg-custom border-b border-solid border-black text-center text-white font-semibold py-2">Unresolved</h2>
@@ -41,7 +41,7 @@
                     [grid]="chartOptions.grid"
                 ></apx-chart>
             </div>
-            
+
         </div>
     </div>
     <div class="mx-2 md:mx-16 lg:mx-64 my-2 bg-[#EAEAEA] rounded-[10px] flex justify-between p-2">
@@ -49,5 +49,5 @@
             <label class="mr-1">{{ option.label }}</label>
             <input type="radio" [checked]="selectedDuration === option.value" (click)="updateDuration(option.value)" />
         </div>
-    </div>      
+    </div>
 </div>

@@ -271,6 +271,40 @@ export class UpdatePrmaComponent implements OnInit {
     );
   }
 
+  isPreviousElementTrue(elementName: string): boolean {
+    switch (elementName) {
+      case 'quote_sent_to_supplier':
+        return this.asked.offer_received;
+      case 'quote_received_from_supplier':
+        return this.asked.quote_sent_to_supplier;
+      case 'offre_sent':
+        return this.asked.quote_received_from_supplier;
+      case 'customer_response':
+        return this.asked.offre_sent;
+      case 'recovery_of_purchase_orders':
+        return this.asked.customer_response;
+      case 'creation_of_the_project':
+        return this.asked.recovery_of_purchase_orders;
+      case 'creation_of_the_purchase_request':
+        return this.asked.creation_of_the_project;
+      case 'release_of_purchase_requisition':
+        return this.asked.creation_of_the_purchase_request;
+      case 'creating_the_purchase_order':
+        return this.asked.release_of_purchase_requisition;
+      case 'material_reception':
+        return this.asked.creating_the_purchase_order;
+      case 'provisionning_jeumont':
+        return this.asked.material_reception;
+      case 'material_sent':
+        return this.asked.provisionning_jeumont;
+      case 'bill_sent':
+        return this.asked.material_sent;
+      default:
+        return false;
+    }
+  }
+
+
   private fetchEquipementInterne() {
     this.infosService.getEquipementsinterne().subscribe(
       data => {

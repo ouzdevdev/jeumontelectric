@@ -28,7 +28,7 @@
                     <select 
                         [(ngModel)]="asked.status_id"
                         class="bg-[#F5F5F5] mb-2 px-3 py-1 rounded-[10px] w-full">
-                        <option value="0" disabled>None</option>
+                        <option value="0">None</option>
                         <option *ngFor="let status of allStatus" [value]="status.status_id">{{ status.status_label }}</option>
                     </select>
                 </div>
@@ -58,7 +58,7 @@
                             <td>Demande de devis fournisseur</td>
                             <td>
                                 <label class="custom-checkbox">
-                                    <input type="checkbox" [(ngModel)]="asked.quote_sent_to_supplier" class="sr-only peer">
+                                    <input type="checkbox"  [disabled]="!isPreviousElementTrue('quote_sent_to_supplier')" [(ngModel)]="asked.quote_sent_to_supplier" class="sr-only peer">
                                     <div class="checkbox-background"></div>
                                 </label>                            
                             </td>
@@ -68,7 +68,7 @@
                             <td>Devis fournisseur recu</td>
                             <td>
                                 <label class="custom-checkbox">
-                                    <input type="checkbox" [(ngModel)]="asked.quote_received_from_supplier" class="sr-only peer">
+                                    <input type="checkbox"  [disabled]="!isPreviousElementTrue('quote_received_from_supplier')" [(ngModel)]="asked.quote_received_from_supplier" class="sr-only peer">
                                     <div class="checkbox-background"></div>
                                 </label>                            
                             </td>
@@ -78,7 +78,7 @@
                             <td>Offre envoye</td>
                             <td>
                                 <label class="custom-checkbox">
-                                    <input type="checkbox" [(ngModel)]="asked.offre_sent" class="sr-only peer">
+                                    <input type="checkbox"  [disabled]="!isPreviousElementTrue('offre_sent')" [(ngModel)]="asked.offre_sent" class="sr-only peer">
                                     <div class="checkbox-background"></div>
                                 </label>                            
                             </td>
@@ -88,7 +88,7 @@
                             <td>Reponse client</td>
                             <td>
                                 <label class="custom-checkbox">
-                                    <input type="checkbox" [(ngModel)]="asked.customer_response" class="sr-only peer">
+                                    <input type="checkbox" [disabled]="!isPreviousElementTrue('customer_response')" [(ngModel)]="asked.customer_response" class="sr-only peer">
                                     <div class="checkbox-background"></div>
                                 </label>                            
                             </td>
@@ -98,7 +98,7 @@
                             <td>PO Recu ( PJ obligatoire )</td>
                             <td>
                                 <label class="custom-checkbox">
-                                    <input type="checkbox" [(ngModel)]="asked.recovery_of_purchase_orders" class="sr-only peer">
+                                    <input type="checkbox" [disabled]="!isPreviousElementTrue('recovery_of_purchase_orders')" [(ngModel)]="asked.recovery_of_purchase_orders" class="sr-only peer">
                                     <div class="checkbox-background"></div>
                                 </label>                            
                             </td>
@@ -108,7 +108,7 @@
                             <td>Creation OEI ( PJ obligatoire)</td>
                             <td>
                                 <label class="custom-checkbox">
-                                    <input type="checkbox" [(ngModel)]="asked.creation_of_the_project" class="sr-only peer">
+                                    <input type="checkbox" [disabled]="!isPreviousElementTrue('creation_of_the_project')" [(ngModel)]="asked.creation_of_the_project" class="sr-only peer">
                                     <div class="checkbox-background"></div>
                                 </label>                            
                             </td>
@@ -118,7 +118,7 @@
                             <td>Creation DA</td>
                             <td>
                                 <label class="custom-checkbox">
-                                    <input type="checkbox" [(ngModel)]="asked.creation_of_the_purchase_request" class="sr-only peer">
+                                    <input type="checkbox" [disabled]="!isPreviousElementTrue('creation_of_the_purchase_request')" [(ngModel)]="asked.creation_of_the_purchase_request" class="sr-only peer">
                                     <div class="checkbox-background"></div>
                                 </label>                            
                             </td>
@@ -128,7 +128,7 @@
                             <td>Liberation DA</td>
                             <td>
                                 <label class="custom-checkbox">
-                                    <input type="checkbox" [(ngModel)]="asked.release_of_purchase_requisition" class="sr-only peer">
+                                    <input type="checkbox" [disabled]="!isPreviousElementTrue('release_of_purchase_requisition')" [(ngModel)]="asked.release_of_purchase_requisition" class="sr-only peer">
                                     <div class="checkbox-background"></div>
                                 </label>                            
                             </td>
@@ -138,7 +138,7 @@
                             <td>Creation DA</td>
                             <td>
                                 <label class="custom-checkbox">
-                                    <input type="checkbox" [(ngModel)]="asked.creating_the_purchase_order" class="sr-only peer">
+                                    <input type="checkbox" [disabled]="!isPreviousElementTrue('creating_the_purchase_order')" [(ngModel)]="asked.creating_the_purchase_order" class="sr-only peer">
                                     <div class="checkbox-background"></div>
                                 </label>                            
                             </td>
@@ -148,7 +148,7 @@
                             <td>Reception materiel</td>
                             <td>
                                 <label class="custom-checkbox">
-                                    <input type="checkbox" [(ngModel)]="asked.material_reception" class="sr-only peer">
+                                    <input type="checkbox" [disabled]="!isPreviousElementTrue('material_reception')" [(ngModel)]="asked.material_reception" class="sr-only peer">
                                     <div class="checkbox-background"></div>
                                 </label>                            
                             </td>
@@ -158,7 +158,7 @@
                             <td>Mise a disposition</td>
                             <td>
                                 <label class="custom-checkbox">
-                                    <input type="checkbox" [(ngModel)]="asked.provisionning_jeumont" class="sr-only peer">
+                                    <input type="checkbox" [disabled]="!isPreviousElementTrue('provisionning_jeumont')" [(ngModel)]="asked.provisionning_jeumont" class="sr-only peer">
                                     <div class="checkbox-background"></div>
                                 </label>                            
                             </td>
@@ -168,7 +168,7 @@
                             <td>Materiel envoyee ( PJ obligatoire )</td>
                             <td>
                                 <label class="custom-checkbox">
-                                    <input type="checkbox" [(ngModel)]="asked.material_sent" class="sr-only peer">
+                                    <input type="checkbox" [disabled]="!isPreviousElementTrue('material_sent')" [(ngModel)]="asked.material_sent" class="sr-only peer">
                                     <div class="checkbox-background"></div>
                                 </label>                            
                             </td>
@@ -178,7 +178,7 @@
                             <td>Facture envoyee</td>
                             <td>
                                 <label class="custom-checkbox">
-                                    <input type="checkbox" [(ngModel)]="asked.bill_sent" class="sr-only peer">
+                                    <input type="checkbox" [disabled]="!isPreviousElementTrue('bill_sent')" [(ngModel)]="asked.bill_sent" class="sr-only peer">
                                     <div class="checkbox-background"></div>
                                 </label>                            
                             </td>
@@ -342,7 +342,7 @@
                                     <div class="flex-container-between my-1">
                                         <h1 class="creation-title mr-2">Project :</h1>
                                         <select [(ngModel)]="piece_uuid" [ngModelOptions]="{standalone: true}" class="creation-item-select-prma">
-                                            <option value="" disabled>None</option>
+                                            <option value="">None</option>
                                             <option *ngFor="let piece of equipementsinterne" [value]="piece.piece_uuid" >{{ piece.piece_label }}</option>
                                         </select>
                                     </div>
