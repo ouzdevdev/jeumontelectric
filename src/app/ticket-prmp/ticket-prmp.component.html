@@ -6,7 +6,7 @@
     >
         <div class="ticket-left">
             <div class="ticket-flex-center">
-                <div class="ticket-col-between">
+                <div class="ticket-col-between1 overflow-x-auto overflow-y-auto custom-scrollbar">
                     <div class="ticket-flex-center">
                         <h1 class="ticket-title">{{ data.asked_ref }}</h1>
                     </div>
@@ -21,7 +21,11 @@
                         </div>
                     </div>
                 </div>
-
+                    <div class="ticket-col-between2">
+                          <p class="ticket-description2 overflow-x-hidden overflow-y-auto custom-scrollbar">
+                              {{ data.asked_description }}
+                          </p>
+                      </div>
                 <div class="ticket-col-between">
                     <div class="ticket-flex-start">
                         <img src="assets/icons/user.png" alt="user" class="logo-user" />
@@ -31,13 +35,10 @@
                         <img src="assets/icons/ship.png" alt="ship" class="logo-ships" />
                         <h5 class="ticket-title-element-gras">{{ data?.Ship?.ship_name }}</h5>
                     </div>
+
                 </div>
             </div>
-            <div>
-                <p class="ticket-description overflow-x-hidden overflow-y-auto custom-scrollbar">
-                    {{ data.asked_description }}
-                </p>
-            </div>
+
         </div>
         <div class="ticket-right">
             <div class="ticket-flex-center">

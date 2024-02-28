@@ -39,7 +39,7 @@
     "daypilot-pro-angular": "https://npm.daypilot.org/daypilot-pro-angular/trial/2023.4.5772.tar.gz",
     "html2pdf.js": "^0.10.1",
     "jspdf": "^2.5.1",
-    "ng-apexcharts": "^1.8.0",
+    "ng-apexcharts": "^1.9.0",
     "ngx-cookie-service": "^16.0.0",
     "ngx-toastr": "^18.0.0",
     "rxjs": "~7.8.0",

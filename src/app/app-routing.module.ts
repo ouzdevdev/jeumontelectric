@@ -30,7 +30,6 @@ import { ConfigPrmaComponent } from './config-prma/config-prma.component';
 import { ConfigCategorieComponent } from './config-categorie/config-categorie.component';
 import { ConfigUserComponent } from './config-user/config-user.component';
 import { ConfigCustomerComponent } from './config-customer/config-customer.component';
-import { ConfigPlanningComponent } from './config-planning/config-planning.component';
 import { CalendrierComponent } from './calendrier/calendrier.component';
 import { StatistiqueClientComponent } from './statistique-client/statistique-client.component';
 import { ListTicketClientComponent } from './list-ticket-client/list-ticket-client.component';
@@ -96,7 +95,6 @@ const routes: Routes = [
           { path: 'categories', component: ConfigCategorieComponent},
           { path: 'users', component: ConfigUserComponent },
           { path: 'customers', component: ConfigCustomerComponent },
-          { path: 'planning', component: ConfigPlanningComponent },
         ] 
       },
     ]

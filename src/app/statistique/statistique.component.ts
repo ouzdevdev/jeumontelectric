@@ -192,6 +192,18 @@ export class StatistiqueComponent implements OnInit {
     );
   }
 
+  calculateTime() {
+    const totalSeconds = this.statistics.totalResponseTime;
+    const days = Math.floor(totalSeconds / (24 * 60 * 60));
+    let remainingSeconds = totalSeconds % (24 * 60 * 60);
+    const hours = Math.floor(remainingSeconds / (60 * 60));
+    remainingSeconds = remainingSeconds % (60 * 60);
+    const minutes = Math.floor(remainingSeconds / 60);
+    const seconds = Math.floor(remainingSeconds % 60);
+
+    return `${days} J ${hours} h ${minutes} m ${seconds} s`;
+  }
+
   getGlobalStatisticsChart() {
     this.ticketsService.getAskedDataChart(
       this.selectedDuration,
@@ -232,6 +244,7 @@ export class StatistiqueComponent implements OnInit {
           },
           yaxis: {
             max: maxCount,
+            min:0,
             tickAmount: 5,
             labels: {
               style: {

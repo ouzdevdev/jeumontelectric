@@ -20,10 +20,14 @@ export class ScheduleTestComponent implements OnInit {
   public data: Record<string, any>[] = [];
   public selectedDate: Date = new Date();
   public employeeDataSource: Record<string, any>[] = [];
+  public nextId = 1;
   weeks: any[] = [];
   years: any[] = [];
   idWeek: number = 0;
   idYear: number = 0;
+  userId: string = '';
+  primary_backup: boolean = false;
+  emergency_backup: boolean = false;  
   isAddEventVisible: boolean = false;
   isUpdateEventVisible: boolean = false;
   currentDate: Date = new Date();
@@ -76,6 +80,85 @@ export class ScheduleTestComponent implements OnInit {
 
   toggleUpdateEvent () {
     this.isUpdateEventVisible = !this.isUpdateEventVisible;
+  }
+
+  onAddToPlanning() {
+
+    if ( this.primary_backup && this.emergency_backup ) {
+      alert ('Select primary or emergency');
+    } else if ( !this.primary_backup && !this.emergency_backup ) {
+      alert ('Select primary or emergency');
+    }
+
+    const data = {
+      user_uuid: this.userId,  
+      week_id: this.idWeek,
+      year_id: this.idYear, 
+      primary_backup: this.primary_backup,
+      emergency_backup: this.emergency_backup
+    }
+
+    this.onCallService.createOnCall(data).subscribe(
+      response => {
+        console.log('Successfully:', response);
+        
+        this.idWeek = 0;
+        this.idYear = 0;
+        this.userId = '';
+        this.primary_backup = false;
+        this.emergency_backup = false;
+
+        this.getFetchData();
+        this.updateData();
+        this.toggleAddEvent();
+        this.scheduleObj?.refresh()
+      },
+      error => {
+        console.error('Erreur:', error);
+      }
+    )
+  }
+
+  getFetchData () {
+    this.onCallService.findOnCalls().subscribe(
+      data => {
+        data.forEach((event: any) => {
+          if ( event.primary_backup ) {
+            this.getAddEvent(event.year_id, event.week_id, `${event.reason} : Primary`, event.user_uuid);
+          } else if ( event.emergency_backup ) {
+            this.getAddEvent(event.year_id, event.week_id, `${event.reason} : Emergency`, event.user_uuid);
+          }
+        })
+      },
+      error => {
+        console.error('Erreur:', error);
+      }
+    );
+  }
+
+  getAddEvent(year: number, weekNumber: number, text: string,  user_id: string) {
+    const startDate = this.getStartDateOfWeek(year, weekNumber);
+    const endDate = this.getEndDateOfWeek(year, weekNumber);
+
+    this.addToEvents.push({ Id: this.nextId, Subject: text, StartTime: new Date(startDate), EndTime: new Date(endDate), EmployeeId: user_id });
+    this.nextId++;
+  }
+
+  private getStartDateOfWeek(year: number, weekNumber: number): Date {
+    const januaryFirst = new Date(year, 0, 1);
+    const daysOffset = (weekNumber - 1) * 7;
+    const startOfWeek = new Date(januaryFirst);
+
+    startOfWeek.setDate(januaryFirst.getDate() + (7 - januaryFirst.getDay()) + daysOffset);
+    return startOfWeek;
+  }
+
+  private getEndDateOfWeek(year: number, weekNumber: number): Date {
+    const startDate = this.getStartDateOfWeek(year, weekNumber);
+    const endDate = new Date(startDate);
+
+    endDate.setDate(startDate.getDate() + 6);
+    return endDate;
   }
 
   public allowInline = true;

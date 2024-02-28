@@ -23,8 +23,7 @@ export class ConfigComponent implements OnInit, OnDestroy {
     { path: 'prma', label: 'PRMA' },
     { path: 'categories', label: 'Categories' },
     { path: 'users', label: 'Users perms' },
-    { path: 'customers', label: 'Customers' },
-    { path: 'planning', label: 'Planning' }
+    { path: 'customers', label: 'Customers' }
   ];
 
   constructor(

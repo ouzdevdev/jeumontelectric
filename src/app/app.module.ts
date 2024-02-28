@@ -49,13 +49,10 @@ import { ConfigPrmaComponent } from './config-prma/config-prma.component';
 import { ConfigCategorieComponent } from './config-categorie/config-categorie.component';
 import { ConfigUserComponent } from './config-user/config-user.component';
 import { ConfigCustomerComponent } from './config-customer/config-customer.component';
-import { ConfigPlanningComponent } from './config-planning/config-planning.component';
 import { PopupComponent } from './popup/popup.component';
 import { ChatComponent } from './chat/chat.component';
 import { OnCallPlanningComponent } from './on-call-planning/on-call-planning.component';
 import { CalendrierComponent } from './calendrier/calendrier.component';
-import { SchedulerComponent } from './scheduler/scheduler.component';
-import { DataService } from "./scheduler/data.service";
 import { StatistiqueClientComponent } from './statistique-client/statistique-client.component';
 import { ListTicketClientComponent } from './list-ticket-client/list-ticket-client.component';
 import { LogsComponent } from './logs/logs.component';
@@ -109,12 +106,10 @@ export function HttpLoaderFactory(http: HttpClient) {
     ConfigCategorieComponent,
     ConfigUserComponent,
     ConfigCustomerComponent,
-    ConfigPlanningComponent,
     PopupComponent,
     ChatComponent,
     OnCallPlanningComponent,
     CalendrierComponent,
-    SchedulerComponent,
     StatistiqueClientComponent,
     ListTicketClientComponent,
     LogsComponent,
@@ -149,7 +144,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     WorkWeekService, 
     MonthService, 
     MonthAgendaService,
-    DataService,
     CookieService, 
     { 
       provide: JWT_OPTIONS, 

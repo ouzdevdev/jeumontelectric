@@ -6,7 +6,7 @@
     >
         <div class="ticket-left">
             <div class="ticket-flex-center">
-                <div class="ticket-col-between">
+                <div class="ticket-col-between1  overflow-x-auto overflow-y-auto custom-scrollbar">
                     <div class="ticket-flex-center">
                         <h1 class="ticket-title">{{ data.asked_ref }}<span class="ticket-title-time" *ngIf="data.urgency && !data.asked_updated_date">{{ timeDifference }}</span></h1>
                         <img *ngIf="data.urgency" src="assets/icons/24-7.png" class="header-buttons-item-logo"/>
@@ -23,10 +23,15 @@
                     </div>
                 </div>
 
+                    <div class="ticket-col-between2">
+                          <p class="ticket-description2 overflow-x-hidden overflow-y-auto custom-scrollbar">
+                              {{ data.asked_description }}
+                          </p>
+                      </div>
 
                 <div class="ticket-col-between">
                     <div class="ticket-flex-start">
-                        <img src="assets/icons/user.png" alt="user" class="logo-user" />
+                        <img  class="border-solid" src="assets/icons/user.png" alt="user" class="logo-user" />
                         <h5 class="ticket-title-element-gras">{{ data?.Ship?.Fleet?.Customer?.customer_name }}</h5>
                     </div>
                     <div class="ticket-flex-start">
@@ -34,13 +39,14 @@
                         <h5 class="ticket-title-element-gras">{{ data?.Ship?.ship_name }}</h5>
                     </div>
                 </div>
+
             </div>
-                 <div class="mx-1">
+                 <!-- <div class="mx-1">
                       <p class="ticket-description overflow-x-hidden overflow-y-auto custom-scrollbar">
                           {{ data.asked_description }}
                       </p>
 
-                </div>
+                </div> -->
         </div>
         <div class="ticket-right">
             <div class="ticket-flex-center">

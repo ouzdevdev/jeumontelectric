@@ -31,52 +31,48 @@
     </div>
   </div>   
   <div class="px-2">
-    <div class="grid grid-cols-2 ">
-      <div class="flex flex-col justify-center items-center">
-        <label class="text-base">Week Number</label>
-        <select class="p-2 border border-solid border-black" [(ngModel)]="idWeek">
+    <div class="w-[20rem]">
+      <div class="flex justify-between items-center mb-2">
+        <label class="page-title">Week Number</label>
+        <select class="creation-item-select " [(ngModel)]="idWeek">
           <option value="0" selected>None</option>
           <ng-container *ngFor="let week of weeks">
             <option *ngIf="week.week_id >= currentWeek" [value]="week.week_id">{{ week.week_label }}</option>
           </ng-container>
         </select>
       </div>
-
-      <div class="flex flex-col justify-center items-center">
-        <label class="text-base">Year Number</label>
-        <select class="p-2 border border-solid border-black" [(ngModel)]="idYear">
+      <div class="flex justify-between items-center mb-2">
+        <label class="page-title">Year Number</label>
+        <select class="creation-item-select" [(ngModel)]="idYear">
           <option value="0" selected>None</option>
           <ng-container *ngFor="let year of years">
             <option *ngIf="year.year_id >= currentYear" [value]="year.year_id">{{ year.year_label }}</option>
           </ng-container>
         </select>
       </div>
-
-      <div class="flex flex-col justify-center items-center">
-        <label class="text-base">User </label>
-        <select>
+      <div class="flex justify-between items-center mb-2">
+        <label class="page-title">User</label>
+        <select class="creation-item-select" [(ngModel)]="userId">
           <option value="" selected>None</option>
           <ng-container *ngFor="let user of addToBackUp">
             <option [value]="user.Id">{{ user.Name }}</option>
           </ng-container>
         </select>
       </div>
-
-      <div class="flex flex-col justify-center items-center">
-        <label class="text-base">Primary </label>
-        <input type="checkbox" />
+      <div class="flex justify-between items-center mb-2">
+        <label class="page-title">Primary </label>
+        <input type="checkbox" [(ngModel)]="primary_backup" />
       </div>
-      
-      <div class="flex flex-col justify-center items-center">
-        <label class="text-base">Emergency </label>
-        <input type="checkbox" />
+      <div class="flex justify-between items-center mb-2">
+        <label class="page-title">Emergency </label>
+        <input type="checkbox" [(ngModel)]="emergency_backup" />
       </div>
     </div>
+    <div class="flex justify-between items-center mb-2">
+      <button class="header-buttons-item">Cancel</button>
+      <button (click)="onAddToPlanning()" class="header-buttons-item">Add</button>
+    </div>
   </div>   
-  <div class="flex justify-between px-6 py-8">
-    <button class="rounded-[10px] px-8 py-2 border border-black font-bold shadow-lg">Cancel</button>
-    <button class="rounded-[10px] bg-custom text-white font-bold shadow-lg py-2 px-8">Add</button>
-  </div>
 </div>
 
 <!--
