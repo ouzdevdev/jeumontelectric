@@ -7,10 +7,12 @@
 
 /**
  * @swagger
- * /effects:
+ * /api/v1/effects:
  *   get:
  *     summary: Récupérer tous les effets (effects)
  *     tags: [Effects]
+ *     security:
+ *       - BearerAuth: []
  *     responses:
  *       200:
  *         description: Succès - Renvoie tous les effets (effects)
@@ -20,7 +22,7 @@
 
 /**
  * @swagger
- * /effects:
+ * /api/v1/effects:
  *   post:
  *     summary: Créer un nouvel effet (effect)
  *     tags: [Effects]
@@ -31,9 +33,15 @@
  *           schema:
  *             type: object
  *             properties:
- *               // Définissez ici les propriétés attendues dans la requête POST pour créer un nouvel effet (effect)
+ *               effect_label:
+ *                 type: string
+ *               effect_description:
+ *                 type: string
  *             example:
- *               // Exemple de corps de requête JSON pour créer un nouvel effet (effect)
+ *               effect_label: "Effect label"
+ *               effect_description: "Effect description ..."
+ *     security:
+ *       - BearerAuth: []
  *     responses:
  *       201:
  *         description: Succès - L'effet (effect) a été créé avec succès
@@ -45,7 +53,7 @@
 
 /**
  * @swagger
- * /effects/:id:
+ * /api/v1/effects/{id}:
  *   get:
  *     summary: Récupérer un effet (effect) par ID
  *     tags: [Effects]
@@ -56,7 +64,9 @@
  *         description: ID de l'effet à récupérer
  *         schema:
  *           type: integer
- *         example: 123
+ *         example: 1
+ *     security:
+ *       - BearerAuth: []
  *     responses:
  *       200:
  *         description: Succès - Renvoie l'effet (effect) spécifié par ID
@@ -68,7 +78,7 @@
 
 /**
  * @swagger
- * /effects/:id:
+ * /api/v1/effects/{id}:
  *   delete:
  *     summary: Supprimer un effet (effect) par ID
  *     tags: [Effects]
@@ -79,7 +89,9 @@
  *         description: ID de l'effet à supprimer
  *         schema:
  *           type: integer
- *         example: 123
+ *         example: 1
+ *     security:
+ *       - BearerAuth: []
  *     responses:
  *       200:
  *         description: Succès - L'effet (effect) a été supprimé avec succès
@@ -89,21 +101,55 @@
  *         description: Erreur serveur - Impossible de supprimer l'effet (effect) par ID
  */
 
-// effect.route.js
 const express = require('express');
 const router = express.Router();
 const { effectController } = require('../controllers');
 
 const veryJWT = require('../middlewares/verifyJWT');
 
-// Handles GET and POST requests for '/effects' route
+/**
+* Route : /api/v1/effects
+* Méthode : GET
+* Description : Récupérer tous les effets
+* Authentification requise : Oui
+* Permissions requises : N/A
+* @returns {Object} - Liste de tous les effets
+*/
 router.route('/')
-  .get(veryJWT ,effectController.getAllEffects)    // Get all effects
-  .post(veryJWT ,effectController.createNewEffect); // Create a new effect
+  .get(veryJWT, effectController.getAllEffects)   
 
-// Handles GET and DELETE requests for '/effects/:id' route
+/**
+* Route : /api/v1/effects
+* Méthode : POST
+* Description : Créer un nouvel effet
+* Authentification requise : Oui
+* Permissions requises : N/A
+* @body {Object} effectData - Les données de l'effet à créer
+* @returns {Object} - L'effet créé
+*/  
+  .post(veryJWT, effectController.createNewEffect);
+  
+/**
+* Route : /api/v1/effects/:id
+* Méthode : GET
+* Description : Récupérer un effet par ID
+* Authentification requise : Oui
+* Permissions requises : N/A
+* @param {string} id - L'identifiant de l'effet à récupérer
+* @returns {Object} - L'effet spécifié par ID
+*/
 router.route('/:id')
-  .get(veryJWT ,effectController.getEffectById)    // Get a specific effect by ID
-  .delete(veryJWT ,effectController.deleteEffect); // Delete an effect by ID
+  .get(veryJWT, effectController.getEffectById)
+
+/**
+* Route : /api/v1/effects/:id
+* Méthode : DELETE
+* Description : Supprimer un effet par ID
+* Authentification requise : Oui
+* Permissions requises : N/A
+* @param {string} id - L'identifiant de l'effet à supprimer
+* @returns {Object} - Confirmation de la suppression de l'effet
+*/
+  .delete(veryJWT, effectController.deleteEffect);
 
 module.exports = router;

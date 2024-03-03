@@ -1,3 +1,0 @@
-// INSERT INTO backend.level (level_id, level_label, level_desc) VALUES (1, 'Level 1', 'Technicien avec 1 à 2 ans expérience.');
-// INSERT INTO backend.level (level_id, level_label, level_desc) VALUES (3, 'Level 3', 'Expert dans le domaine avec une experience supérieur à 5 ans.');
-// INSERT INTO backend.level (level_id, level_label, level_desc) VALUES (2, 'Level 2', 'Technicien avec 3 à 6 ans expérience');

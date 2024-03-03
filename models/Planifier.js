@@ -1,44 +1,47 @@
+// planifier.js
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db');
-
-// ------------------------------------------------------------
-// -- Table: Planifier :  Correspond à la planification pour les utilisateurs
-// ------------------------------------------------------------
+const User = require('./User');
+const Week = require('./Week');
+const Year = require('./Year');
 
 const Planifier = sequelize.define('Planifier', {
   user_uuid: {
     type: DataTypes.UUID,
     primaryKey: true,
   },
-  week: {
+  week_id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
   },
-  year: {
+  year_id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
   },
   indisponible: {
     type: DataTypes.BOOLEAN,
-    allowNull: false,
+    defaultValue: false,
   },
   reason: {
     type: DataTypes.TEXT,
-    allowNull: false,
+    allowNull: true,
   },
-  date_start: {
-    type: DataTypes.DATE,
-    allowNull: false,
+  primary_backup: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
   },
-  date_end: {
-    type: DataTypes.DATE,
-    allowNull: false,
+  emergency_backup: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
   },
 }, {
-  tableName: 'planifier',
+  tableName: 'on_call_support',
   timestamps: false,
+  schema: 'backend', 
 });
 
-TimeSpent.belongsTo(User, { foreignKey: 'user_uuid'});
+Planifier.belongsTo(User, { foreignKey: 'user_uuid' });
+Planifier.belongsTo(Week, { foreignKey: 'week_id' });
+Planifier.belongsTo(Year, { foreignKey: 'year_id' });
 
 module.exports = Planifier;

@@ -7,7 +7,7 @@
 
 /**
  * @swagger
- * /token:
+ * /api/v1/auth/token:
  *   post:
  *     summary: Authentification de l'utilisateur
  *     tags: [Authentication]
@@ -19,9 +19,13 @@
  *           schema:
  *             type: object
  *             properties:
- *               // Définissez ici les propriétés attendues dans la requête POST (par exemple, username, password)
+ *               email:
+ *                 type: string
+ *               password:
+ *                 type: string
  *             example:
- *               // Exemple de corps de requête JSON
+ *               email: user@gmail.com
+ *               password: User1
  *     responses:
  *       200:
  *         description: Succès - L'authentification a réussi, renvoie un jeton d'accès
@@ -31,73 +35,45 @@
  *         description: Erreur serveur - Impossible de traiter la demande d'authentification
  */
 
-/**
- * @swagger
- * /token/refresh:
- *   post:
- *     summary: Rafraîchir le jeton d'accès
- *     tags: [Authentication]
- *     description: Rafraîchit le jeton d'accès expiré et renvoie un nouveau jeton
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               // Définissez ici les propriétés attendues dans la requête POST (par exemple, le jeton d'accès expiré)
- *             example:
- *               // Exemple de corps de requête JSON
- *     responses:
- *       200:
- *         description: Succès - Le jeton d'accès a été rafraîchi avec succès, renvoie le nouveau jeton
- *       401:
- *         description: Échec du rafraîchissement - Le jeton d'accès fourni est invalide ou expiré
- *       500:
- *         description: Erreur serveur - Impossible de rafraîchir le jeton d'accès
- */
-
-/**
- * @swagger
- * /logout:
- *   post:
- *     summary: Déconnexion de l'utilisateur
- *     tags: [Authentication]
- *     description: Déconnecte un utilisateur et invalide le jeton d'accès
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               // Définissez ici les propriétés attendues dans la requête POST (par exemple, le jeton d'accès)
- *             example:
- *               // Exemple de corps de requête JSON
- *     responses:
- *       200:
- *         description: Succès - L'utilisateur a été déconnecté avec succès
- *       401:
- *         description: Échec de la déconnexion - Le jeton d'accès fourni est invalide ou expiré
- *       500:
- *         description: Erreur serveur - Impossible de traiter la demande de déconnexion
- */
-
-
 const express = require('express');
 const router = express.Router();
 const authController = require('../authentication/auth.controller')
 
 const verifyJWT = require('../middlewares/verifyJWT');
 
-
+/**
+* Route : /api/v1/auth/token
+* Méthode : POST
+* Description : Se connecter et obtenir un token d'authentification
+* Authentification requise : Non
+* Permissions requises : N/A
+* @body {Object} userData - Les données de l'utilisateur (email, mot de passe)
+* @returns {Object} - Token d'authentification
+*/
 router.route('/token')
     .post(authController.login);
 
+/**
+* Route : /api/v1/auth/forget
+* Méthode : POST
+* Description : Envoyer un email de réinitialisation de mot de passe
+* Authentification requise : Non
+* Permissions requises : N/A
+* @body {Object} emailData - Les données de l'email (adresse email de l'utilisateur)
+* @returns {Object} - Message de succès ou d'erreur de réinitialisation de mot de passe
+*/
+router.route('/forget')
+    .post(authController.forget);
+
+/**
+* Route : /api/v1/auth/token/refresh
+* Méthode : POST
+* Description : Actualiser un token d'authentification expiré
+* Authentification requise : Oui
+* Permissions requises : N/A
+* @returns {Object} - Nouveau token d'authentification
+*/
 router.route('/token/refresh')
     .post(verifyJWT, authController.refresh);
-
-router.route('/logout')
-    .post(authController.login);
 
 module.exports = router;

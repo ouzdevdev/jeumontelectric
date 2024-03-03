@@ -1,15 +1,22 @@
 // skill.controller.js
 const { Skill } = require('../models');
 
-// @desc Get all skills
-// @route GET /api/skills
-// @access Private
+/**
+ * @desc Récupère toutes les compétences.
+ * @route GET /api/skills
+ * @access Private
+ * @param {Object} req - Requête HTTP.
+ * @param {Object} res - Réponse HTTP.
+ * @returns {Object} - Liste des compétences trouvées.
+ */
 const getAllSkills = async (req, res) => {
     try {
         const skills = await Skill.findAll();
+
         if (!skills.length) {
             return res.status(404).json({ message: 'No skills found' });
         }
+
         res.json(skills);
     } catch (error) {
         console.error(error);
@@ -17,18 +24,24 @@ const getAllSkills = async (req, res) => {
     }
 };
 
-// @desc Get skill by id
-// @route GET /api/skills/:id
-// @access Private
+/**
+ * @desc Récupère une compétence par son identifiant.
+ * @route GET /api/skills/:id
+ * @access Private
+ * @param {Object} req - Requête HTTP.
+ * @param {Object} res - Réponse HTTP.
+ * @returns {Object} - Compétence trouvée.
+ */
 const getSkillById = async (req, res) => {
     try {
         const { id } = req.params;
 
         const skill = await Skill.findOne({ where: { skill_id: id } });
 
-        if (!skill) { // Use strict comparison to check for null
+        if (!skill) { 
             return res.status(404).json({ message: 'Compétence non trouvée' });
         }
+
         res.json(skill);
     } catch (error) {
         console.error(error);
@@ -36,17 +49,20 @@ const getSkillById = async (req, res) => {
     }
 };
 
-// @desc Create new skill
-// @route POST /api/skills
-// @access Private
+/**
+ * @desc Crée une nouvelle compétence.
+ * @route POST /api/skills
+ * @access Private
+ * @param {Object} req - Requête HTTP.
+ * @param {Object} res - Réponse HTTP.
+ * @returns {Object} - Nouvelle compétence créée.
+ */
 const createNewSkill = async (req, res) => {
     try {
-        const { skill_id, skill_label } = req.body;
+        const { skill_label } = req.body;
 
-        const skill = await Skill.create({
-            skill_id,
-            skill_label,
-        });
+        const skill = await Skill.create({ skill_label })
+        
         res.json(skill);
     } catch (error) {
         console.error(error);
@@ -54,9 +70,14 @@ const createNewSkill = async (req, res) => {
     }
 };
 
-// @desc Delete a skill
-// @route DELETE /api/skills/:id
-// @access Private
+/**
+ * @desc Supprime une compétence par son identifiant.
+ * @route DELETE /api/skills/:id
+ * @access Private
+ * @param {Object} req - Requête HTTP.
+ * @param {Object} res - Réponse HTTP.
+ * @returns {Object} - Message indiquant la suppression réussie de la compétence.
+ */
 const deleteSkill = async (req, res) => {
     try {
         const { id } = req.params;
@@ -66,6 +87,7 @@ const deleteSkill = async (req, res) => {
                 skill_id: id,
             },
         });
+        
         res.json({
             message: 'Compétence supprimée avec succès.',
         });

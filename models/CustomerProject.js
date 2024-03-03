@@ -1,14 +1,8 @@
+// customerProject.js
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db');
 const Project = require('./Project');
 const Ship = require('./Ship');
-
-// ------------------------------------------------------------
-// -- Table: pour :
-// --        Un ship peu avoir un ou plusieurs projet
-// --        Un projet peu etre liée a un plusieurs ship
-// ------------------------------------------------------------
-
 
 const CustomerProject = sequelize.define('CustomerProject', {
   project_uuid: {
@@ -24,9 +18,9 @@ const CustomerProject = sequelize.define('CustomerProject', {
 }, {
   tableName: 'customer_project',
   timestamps: false,
+  schema: 'backend', 
 });
 
-// Ajoutez les contraintes de clé étrangère
 CustomerProject.belongsTo(Project, { foreignKey: 'project_uuid' });
 CustomerProject.belongsTo(Ship, { foreignKey: 'ship_uuid' });
 

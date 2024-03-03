@@ -1,9 +1,7 @@
+// user.js
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db');
-const bcrypt = require('bcrypt');
 const Role = require('./Role');
-
-// Correspond aux utilisateurs qui vont utiliser l'outils
 
 const User = sequelize.define('User', {
     user_uuid: {
@@ -26,39 +24,63 @@ const User = sequelize.define('User', {
     },
     user_password: {
       type: DataTypes.STRING,
-      allowNull: false,
     },
-    user_numero: {
+    user_phone: {
       type: DataTypes.STRING,
-      allowNull: false,
-      unique: true,
     },
     user_whatsapp_uid: {
       type: DataTypes.STRING,
-      allowNull: false,
     },
     role_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
+    user_active: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: true,
+    },
+    sending_email_disable: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
   } , {    
     tableName: 'user',
     timestamps: false,
-    
+    schema: 'backend', 
   }
 );
 
 
-// Fonction pour crypter le mot de passe avant la création ou la mise à jour de l'utilisateur
-// const hashPasswordHook = async (user) => {
-//   if (user.changed('user_password')) {
-//     const saltRounds = 10;
-//     const hashedPassword = await bcrypt.hash(user.user_password, saltRounds);
-//     user.user_password = hashedPassword;
-//   }
-// };
+function generatePassword() {
+  const length = 12;
+  const uppercaseChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  const lowercaseChars = 'abcdefghijklmnopqrstuvwxyz';
+  const numericChars = '0123456789';
+  const specialChars = '!@#$%^&*()_+[]{}|;:,.<>?';
 
-// Hook pour vérifier le format de l'email avant la création de l'utilisateur
+  const allChars = uppercaseChars + lowercaseChars + numericChars + specialChars;
+
+  let password = '';
+
+  password += uppercaseChars[Math.floor(Math.random() * uppercaseChars.length)];
+  password += lowercaseChars[Math.floor(Math.random() * lowercaseChars.length)];
+  password += numericChars[Math.floor(Math.random() * numericChars.length)];
+  password += specialChars[Math.floor(Math.random() * specialChars.length)];
+
+  for (let i = 4; i < length; i++) {
+    password += allChars[Math.floor(Math.random() * allChars.length)];
+  }
+
+  return password;
+}
+
+const generatePasswordHook = async (user) => {
+  if (!user.user_password) {
+    const generatedPassword = generatePassword();
+    user.user_password = generatedPassword;
+  }
+};
+
 const validateEmailFormat = (user) => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailRegex.test(user.user_email)) {
@@ -66,11 +88,8 @@ const validateEmailFormat = (user) => {
   }
 };
 
-// Hooks
-// User.beforeCreate(hashPasswordHook);
-// User.beforeUpdate(hashPasswordHook);
-User.beforeCreate(validateEmailFormat); // Ajout du hook pour la vérification de l'email
-
+User.beforeCreate(validateEmailFormat); 
+User.beforeCreate(generatePasswordHook); 
 User.belongsTo(Role, { foreignKey: 'role_id' });
 
 module.exports = User;

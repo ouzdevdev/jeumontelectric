@@ -7,10 +7,12 @@
 
 /**
  * @swagger
- * /projects:
+ * /api/v1/projects:
  *   get:
  *     summary: Récupérer tous les projets (projects)
  *     tags: [Projects]
+ *     security:
+ *       - BearerAuth: []
  *     responses:
  *       200:
  *         description: Succès - Renvoie tous les projets (projects)
@@ -20,7 +22,7 @@
 
 /**
  * @swagger
- * /projects:
+ * /api/v1/projects:
  *   post:
  *     summary: Créer un nouveau projet (project)
  *     tags: [Projects]
@@ -31,9 +33,18 @@
  *           schema:
  *             type: object
  *             properties:
- *               // Définissez ici les propriétés attendues dans la requête POST pour créer un nouveau projet (project)
+ *               project_ref:
+ *                 type: string
+ *               project_label:
+ *                 type: string
+ *               project_description:
+ *                 type: string
  *             example:
- *               // Exemple de corps de requête JSON pour créer un nouveau projet (project)
+ *               project_ref: "#Project ref"
+ *               project_label: "Project label"
+ *               project_description: "Project description ..."
+ *     security:
+ *       - BearerAuth: []
  *     responses:
  *       201:
  *         description: Succès - Le projet (project) a été créé avec succès
@@ -43,9 +54,10 @@
  *         description: Erreur serveur - Impossible de créer le projet (project)
  */
 
+
 /**
  * @swagger
- * /projects/:id:
+ * /api/v1/projects/{id}:
  *   get:
  *     summary: Récupérer un projet (project) par ID
  *     tags: [Projects]
@@ -55,8 +67,11 @@
  *         required: true
  *         description: ID du projet (project) à récupérer
  *         schema:
- *           type: integer
- *         example: 123
+ *           type: string
+ *           format: uuid
+ *         example: "xxxxx-xxxx-xxxx-xxxxx-xxxxxxx"
+ *     security:
+ *       - BearerAuth: []
  *     responses:
  *       200:
  *         description: Succès - Renvoie le projet (project) spécifié par ID
@@ -68,7 +83,7 @@
 
 /**
  * @swagger
- * /projects/:id:
+ * /api/v1/projects/{id}:
  *   delete:
  *     summary: Supprimer un projet (project) par ID
  *     tags: [Projects]
@@ -78,8 +93,11 @@
  *         required: true
  *         description: ID du projet (project) à supprimer
  *         schema:
- *           type: integer
- *         example: 123
+ *           type: string
+ *           format: uuid
+ *         example: "xxxxx-xxxx-xxxx-xxxxx-xxxxxxx"
+ *     security:
+ *       - BearerAuth: []
  *     responses:
  *       200:
  *         description: Succès - Le projet (project) a été supprimé avec succès
@@ -89,21 +107,55 @@
  *         description: Erreur serveur - Impossible de supprimer le projet (project)
  */
 
-// project.route.js
 const express = require('express');
 const router = express.Router();
 const { projectController } = require('../controllers');
 
 const veryJWT = require('../middlewares/verifyJWT');
 
-// Handles GET and POST requests for '/projects' route
+/**
+* Route : /api/v1/projects
+* Méthode : GET
+* Description : Récupérer tous les projets
+* Authentification requise : Oui
+* Permissions requises : N/A
+* @returns {Object} - Liste de tous les projets
+*/
 router.route('/')
-    .get(veryJWT ,projectController.getAllProjects)     // Get all projects
-    .post(veryJWT ,projectController.createNewProject); // Create a new project
+    .get(veryJWT, projectController.getAllProjects)     
 
-// Handles GET and DELETE requests for '/projects/:id' route
+/**
+* Route : /api/v1/projects
+* Méthode : POST
+* Description : Créer un nouveau projet
+* Authentification requise : Oui
+* Permissions requises : N/A
+* @body {Object} projectData - Les données du projet à créer
+* @returns {Object} - Le projet créé
+*/
+    .post(veryJWT, projectController.createNewProject); 
+
+/**
+* Route : /api/v1/projects/:id
+* Méthode : GET
+* Description : Récupérer un projet par ID
+* Authentification requise : Oui
+* Permissions requises : N/A
+* @param {string} id - L'identifiant du projet à récupérer
+* @returns {Object} - Le projet spécifié par ID
+*/
 router.route('/:id')
-    .get(veryJWT ,projectController.getProjectById)    // Get a specific project by ID
-    .delete(veryJWT ,projectController.deleteProject); // Delete a project by ID
+    .get(veryJWT, projectController.getProjectById)    
 
+/**
+* Route : /api/v1/projects/:id
+* Méthode : DELETE
+* Description : Supprimer un projet par ID
+* Authentification requise : Oui
+* Permissions requises : N/A
+* @param {string} id - L'identifiant du projet à supprimer
+* @returns {Object} - Confirmation de la suppression du projet
+*/
+    .delete(veryJWT, projectController.deleteProject); 
+    
 module.exports = router;

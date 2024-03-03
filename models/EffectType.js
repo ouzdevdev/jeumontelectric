@@ -1,18 +1,12 @@
+// effectType.js
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db');
-
-// Correspond aux répercusion sur un bateau
-
-// 'NON CRITICAL'
-// 'CRITICAL'
-// 'SHUTDOWN'
-// 'SLOWDOWN'
-// 'HALF'
 
 const EffectType = sequelize.define('EffectType', {
     effect_type_id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
+        autoIncrement: true, 
     },
     effect_type_label: {
         type: DataTypes.TEXT,
@@ -30,6 +24,7 @@ const EffectType = sequelize.define('EffectType', {
 }, {
     tableName: 'effect_type',
     timestamps: false,
+    schema: 'backend', 
 });
 
 module.exports = EffectType;

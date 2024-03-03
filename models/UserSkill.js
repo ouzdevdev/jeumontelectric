@@ -1,10 +1,8 @@
+// userSkill.js
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db');
-
 const User = require('./User')
 const Skill = require('./Skill');
-
-//  Table de liaison pour identifier compétence d'un utilisateurs.
 
 const UserSkill = sequelize.define('UserSkill', {
   user_uuid: {
@@ -18,6 +16,7 @@ const UserSkill = sequelize.define('UserSkill', {
 }, {
   tableName: 'user_skill',
   timestamps: false,
+  schema: 'backend', 
 });
 
 UserSkill.belongsTo(User, { foreignKey: 'user_uuid' });

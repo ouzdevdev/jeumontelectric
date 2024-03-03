@@ -7,10 +7,12 @@
 
 /**
  * @swagger
- * /skills:
+ * /api/v1/skills:
  *   get:
  *     summary: Récupérer toutes les compétences
  *     tags: [Skills]
+ *     security:
+ *       - BearerAuth: []
  *     responses:
  *       200:
  *         description: Succès - Renvoie toutes les compétences
@@ -20,7 +22,7 @@
 
 /**
  * @swagger
- * /skills:
+ * /api/v1/skills:
  *   post:
  *     summary: Créer une nouvelle compétence
  *     tags: [Skills]
@@ -31,9 +33,12 @@
  *           schema:
  *             type: object
  *             properties:
- *               // Définissez ici les propriétés attendues dans la requête POST pour créer une nouvelle compétence
+ *               skill_label:
+ *                 type: string
  *             example:
- *               // Exemple de corps de requête JSON pour créer une nouvelle compétence
+ *               skill_label: "Skill label"
+ *     security:
+ *       - BearerAuth: []
  *     responses:
  *       201:
  *         description: Succès - La compétence a été créée avec succès
@@ -45,7 +50,7 @@
 
 /**
  * @swagger
- * /skills/:id:
+ * /api/v1/skills/{id}:
  *   get:
  *     summary: Récupérer une compétence par ID
  *     tags: [Skills]
@@ -56,7 +61,9 @@
  *         description: ID de la compétence à récupérer
  *         schema:
  *           type: integer
- *         example: 123
+ *         example: 1
+ *     security:
+ *       - BearerAuth: []
  *     responses:
  *       200:
  *         description: Succès - Renvoie la compétence spécifiée par ID
@@ -68,7 +75,7 @@
 
 /**
  * @swagger
- * /skills/:id:
+ * /api/v1/skills/{id}:
  *   delete:
  *     summary: Supprimer une compétence par ID
  *     tags: [Skills]
@@ -79,7 +86,9 @@
  *         description: ID de la compétence à supprimer
  *         schema:
  *           type: integer
- *         example: 123
+ *         example: 1
+ *     security:
+ *       - BearerAuth: []
  *     responses:
  *       200:
  *         description: Succès - La compétence a été supprimée avec succès
@@ -89,22 +98,56 @@
  *         description: Erreur serveur - Impossible de supprimer la compétence
  */
 
-
-// skill.route.js
 const express = require('express');
 const router = express.Router();
 const { skillController } = require('../controllers');
 
 const veryJWT = require('../middlewares/verifyJWT');
 
-// Handles GET and POST requests for '/skills' route
+/**
+* Route : /api/v1/skill
+* Méthode : GET
+* Description : Récupérer toutes les compétences
+* Authentification requise : Oui
+* Permissions requises : N/A
+* @returns {Object} - Liste de toutes les compétences
+*/
 router.route('/')
-    .get(veryJWT ,skillController.getAllSkills)     // Get all skills
-    .post(veryJWT ,skillController.createNewSkill); // Create a new skill
+    .get(veryJWT, skillController.getAllSkills)
 
-// Handles GET and DELETE requests for '/skills/:id' route
+/**
+* Route : /api/v1/skill
+* Méthode : POST
+* Description : Créer une nouvelle compétence
+* Authentification requise : Oui
+* Permissions requises : N/A
+* @body {Object} skillData - Les données de la compétence à créer
+* @returns {Object} - La compétence créée
+*/
+    .post(veryJWT, skillController.createNewSkill); 
+    
+/**
+* Route : /api/v1/skill/:id
+* Méthode : GET
+* Description : Récupérer une compétence par ID
+* Authentification requise : Oui
+* Permissions requises : N/A
+* @param {string} id - L'identifiant de la compétence à récupérer
+* @returns {Object} - La compétence correspondant à l'ID spécifié
+*/
 router.route('/:id')
-    .get(veryJWT ,skillController.getSkillById)    // Get a specific skill by ID
-    .delete(veryJWT ,skillController.deleteSkill); // Delete a skill by ID
+    .get(veryJWT, skillController.getSkillById)    
 
+/**
+* Route : /api/v1/skill/:id
+* Méthode : DELETE
+* Description : Supprimer une compétence par ID
+* Authentification requise : Oui
+* Permissions requises : N/A
+* @param {string} id - L'identifiant de la compétence à supprimer
+* @returns {Object} - Confirmation de la suppression de la compétence
+*/
+    .delete(veryJWT, skillController.deleteSkill); 
+    
 module.exports = router;
+

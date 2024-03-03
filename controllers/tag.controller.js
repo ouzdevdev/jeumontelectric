@@ -1,12 +1,21 @@
 // tag.controller.js
 const { Tag } = require('../models');
 
-// Récupérer tous les tags
-// GET /api/tags
-// Accès : Privé
+/**
+ * Récupère tous les tags.
+ * @route GET /api/tags
+ * @access Privé
+ * @param {Object} req - Requête HTTP.
+ * @param {Object} res - Réponse HTTP.
+ * @returns {Object} - Liste des tags trouvés.
+ */
 const getAllTags = async (req, res) => {
     try {
-        const tags = await Tag.findAll();
+        const tags = await Tag.findAll({
+            where: {
+                data_active: true
+            },
+        });
 
         if (!tags.length) {
             return res.status(404).json({ message: 'No tag found' });
@@ -17,9 +26,14 @@ const getAllTags = async (req, res) => {
     }
 }
 
-// Récupérer tag par son ID
-// GET /api/tags/:id
-// Accès : Privé
+/**
+ * Récupère un tag par son ID.
+ * @route GET /api/tags/:id
+ * @access Privé
+ * @param {Object} req - Requête HTTP.
+ * @param {Object} res - Réponse HTTP.
+ * @returns {Object} - Tag trouvé.
+ */
 const getTagById = async (req, res) => {
     try {
         const { id } = req.params;
@@ -36,20 +50,19 @@ const getTagById = async (req, res) => {
     }
 }
 
-// Créer un nouveau tag
-// POST /api/tags
-// Accès : Privé
+/**
+ * Crée un nouveau tag.
+ * @route POST /api/tags
+ * @access Privé
+ * @param {Object} req - Requête HTTP.
+ * @param {Object} res - Réponse HTTP.
+ * @returns {Object} - Tag créé.
+ */
 const createNewTag = async (req, res) => {
     try {
-        const { 
-            tag_id,
-            tag_label
-        } = req.body;
+        const { tag_label } = req.body;
     
-        const tag = await Tag.create({
-            tag_id,
-            tag_label
-        });
+        const tag = await Tag.create({ tag_label });
     
         res.status(201).json(tag);
     } catch (error) {
@@ -57,9 +70,14 @@ const createNewTag = async (req, res) => {
     }
 }
 
-// Supprimer un tag par son ID
-// DELETE /api/tags/:id
-// Accès : Privé
+/**
+ * Supprime un tag par son ID.
+ * @route DELETE /api/tags/:id
+ * @access Privé
+ * @param {Object} req - Requête HTTP.
+ * @param {Object} res - Réponse HTTP.
+ * @returns {Object} - Message de confirmation de suppression du tag.
+ */
 const deleteTag = async (req, res) => {
     try {
         const { id } = req.params;
@@ -78,9 +96,14 @@ const deleteTag = async (req, res) => {
     }
 }
 
-// Modifier un tag
-// POST /api/tags/:id
-// Accès : Privé
+/**
+ * Modifie un tag.
+ * @route POST /api/tags/:id
+ * @access Privé
+ * @param {Object} req - Requête HTTP.
+ * @param {Object} res - Réponse HTTP.
+ * @returns {Object} - Message de confirmation de modification du tag.
+ */
 const updateTag = async (req, res) => {
     try {
         const { id } = req.params;

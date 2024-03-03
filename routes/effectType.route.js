@@ -7,10 +7,12 @@
 
 /**
  * @swagger
- * /effectTypes:
+ * /api/v1/effectTypes:
  *   get:
  *     summary: Récupérer tous les types d'effets (effect types)
  *     tags: [Effect Types]
+ *     security:
+ *       - BearerAuth: []
  *     responses:
  *       200:
  *         description: Succès - Renvoie tous les types d'effets (effect types)
@@ -20,7 +22,7 @@
 
 /**
  * @swagger
- * /effectTypes:
+ * /api/v1/effectTypes:
  *   post:
  *     summary: Créer un nouveau type d'effet (effect type)
  *     tags: [Effect Types]
@@ -31,9 +33,15 @@
  *           schema:
  *             type: object
  *             properties:
- *               // Définissez ici les propriétés attendues dans la requête POST pour créer un nouveau type d'effet (effect type)
+ *               effect_type_label:
+ *                 type: string
+ *               effect_type_description:
+ *                 type: string
  *             example:
- *               // Exemple de corps de requête JSON pour créer un nouveau type d'effet (effect type)
+ *               effect_type_label: "Effect type label"
+ *               effect_type_description: "Effect type description ..."
+ *     security:
+ *       - BearerAuth: []
  *     responses:
  *       201:
  *         description: Succès - Le type d'effet (effect type) a été créé avec succès
@@ -45,7 +53,7 @@
 
 /**
  * @swagger
- * /effectTypes/:id:
+ * /api/v1/effectTypes/{id}:
  *   get:
  *     summary: Récupérer un type d'effet (effect type) par ID
  *     tags: [Effect Types]
@@ -56,7 +64,9 @@
  *         description: ID du type d'effet à récupérer
  *         schema:
  *           type: integer
- *         example: 123
+ *         example: 1
+ *     security:
+ *       - BearerAuth: []
  *     responses:
  *       200:
  *         description: Succès - Renvoie le type d'effet (effect type) spécifié par ID
@@ -68,7 +78,7 @@
 
 /**
  * @swagger
- * /effectTypes/:id:
+ * /api/v1/effectTypes/{id}:
  *   delete:
  *     summary: Supprimer un type d'effet (effect type) par ID
  *     tags: [Effect Types]
@@ -79,7 +89,9 @@
  *         description: ID du type d'effet à supprimer
  *         schema:
  *           type: integer
- *         example: 123
+ *         example: 1
+ *     security:
+ *       - BearerAuth: []
  *     responses:
  *       200:
  *         description: Succès - Le type d'effet (effect type) a été supprimé avec succès
@@ -89,21 +101,55 @@
  *         description: Erreur serveur - Impossible de supprimer le type d'effet (effect type) par ID
  */
 
-// effectType.route.js
 const express = require('express');
 const router = express.Router();
 const { effectTypeController } = require('../controllers');
 
 const veryJWT = require('../middlewares/verifyJWT');
 
-// Handles GET and POST requests for '/effectTypes' route
+/**
+* Route : /api/v1/effectTypes
+* Méthode : GET
+* Description : Récupérer tous les types d'effets
+* Authentification requise : Oui
+* Permissions requises : N/A
+* @returns {Object} - Liste de tous les types d'effets
+*/
 router.route('/')
-  .get(veryJWT ,effectTypeController.getAllEffects)    // Get all effect types
-  .post(veryJWT ,effectTypeController.createNewEffect); // Create a new effect type
+  .get(veryJWT, effectTypeController.getAllEffects)    
 
-// Handles GET and DELETE requests for '/effectTypes/:id' route
+/**
+* Route : /api/v1/effectTypes
+* Méthode : POST
+* Description : Créer un nouveau type d'effet
+* Authentification requise : Oui
+* Permissions requises : N/A
+* @body {Object} effectTypeData - Les données du type d'effet à créer
+* @returns {Object} - Le type d'effet créé
+*/  
+  .post(veryJWT, effectTypeController.createNewEffect); 
+  
+/**
+* Route : /api/v1/effectTypes/:id
+* Méthode : GET
+* Description : Récupérer un type d'effet par ID
+* Authentification requise : Oui
+* Permissions requises : N/A
+* @param {string} id - L'identifiant du type d'effet à récupérer
+* @returns {Object} - Le type d'effet spécifié par ID
+*/
 router.route('/:id')
-  .get(veryJWT ,effectTypeController.getEffectById)    // Get a specific effect type by ID
-  .delete(veryJWT ,effectTypeController.deleteEffect); // Delete an effect type by ID
+  .get(veryJWT, effectTypeController.getEffectById)    
 
+/**
+* Route : /api/v1/effectTypes/:id
+* Méthode : DELETE
+* Description : Supprimer un type d'effet par ID
+* Authentification requise : Oui
+* Permissions requises : N/A
+* @param {string} id - L'identifiant du type d'effet à supprimer
+* @returns {Object} - Confirmation de la suppression du type d'effet
+*/
+  .delete(veryJWT, effectTypeController.deleteEffect); 
+  
 module.exports = router;

@@ -1,9 +1,8 @@
+// motsCle.js
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db');
 const VersionDoc = require('./VersionDoc');
 const Tag = require('./Tag');
-
-// Table de liaison entre document et les tag.
 
 const MotsCle = sequelize.define('MotsCle', {
   v_doc_uuid: {
@@ -19,6 +18,7 @@ const MotsCle = sequelize.define('MotsCle', {
 }, {
   tableName: 'mots_cle',
   timestamps: false,
+  schema: 'backend', 
 });
 
 MotsCle.belongsTo(VersionDoc, { foreignKey: 'v_doc_uuid' });

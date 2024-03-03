@@ -1,12 +1,12 @@
+// categorie.js
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db');
-
-// Correspond au catégorie d'un document.
 
 const Categorie = sequelize.define('Categorie', {
   cat_id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
+    autoIncrement: true, 
   },
   cat_label: {
     type: DataTypes.TEXT,
@@ -19,6 +19,7 @@ const Categorie = sequelize.define('Categorie', {
 }, {
   tableName: 'categorie',
   timestamps: false,
+  schema: 'backend', 
 });
 
 module.exports = Categorie;

@@ -1,3 +1,4 @@
+// equipementExterne.js
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db');
 const Piece = require('./Piece');
@@ -46,6 +47,7 @@ const EquipementExterne = sequelize.define('EquipementExterne', {
 }, {
   tableName: 'equipement_externe',
   timestamps: false,
+  schema: 'backend', 
 });
 
 EquipementExterne.belongsTo(Piece, { foreignKey: 'piece_uuid' });

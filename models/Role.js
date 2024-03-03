@@ -1,12 +1,12 @@
+// role.js
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db');
-
-// Correpond au role des utilisateurs qui utiliserons l'outils
 
 const Role = sequelize.define('Role', {
   role_id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
+    autoIncrement: true, 
   },
   role_label: {
     type: DataTypes.TEXT,
@@ -19,6 +19,7 @@ const Role = sequelize.define('Role', {
 }, {
   tableName: 'role',
   timestamps: false,
+  schema: 'backend', 
 });
 
 module.exports = Role;

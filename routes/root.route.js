@@ -2,9 +2,9 @@ const express = require('express');
 const router = express.Router();
 const path = require('path');
 
-// Handles GET requests for paths matching '^/$' or '/index.html' (and its variations)
+// Définition de la route pour servir index.html
 router.get('^/$|/index(.html)?', (req, res) => {
-    // Send the 'index.html' file located in the 'views' directory
+    // Envoi du fichier index.html situé dans le dossier views
     res.sendFile(path.join(__dirname, '..', 'views', 'index.html'));
 });
 

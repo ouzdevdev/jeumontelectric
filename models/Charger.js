@@ -1,14 +1,8 @@
+// charger.js
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db');
 const Asked = require('./Asked');
 const User = require('./User');
-
-// ------------------------------------------------------------
-// -- Table: charger :
-// -- Une demande peut etre géré par un ou plusieurs user
-// -- UN user peu géré une ou plusieurs demande
-// ------------------------------------------------------------
-
 
 const Charger = sequelize.define('Charger', {
   asked_uuid: {
@@ -26,9 +20,9 @@ const Charger = sequelize.define('Charger', {
 }, {
   tableName: 'charger',
   timestamps: false,
+  schema: 'backend', 
 });
 
-// Ajoutez les contraintes de clé étrangère
 Charger.belongsTo(Asked, { foreignKey: 'asked_uuid' });
 Charger.belongsTo(User, { foreignKey: 'user_uuid' });
 

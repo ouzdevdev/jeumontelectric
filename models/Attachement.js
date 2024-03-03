@@ -1,11 +1,9 @@
+// attachement.js
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db');
-const Document = require('./Document');
 const Asked = require('./Asked');
 const User = require('./User');
 const Categorie = require('./Categorie');
-
-// -- Table: attachement : Enfant de la table document , Correspond au document en pièce joint dans une demande.
 
 const Attachment = sequelize.define('Attachment', {
   doc_uuid: {
@@ -15,43 +13,43 @@ const Attachment = sequelize.define('Attachment', {
   },
   attachment_id: {
     type: DataTypes.INTEGER,
-    allowNull: false,
+    autoIncrement: true, 
   },
   attachment_label: {
     type: DataTypes.TEXT,
-    allowNull: false,
+    allowNull: true,
   },
   attachment_description: {
     type: DataTypes.TEXT,
-    allowNull: false,
+    allowNull: true,
   },
   attachment_created_date: {
     type: DataTypes.DATE,
-    allowNull: false,
+    defaultValue: DataTypes.NOW,
   },
   attachment_updated_date: {
     type: DataTypes.DATE,
-    allowNull: false,
+    defaultValue: DataTypes.NOW,
   },
   doc_ref: {
     type: DataTypes.TEXT,
-    allowNull: false,
+    allowNull: true,
   },
   doc_description: {
     type: DataTypes.TEXT,
-    allowNull: false,
+    allowNull: true,
   },
   doc_type: {
     type: DataTypes.TEXT,
-    allowNull: false,
+    allowNull: true,
   },
   doc_created_date: {
     type: DataTypes.DATE,
-    allowNull: false,
+    defaultValue: DataTypes.NOW,
   },
   doc_updated_date: {
     type: DataTypes.DATE,
-    allowNull: false,
+    defaultValue: DataTypes.NOW,
   },
   doc_size: {
     type: DataTypes.INTEGER,
@@ -59,11 +57,11 @@ const Attachment = sequelize.define('Attachment', {
   },
   doc_last_version: {
     type: DataTypes.TEXT,
-    allowNull: false,
+    allowNull: true,
   },
   doc_localisation_numerique: {
     type: DataTypes.TEXT,
-    allowNull: false,
+    allowNull: true,
   },
   doc_url: {
     type: DataTypes.TEXT,
@@ -79,15 +77,14 @@ const Attachment = sequelize.define('Attachment', {
   },
   cat_id: {
     type: DataTypes.INTEGER,
-    allowNull: false,
+    allowNull: true,
   },
 }, {
   tableName: 'attachement',
   timestamps: false,
+  schema: 'backend', 
 });
 
-// Ajoutez les contraintes de clé étrangère
-Attachment.belongsTo(Document, { foreignKey: 'doc_uuid' });
 Attachment.belongsTo(Asked, { foreignKey: 'asked_uuid' });
 Attachment.belongsTo(User, { foreignKey: 'user_uuid' });
 Attachment.belongsTo(Categorie, { foreignKey: 'cat_id' });

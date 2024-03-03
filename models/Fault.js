@@ -1,11 +1,9 @@
+// fault.js
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db');
 const Piece = require('./Piece');
 const EquipementExterne = require('./EquipementExterne');
 const Functionality = require('./Function');
-
-// Correspond pour généré  les donnée  comme dans "E_MatrixFlt".
-
 
 const Fault = sequelize.define('Fault', {
   fault_uuid: {
@@ -50,9 +48,9 @@ const Fault = sequelize.define('Fault', {
 }, {
   tableName: 'fault',
   timestamps: false,
+  schema: 'backend', 
 });
 
-// Ajoutez la contrainte de clé étrangère
 Fault.belongsTo(Functionality, { foreignKey: 'function_uuid' });
 Fault.belongsTo(EquipementExterne, { foreignKey: 'eqp_ext_id' });
 Fault.belongsTo(Piece, { foreignKey: 'piece_uuid' });

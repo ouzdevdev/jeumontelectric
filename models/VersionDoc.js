@@ -1,9 +1,8 @@
+// versionDoc.js
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db');
 const Document = require('./Document');
 
-// Correspond à la version du document
-  
 const VersionDoc = sequelize.define('VersionDoc', {
   v_doc_uuid: {
     type: DataTypes.UUID,
@@ -38,8 +37,8 @@ const VersionDoc = sequelize.define('VersionDoc', {
 }, {
   tableName: 'version_doc',
   timestamps: false,
+  schema: 'backend', 
 });
-
 
 VersionDoc.belongsTo(Document, { foreignKey: 'doc_uuid' });
   

@@ -1,8 +1,11 @@
+// logger.js
 const winston = require('winston');
 
-// Configure the logger
+/**
+ * Fonction de journalisation
+ */
 const logger = winston.createLogger({
-  level: 'info', // Set the log level to 'info' or as desired
+  level: 'info',
   format: winston.format.combine(
     winston.format.timestamp(),
     winston.format.printf(({ timestamp, level, message }) => {
@@ -11,7 +14,7 @@ const logger = winston.createLogger({
   ),
   transports: [
     new winston.transports.Console(),
-    // Add other transports as needed (e.g., file transport)
+    new winston.transports.File({ filename: 'logs/file.log' })
   ],
 });
 

@@ -1,15 +1,22 @@
 // status.controller.js
 const { Status } = require('../models');
 
-// @desc Get all statuses
-// @route GET /api/statuses
-// @access Private
+/**
+ * @desc Récupère tous les statuts.
+ * @route GET /api/statuses
+ * @access Private
+ * @param {Object} req - Requête HTTP.
+ * @param {Object} res - Réponse HTTP.
+ * @returns {Object} - Liste des statuts trouvés.
+ */
 const getAllStatuses = async (req, res) => {
     try {
         const allStatuses = await Status.findAll();
+
         if (!allStatuses.length) {
             return res.status(404).json({ message: 'No status found' });
         }
+        
         res.json(allStatuses);
     } catch (error) {
         console.error(error);
@@ -17,18 +24,24 @@ const getAllStatuses = async (req, res) => {
     }
 };
 
-// @desc Get status by id
-// @route GET /api/statuses/:id
-// @access Private
+/**
+ * @desc Récupère un statut par son identifiant.
+ * @route GET /api/statuses/:id
+ * @access Private
+ * @param {Object} req - Requête HTTP.
+ * @param {Object} res - Réponse HTTP.
+ * @returns {Object} - Statut trouvé.
+ */
 const getStatusById = async (req, res) => {
     try {
         const { id } = req.params;
 
         const status = await Status.findOne({ where: { status_id: id } });
 
-        if (!status) { // Use strict comparison to check for null
+        if ( !status ) {
             return res.status(404).json({ message: 'Statut non trouvé' });
         }
+
         res.json(status);
     } catch (error) {
         console.error(error);
@@ -36,18 +49,23 @@ const getStatusById = async (req, res) => {
     }
 };
 
-// @desc Create new status
-// @route POST /api/statuses
-// @access Private
+/**
+ * @desc Crée un nouveau statut.
+ * @route POST /api/statuses
+ * @access Private
+ * @param {Object} req - Requête HTTP.
+ * @param {Object} res - Réponse HTTP.
+ * @returns {Object} - Nouveau statut créé.
+ */
 const createNewStatus = async (req, res) => {
     try {
-        const { status_id, status_label, status_color } = req.body;
+        const { status_label, status_color } = req.body;
 
         const status = await Status.create({
-            status_id,
             status_label,
             status_color,
         });
+        
         res.json(status);
     } catch (error) {
         console.error(error);
@@ -55,9 +73,14 @@ const createNewStatus = async (req, res) => {
     }
 };
 
-// @desc Delete a status
-// @route DELETE /api/statuses/:id
-// @access Private
+/**
+ * @desc Supprime un statut par son identifiant.
+ * @route DELETE /api/statuses/:id
+ * @access Private
+ * @param {Object} req - Requête HTTP.
+ * @param {Object} res - Réponse HTTP.
+ * @returns {Object} - Message indiquant la suppression réussie du statut.
+ */
 const deleteStatus = async (req, res) => {
     try {
         const { id } = req.params;

@@ -1,9 +1,8 @@
+// document.js
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db');
 const User = require('./User');
 const Categorie = require('./Categorie');
-
-// Correspond à un document ,celui-ci peut etre de divers type , donc héritage.
 
 const Document = sequelize.define('Document', {
   doc_uuid: {
@@ -25,11 +24,11 @@ const Document = sequelize.define('Document', {
   },
   doc_created_date: {
     type: DataTypes.DATE,
-    allowNull: false,
+    defaultValue: DataTypes.NOW,
   },
   doc_updated_date: {
     type: DataTypes.DATE,
-    allowNull: false,
+    defaultValue: DataTypes.NOW,
   },
   doc_size: {
     type: DataTypes.INTEGER,
@@ -58,6 +57,7 @@ const Document = sequelize.define('Document', {
 }, {
   tableName: 'document',
   timestamps: false,
+  schema: 'backend', 
 });
 
 Document.belongsTo(User, { foreignKey: 'user_uuid' });

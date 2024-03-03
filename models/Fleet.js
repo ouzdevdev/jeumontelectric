@@ -1,13 +1,13 @@
+// fleet.js
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db');
 const Customer = require('./Customer');
-
-// Référencement des flotte des client
 
 const Fleet = sequelize.define('Fleet', {
   fleet_id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
+    autoIncrement: true, 
   },
   fleet_name: {
     type: DataTypes.TEXT,
@@ -24,6 +24,7 @@ const Fleet = sequelize.define('Fleet', {
 }, {
   tableName: 'fleet',
   timestamps: false,
+  schema: 'backend', 
 });
 
 Fleet.belongsTo(Customer,{ foreignKey: 'customer_uuid'})

@@ -1,23 +1,34 @@
 // server.js
+// imporatation
 require('dotenv').config();
 require('express-async-errors');
+const express = require('express');
 const session = require('express-session');
 const passport = require('passport');
-const express = require('express');
 const app = express();
 const path = require('path');
-const bodyParser = require('body-parser'); 
+const bodyParser = require('body-parser');
+// cors
 const cors = require('cors');
+
+// swagger
 const swaggerUi = require('swagger-ui-express');
 const swaggerJsdoc = require('swagger-jsdoc');
 
+// logging
+const { 
+  logIncomingRequests, 
+  logOutgoingResponses, 
+  errorHandler 
+} = require('./middlewares/logMiddleware');
 
-const { logIncomingRequests, logOutgoingResponses, errorHandler } = require('./middlewares/logMiddleware');
-
-
+// rest json
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
 app.use(cors())
+
+// passport
 app.use(session({
   secret: 'secret-key',
   resave: false,
@@ -26,56 +37,79 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-const { 
-  customerProjectRoutes, 
-  customerRoutes, 
-  effectRoutes, 
+// routes
+const {
+  customerProjectRoutes,
+  customerRoutes,
+  effectRoutes,
   effectTypeRoutes,
-  fleetRoutes, 
-  levelRoutes, 
-  projectRoutes, 
-  roleRoutes, 
-  rootRoutes, 
-  shipRoutes, 
-  sideRoutes, 
+  fleetRoutes,
+  levelRoutes,
+  projectRoutes,
+  roleRoutes,
+  rootRoutes,
+  shipRoutes,
+  sideRoutes,
   skillRoutes,
   statusRoutes,
-  authRoutes, 
-  userRoutes, 
+  authRoutes,
+  userRoutes,
   userSkillRoutes,
   tagRoutes,
   askedRoutes,
-  prfmRoutes
+  prfmRoutes,
+  prfsRoutes,
+  prmaRoutes,
+  weekRoutes,
+  yearRoutes,
+  planifierRoutes,
+  conversationRoutes,
+  messageRoutes,
+  askedTagRoutes,
+  askedEffectRoutes,
+  askedLogRoutes,
+  askedLogTypeRoutes,
+  askedUserInChargeOfRoutes,
+  twilioRoutes,
+  pieceRoutes,
+  documentRoutes,
+  categorieRoutes,
+  prmaEqpInternalRoute,
+  equipementInterneRoute,
+  documentInterneShipRoutes
 } = require('./routes');
 
+// middleware logger
 app.use(logIncomingRequests);
 app.use(logOutgoingResponses);
 app.use(errorHandler);
 
-
-// Utilisez le middleware body-parser pour analyser le corps de la requête en JSON
 app.use(bodyParser.json());
 
-// Utilisez les routes
+// public paths
 app.use('/', express.static(path.join(__dirname, 'public')))
-
-
 app.use('/', rootRoutes);
-// Authentication
+
+// routes 
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/users', userRoutes);
-
-// To config by administrator  
+app.use('/api/twilio', twilioRoutes);
 app.use('/api/v1/customers', customerRoutes);
+app.use('/api/v1/documents', documentRoutes);
 app.use('/api/v1/fleets', fleetRoutes);
 app.use('/api/v1/ships', shipRoutes);
 app.use('/api/v1/tags', tagRoutes);
-
-// Tickets Management
+app.use('/api/v1/piece', pieceRoutes);
 app.use('/api/v1/asked', askedRoutes);
 app.use('/api/v1/prfm', prfmRoutes);
-
-// CRUD FOR ADMINISTRATOR TO CHANGE THE DATA
+app.use('/api/v1/prfs', prfsRoutes);
+app.use('/api/v1/prma', prmaRoutes);
+app.use('/api/v1/messages', messageRoutes);
+app.use('/api/v1/conversations', conversationRoutes);
+app.use('/api/v1/askedTag', askedTagRoutes);
+app.use('/api/v1/askedEffect', askedEffectRoutes);
+app.use('/api/v1/askedlogs', askedLogRoutes);
+app.use('/api/v1/askedlogtypes', askedLogTypeRoutes);
 app.use('/api/v1/effects', effectRoutes);
 app.use('/api/v1/effectTypes', effectTypeRoutes);
 app.use('/api/v1/levels', levelRoutes);
@@ -84,40 +118,50 @@ app.use('/api/v1/roles', roleRoutes);
 app.use('/api/v1/sides', sideRoutes);
 app.use('/api/v1/skills', skillRoutes);
 app.use('/api/v1/status', statusRoutes);
-app.use('/api/v1/customerpj', customerProjectRoutes);
-app.use('/api/v1/usersk', userSkillRoutes);
+app.use('/api/v1/customerProjects', customerProjectRoutes);
+app.use('/api/v1/userSkills', userSkillRoutes);
+app.use('/api/v1/weeks', weekRoutes);
+app.use('/api/v1/years', yearRoutes);
+app.use('/api/v1/oncall', planifierRoutes);
+app.use('/api/v1/askedusersincharge', askedUserInChargeOfRoutes);
+app.use('/api/v1/categories', categorieRoutes);
+app.use('/api/v1/prmaeqpinternal', prmaEqpInternalRoute);
+app.use('/api/v1/equipementinterne', equipementInterneRoute);
+app.use('/api/v1/documentinterneship', documentInterneShipRoutes);
 
-// swagger
-const options = {
+// swagger configuration
+const swaggerOptions = {
   definition: {
-    openapi: '3.0.0', // Spécification OpenAPI (Swagger) que vous souhaitez utiliser
+    openapi: '3.0.0',
     info: {
-      title: 'API SUPPORT', // Titre de votre API
-      version: '1.0.0', // Version de votre API
-      description: 'Restful api create with nodejs (expressjs) and database postgres about application support', // Description de votre API
+      title: 'Jeumont electric',
+      version: '1.0.0',
+      description: 'Restful api create with nodejs (expressjs) and database postgres about application support',
+    },
+    components: {
+      securitySchemes: {
+        BearerAuth: {
+          type: 'http',
+          scheme: 'bearer',
+        },
+      },
     },
   },
-  // Chemin vers les fichiers de routes contenant les annotations JSDoc
-  apis: ['./routes/*.js'], 
+  apis: ['./routes/*.js'],
 };
 
-// Générer la spécification Swagger à partir des annotations JSDoc
-const specs = swaggerJsdoc(options);
+const swaggerSpecs = swaggerJsdoc(swaggerOptions);
 
-// Utiliser Swagger UI au chemin /api-docs
-app.use('/api/v1', swaggerUi.serve, swaggerUi.setup(specs));
-
+// path swagger
+app.use('/api/v1', swaggerUi.serve, swaggerUi.setup(swaggerSpecs, {
+  customSiteTitle: 'Jeumont electric',
+}));
 
 app.all('*', (req, res) => {
   res.status(404)
-  if(req.accepts('html')) {
-    res.sendFile(path.join(__dirname, 'views', '404.html'))
-  } else if (req.accepts('json')) {
-    res.json({ message: "404 Not Found" })
-  } else {
-    res.type('txt').send('404 Not Found')
-  }
+  if(req.accepts('html')) { res.sendFile(path.join(__dirname, 'views', '404.html'))
+  } else if (req.accepts('json')) { res.json({ message: "404 Not Found" }) 
+  } else { res.type('txt').send('404 Not Found') }
 });
-
 
 module.exports = app;

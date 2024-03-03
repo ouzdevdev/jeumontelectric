@@ -1,17 +1,22 @@
-const rateLimit = require('express-rate-limit')
-const { logEvents } = require('./logger')
+// loginLimiter.js
+const rateLimit = require('express-rate-limit');
+const { logEvents } = require('./logger');
 
+/**
+ * Limiteur d'accès à l'API de connexion.
+ */
 const loginLimiter = rateLimit({
-    windowMs: 60 * 1000, // 1 minute
-    max: 5, // Limit each IP to 5 login requests per `window` per minute
-    message:
-        { message: 'Too many login attempts from this IP, please try again after a 60 second pause' },
-    handler: (req, res, next, options) => {
-        logEvents(`Too many requests: ${options.message.message}\t${req.method}\t${req.url}\t${req.headers.origin}`, 'errLog.log')
-        res.status(options.statusCode).send(options.message)
+    windowMs: 60 * 1000, // 60 secondes
+    max: 5, // Maximum 5 requêtes par fenêtre de 60 secondes
+    message: { 
+        message: 'Trop de tentatives de connexion depuis cette adresse IP, veuillez réessayer après une pause de 60 secondes' 
     },
-    standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
-    legacyHeaders: false, // Disable the `X-RateLimit-*` headers
-})
+    handler: (req, res, next, options) => {
+        logEvents(`Trop de requêtes: ${options.message.message}\t${req.method}\t${req.url}\t${req.headers.origin}`, 'errLog.log');
+        res.status(options.statusCode).send(options.message);
+    },
+    standardHeaders: true, 
+    legacyHeaders: false,
+});
 
-module.exports = loginLimiter
+module.exports = loginLimiter;

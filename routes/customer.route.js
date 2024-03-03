@@ -7,10 +7,12 @@
 
 /**
  * @swagger
- * /customers:
+ * /api/v1/customers:
  *   get:
  *     summary: Récupérer tous les clients
  *     tags: [Customers]
+ *     security:
+ *       - BearerAuth: []
  *     responses:
  *       200:
  *         description: Succès - Renvoie tous les clients
@@ -20,7 +22,7 @@
 
 /**
  * @swagger
- * /customers:
+ * /api/v1/customers:
  *   post:
  *     summary: Créer un nouveau client
  *     tags: [Customers]
@@ -31,9 +33,23 @@
  *           schema:
  *             type: object
  *             properties:
- *               // Définissez ici les propriétés attendues dans la requête POST pour créer un nouveau client
+ *               customer_ref:
+ *                 type: string
+ *                 nullable: true
+ *               customer_name:
+ *                 type: string
+ *               customer_description:
+ *                 type: string
+ *               customer_siret:
+ *                 type: string
+ *                 nullable: true
  *             example:
- *               // Exemple de corps de requête JSON pour créer un nouveau client
+ *               customer_ref: null
+ *               customer_name: "Customer name"
+ *               customer_description: "Customer description ..."
+ *               customer_siret: null
+ *     security:
+ *       - BearerAuth: []
  *     responses:
  *       201:
  *         description: Succès - Le client a été créé avec succès
@@ -45,7 +61,7 @@
 
 /**
  * @swagger
- * /customers/:id:
+ * /api/v1/customers/{id}:
  *   get:
  *     summary: Récupérer un client par ID
  *     tags: [Customers]
@@ -53,10 +69,13 @@
  *       - name: id
  *         in: path
  *         required: true
- *         description: ID du client à récupérer
+ *         description: ID de client à supprimer
  *         schema:
- *           type: integer
- *         example: 123
+ *           type: string
+ *           format: uuid
+ *         example: "xxxxxxxx-xxx-xxx-xxxx-xxxxxxxxxx"
+ *     security:
+ *       - BearerAuth: []
  *     responses:
  *       200:
  *         description: Succès - Renvoie le client spécifié par ID
@@ -68,7 +87,7 @@
 
 /**
  * @swagger
- * /customers/:id:
+ * /api/v1/customers/{id}:
  *   put:
  *     summary: Mettre à jour un client par ID
  *     tags: [Customers]
@@ -76,10 +95,11 @@
  *       - name: id
  *         in: path
  *         required: true
- *         description: ID du client à mettre à jour
+ *         description: ID de client à modifier
  *         schema:
- *           type: integer
- *         example: 123
+ *           type: string
+ *           format: uuid
+ *         example: "xxxxxxxx-xxx-xxx-xxxx-xxxxxxxxxx"
  *     requestBody:
  *       required: true
  *       content:
@@ -87,9 +107,23 @@
  *           schema:
  *             type: object
  *             properties:
- *               // Définissez ici les propriétés attendues dans la requête PUT pour mettre à jour un client
+ *               customer_ref:
+ *                 type: string
+ *                 nullable: true
+ *               customer_name:
+ *                 type: string
+ *               customer_description:
+ *                 type: string
+ *               customer_siret:
+ *                 type: string
+ *                 nullable: true
  *             example:
- *               // Exemple de corps de requête JSON pour mettre à jour un client
+ *               customer_ref: null
+ *               customer_name: "Customer name"
+ *               customer_description: "Customer descriprion ..."
+ *               customer_siret: null
+ *     security:
+ *       - BearerAuth: []
  *     responses:
  *       200:
  *         description: Succès - Le client a été mis à jour avec succès
@@ -101,7 +135,7 @@
 
 /**
  * @swagger
- * /customers/:id:
+ * /api/v1/customers/{id}:
  *   delete:
  *     summary: Supprimer un client par ID
  *     tags: [Customers]
@@ -109,10 +143,13 @@
  *       - name: id
  *         in: path
  *         required: true
- *         description: ID du client à supprimer
+ *         description: ID de client à supprimer
  *         schema:
- *           type: integer
- *         example: 123
+ *           type: string
+ *           format: uuid
+ *         example: "xxxxxxxx-xxx-xxx-xxxx-xxxxxxxxxx"
+ *     security:
+ *       - BearerAuth: []
  *     responses:
  *       200:
  *         description: Succès - Le client a été supprimé avec succès
@@ -122,22 +159,67 @@
  *         description: Erreur serveur - Impossible de supprimer le client
  */
 
-// customer.route.js
 const express = require('express');
 const router = express.Router();
 const { customerController } = require('../controllers');
 
 const veryJWT = require('../middlewares/verifyJWT');
 
-// Handles GET and POST requests for '/customers' route
+/**
+* Route : /api/v1/customers
+* Méthode : GET
+* Description : Récupérer tous les clients
+* Authentification requise : Oui
+* Permissions requises : N/A
+* @returns {Object} - Liste de tous les clients
+*/
 router.route('/')
-  .get(veryJWT, customerController.getAllCustomers)    // Get all customers
-  .post(veryJWT, customerController.createNewCustomer); // Create a new customer
+  .get(veryJWT, customerController.getAllCustomers) 
 
-// Handles GET and DELETE requests for '/customers/:id' route
+/**
+* Route : /api/v1/customers
+* Méthode : POST
+* Description : Créer un nouveau client
+* Authentification requise : Oui
+* Permissions requises : N/A
+* @body {Object} customerData - Les données du client à créer
+* @returns {Object} - Le client créé
+*/  
+  .post(veryJWT, customerController.createNewCustomer); 
+  
+/**
+* Route : /api/v1/customers/:id
+* Méthode : GET
+* Description : Récupérer un client par ID
+* Authentification requise : Oui
+* Permissions requises : N/A
+* @param {string} id - L'identifiant du client à récupérer
+* @returns {Object} - Le client spécifié par ID
+*/
 router.route('/:id')
-  .get(veryJWT, customerController.getCustomerById)    // Get a specific customer by ID
-  .put(veryJWT, customerController.updateCustomer)     // Update customer by ID
-  .delete(veryJWT, customerController.deleteCustomer); // Delete a customer by ID
+  .get(veryJWT, customerController.getCustomerById)    
 
+/**
+* Route : /api/v1/customers/:id
+* Méthode : PUT
+* Description : Mettre à jour un client par ID
+* Authentification requise : Oui
+* Permissions requises : N/A
+* @param {string} id - L'identifiant du client à mettre à jour
+* @body {Object} customerData - Les données du client à mettre à jour
+* @returns {Object} - Le client mis à jour
+*/   
+  .put(veryJWT, customerController.updateCustomer)     
+
+/**
+* Route : /api/v1/customers/:id
+* Méthode : DELETE
+* Description : Supprimer un client par ID
+* Authentification requise : Oui
+* Permissions requises : N/A
+* @param {string} id - L'identifiant du client à supprimer
+* @returns {Object} - Confirmation de la suppression du client
+*/   
+  .delete(veryJWT, customerController.deleteCustomer); 
+  
 module.exports = router;

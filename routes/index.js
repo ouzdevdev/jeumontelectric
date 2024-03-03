@@ -1,19 +1,26 @@
-// Authentification
+module.exports.documentInterneShipRoutes = require('./documentInterneShip.route');
+module.exports.documentRoutes = require('./document.route');
 module.exports.authRoutes = require('./auth.route');
-
-// To config by administrator 
 module.exports.rootRoutes = require('./root.route');
 module.exports.customerRoutes = require('./customer.route');
 module.exports.userRoutes = require('./user.route');
 module.exports.fleetRoutes = require('./fleet.route');
 module.exports.shipRoutes = require('./ship.route');
+module.exports.categorieRoutes = require('./categorie.route');
 module.exports.tagRoutes = require('./tag.route');
-
-// Tickets Management
+module.exports.pieceRoutes = require('./piece.route');
 module.exports.askedRoutes = require('./asked.route');
 module.exports.prfmRoutes = require('./prfm.route');
-
-// ??
+module.exports.prfsRoutes = require('./prfs.route');
+module.exports.prmaRoutes = require('./prma.route');
+module.exports.messageRoutes = require('./message.route');
+module.exports.conversationRoutes = require('./conversation.route');
+module.exports.askedTagRoutes = require('./askedTag.route');
+module.exports.askedEffectRoutes = require('./askedEffect.route');
+module.exports.askedLogTypeRoutes = require('./askedLogType.route');
+module.exports.askedLogRoutes = require('./askedLog.route');
+module.exports.askedUserInChargeOfRoutes = require('./askedUserInChargeOf.route');
+module.exports.twilioRoutes = require('./twilio.route');
 module.exports.effectRoutes = require('./effect.route');
 module.exports.effectTypeRoutes = require('./effectType.route');
 module.exports.levelRoutes = require('./level.route');
@@ -24,3 +31,8 @@ module.exports.skillRoutes = require('./skill.route');
 module.exports.statusRoutes = require('./status.route');
 module.exports.customerProjectRoutes = require('./customerProject.route');
 module.exports.userSkillRoutes = require('./userSkill.route');
+module.exports.yearRoutes = require('./year.route');
+module.exports.weekRoutes = require('./week.route');
+module.exports.planifierRoutes = require('./planifier.route');
+module.exports.prmaEqpInternalRoute = require('./prmaEqpInternal.route');
+module.exports.equipementInterneRoute = require('./equipementInterne.route');

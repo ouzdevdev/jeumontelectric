@@ -1,14 +1,12 @@
+// skill.js
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db');
-
-// Determine les type de compétence de l'entreprise.
-//'Électrotechnique'
-//'Automatisme'
 
 const Skill = sequelize.define('Skill', {
   skill_id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
+    autoIncrement: true, 
   },
   skill_label: {
     type: DataTypes.TEXT,
@@ -17,6 +15,7 @@ const Skill = sequelize.define('Skill', {
 }, {
   tableName: 'skill',
   timestamps: false,
+  schema: 'backend', 
 });
 
 module.exports = Skill;

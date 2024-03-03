@@ -1,15 +1,24 @@
-// To config by administrator 
+module.exports.documentInterneShipController = require('./documentInterneShip.controller');
+module.exports.documentController = require('./document.controller');
 module.exports.userController = require('./user.controller');
+module.exports.pieceController = require('./piece.controller');
 module.exports.customerController = require('./customer.controller');
 module.exports.fleetController = require('./fleet.controller');
 module.exports.shipController = require('./ship.controller');
 module.exports.tagController = require('./tag.controller')
-
-// Tickets Management
 module.exports.askedController = require('./asKed.controller');
 module.exports.prfmController = require('./prfm.controller');
-
-// ??????
+module.exports.prfsController = require('./prfs.controller');
+module.exports.prmaController = require('./prma.controller');
+module.exports.categorieController = require('./categorie.controller');
+module.exports.conversationController = require('./conversation.controller');
+module.exports.messageController = require('./message.controller');
+module.exports.askedTagController = require('./askedTag.controller');
+module.exports.askedEffectController = require('./askedEffect.controller');
+module.exports.askedTypeLogController = require('./askedLogType.controller');
+module.exports.askedLogController = require('./askedLog.controller');
+module.exports.askedUserInChargeOfController = require('./askedUserInChargeOf.controller');
+module.exports.twilioController = require('./twilio.controller');
 module.exports.effectController = require('./effect.controller');
 module.exports.effectTypeController = require('./effectType.controller');
 module.exports.levelController = require('./level.controller');
@@ -20,3 +29,9 @@ module.exports.skillController = require('./skill.controller');
 module.exports.statusController = require('./status.controller');
 module.exports.customerProjectController = require('./customerProject.controller');
 module.exports.userSkillController = require('./userSkill.controller');
+module.exports.yearController = require('./year.controller');
+module.exports.weekController = require('./week.controller');
+module.exports.planifierController = require('./planifier.controller');
+module.exports.attachementController = require('./attachement.controller');
+module.exports.prmaEqpInternalController = require('./prmaEqpInternal.controller');
+module.exports.equipementInterneController = require('./equipementInterne.controller');

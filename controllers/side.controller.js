@@ -1,12 +1,21 @@
 // side.controller.js
 const { Side } = require('../models');
 
-// @desc Get all sides
-// @route GET /api/sides
-// @access Private
+/**
+ * @desc Récupère tous les côtés.
+ * @route GET /api/sides
+ * @access Private
+ * @param {Object} req - Requête HTTP.
+ * @param {Object} res - Réponse HTTP.
+ * @returns {Object} - Liste des côtés trouvés.
+ */
 const getAllSides = async (req, res) => {
     try {
-        const sides = await Side.findAll();
+        const sides = await Side.findAll({
+            where: {
+               data_active: true
+            },
+        });
         if (!sides.length) {
             return res.status(404).json({ message: 'No sides found' });
         }
@@ -17,9 +26,14 @@ const getAllSides = async (req, res) => {
     }
 };
 
-// @desc Get side by id
-// @route GET /api/sides/:id
-// @access Private
+/**
+ * @desc Récupère un côté par son identifiant.
+ * @route GET /api/sides/:id
+ * @access Private
+ * @param {Object} req - Requête HTTP.
+ * @param {Object} res - Réponse HTTP.
+ * @returns {Object} - Côté trouvé.
+ */
 const getSideById = async (req, res) => {
     try {
         const { id } = req.params;
@@ -29,6 +43,7 @@ const getSideById = async (req, res) => {
         if (!side) {
             return res.status(404).json({ message: 'Not found' });
         }
+
         res.json(side);
     } catch (error) {
         console.error(error);
@@ -36,15 +51,19 @@ const getSideById = async (req, res) => {
     }
 };
 
-// @desc Create new side
-// @route POST /api/sides
-// @access Private
+/**
+ * @desc Crée un nouveau côté.
+ * @route POST /api/sides
+ * @access Private
+ * @param {Object} req - Requête HTTP.
+ * @param {Object} res - Réponse HTTP.
+ * @returns {Object} - Nouveau côté créé.
+ */
 const createNewSide = async (req, res) => {
     try {
-        const { side_id, side_label } = req.body;
+        const { side_label } = req.body;
 
         const side = await Side.create({
-            side_id,
             side_label,
         });
         res.json(side);
@@ -54,9 +73,14 @@ const createNewSide = async (req, res) => {
     }
 };
 
-// @desc Delete a side
-// @route DELETE /api/sides/:id
-// @access Private
+/**
+ * @desc Supprime un côté par son identifiant.
+ * @route DELETE /api/sides/:id
+ * @access Private
+ * @param {Object} req - Requête HTTP.
+ * @param {Object} res - Réponse HTTP.
+ * @returns {Object} - Message indiquant la suppression réussie du côté.
+ */
 const deleteSide = async (req, res) => {
     try {
         const { id } = req.params;
@@ -66,6 +90,7 @@ const deleteSide = async (req, res) => {
                 side_id: id,
             },
         });
+        
         res.json({
             message: 'Côté supprimé avec succès.',
         });

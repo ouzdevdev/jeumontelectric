@@ -1,20 +1,35 @@
 // ship.controller.js
-const { Ship, Fleet } = require('../models');
+const { Ship, Fleet, Customer, User } = require('../models');
 
-// @desc Get all ships
-// @route GET /api/ships
-// @access Private
+/**
+ * @desc Récupère tous les navires.
+ * @route GET /api/ships
+ * @access Private
+ * @param {Object} req - Requête HTTP.
+ * @param {Object} res - Réponse HTTP.
+ * @returns {Object} - Liste des navires trouvés.
+ */
 const getAllShips = async (req, res) => {
     try {
+
         const ships = await Ship.findAll({
-            // include: [
-            //     {
-            //         model: Fleet,
-            //         attributes: { exclude: ['fleet_id'] }, // Exclude the 'fleet_id' field from the Fleet model
-            //     },
-            // ],
-            // attributes: { exclude: ['fleet_id'] }, // Exclude the 'fleet_id' field from the Ship model
+            where: {
+                data_active: true
+            },
+            include: [
+                {
+                    model: Fleet,
+                    include: [
+                        {
+                            model: Customer,
+                        },
+                    ],            
+                    attributes: { exclude: ['customer_uuid'] }, 
+                },
+            ],
+            attributes: { exclude: ['fleet_id'] },
         });
+
         if (!ships.length) {
             return res.status(404).json({ message: 'No ships found' });
         }
@@ -25,9 +40,14 @@ const getAllShips = async (req, res) => {
     }
 };
 
-// @desc Get all ships
-// @route GET /api/ships/fleet/:fleet_id
-// @access Private
+/**
+ * @desc Récupère tous les navires par flotte.
+ * @route GET /api/ships/fleet/:fleet_id
+ * @access Private
+ * @param {Object} req - Requête HTTP.
+ * @param {Object} res - Réponse HTTP.
+ * @returns {Object} - Liste des navires trouvés pour une flotte spécifiée.
+ */
 const getAllShipsByFleet = async (req, res) => {
     try {
         
@@ -38,18 +58,11 @@ const getAllShipsByFleet = async (req, res) => {
         }
 
         const ships = await Ship.findAll({
-            where: { fleet_id },
-            // include: [
-            //     {
-            //         model: Fleet,
-            //         attributes: { exclude: ['fleet_id'] }, // Exclude the 'fleet_id' field from the Fleet model
-            //     },
-            // ],
-            // attributes: { exclude: ['fleet_id'] }, // Exclude the 'fleet_id' field from the Ship model
+            where: { 
+                fleet_id 
+            }
         });
-        if (!ships.length) {
-            return res.status(404).json({ message: 'No ships found' });
-        }
+        
         res.json(ships);
     } catch (error) {
         console.error(error);
@@ -57,9 +70,95 @@ const getAllShipsByFleet = async (req, res) => {
     }
 };
 
-// @desc Get ship by id
-// @route GET /api/ships/:id
-// @access Private
+/**
+ * @desc Récupère tous les navires par client.
+ * @route GET /api/ships/customer/:cust_uuid
+ * @access Private
+ * @param {Object} req - Requête HTTP.
+ * @param {Object} res - Réponse HTTP.
+ * @returns {Object} - Liste des navires trouvés pour un client spécifié.
+ */
+const getAllShipsByCustomer = async (req, res) => {
+    try {
+        const { cust_uuid } = req.params;
+
+        if (!cust_uuid) {
+            return res.status(400).json({ message: 'Customer ID is required' });
+        }
+
+        const ships = await Ship.findAll({
+            include: [
+                {
+                    model: Fleet,
+                },
+            ],
+            where: { 
+                '$Fleet.customer_uuid$': cust_uuid, 
+            },
+            attributes: { exclude: ['fleet_id'] }, 
+        });
+        
+        if (!ships.length) {
+            return res.status(404).json({ message: 'No ships found' });
+        }
+        
+        res.json(ships);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'An error occurred while retrieving ships.' });
+    }
+};
+
+/**
+ * @desc Récupère tous les navires par utilisateur.
+ * @route GET /api/ships/user/:user_uuid
+ * @access Private
+ * @param {Object} req - Requête HTTP.
+ * @param {Object} res - Réponse HTTP.
+ * @returns {Object} - Liste des navires trouvés pour un utilisateur spécifié.
+ */
+const getAllShipsByUser = async (req, res) => {
+    try {
+        const { user_uuid } = req.params;
+
+        if (!user_uuid) {
+            return res.status(400).json({ message: 'Customer ID is required' });
+        }
+
+        const ships = await Ship.findAll({
+            include: [
+                {
+                    model: Fleet,
+                },
+                {
+                    model: User,
+                }
+            ],
+            where: { 
+                user_uuid: user_uuid, 
+            },
+            attributes: { exclude: ['fleet_id'] }, 
+        });
+        
+        if (!ships.length) {
+            return res.status(404).json({ message: 'No ships found' });
+        }
+        
+        res.json(ships);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'An error occurred while retrieving ships.' });
+    }
+};
+
+/**
+ * @desc Récupère un navire par son identifiant.
+ * @route GET /api/ships/:id
+ * @access Private
+ * @param {Object} req - Requête HTTP.
+ * @param {Object} res - Réponse HTTP.
+ * @returns {Object} - Navire trouvé.
+ */
 const getShipById = async (req, res) => {
     try {
         const { id } = req.params;
@@ -70,7 +169,7 @@ const getShipById = async (req, res) => {
 
         const ship = await Ship.findOne({ where: { ship_uuid: id } });
 
-        if (!ship) { // Use strict comparison to check for null
+        if ( !ship ) { 
             return res.status(404).json({ message: 'Navire non trouvé' });
         }
         res.json(ship);
@@ -80,9 +179,14 @@ const getShipById = async (req, res) => {
     }
 };
 
-// @desc Create new ship
-// @route POST /api/ships
-// @access Private
+/**
+ * @desc Crée un nouveau navire.
+ * @route POST /api/ships
+ * @access Private
+ * @param {Object} req - Requête HTTP.
+ * @param {Object} res - Réponse HTTP.
+ * @returns {Object} - Nouveau navire créé.
+ */
 const createNewShip = async (req, res) => {
     try {
         const { ship_name, fleet_id } = req.body;
@@ -98,9 +202,14 @@ const createNewShip = async (req, res) => {
     }
 };
 
-// @desc update ship
-// @route PUT /api/ships/:id
-// @access Private
+/**
+ * @desc Met à jour un navire.
+ * @route PUT /api/ships/:id
+ * @access Private
+ * @param {Object} req - Requête HTTP.
+ * @param {Object} res - Réponse HTTP.
+ * @returns {Object} - Message indiquant la mise à jour réussie du navire.
+ */
 const updateShip = async (req, res) => {
     try {
         const { id } = req.params;
@@ -109,11 +218,11 @@ const updateShip = async (req, res) => {
             return res.status(400).json({ message: 'Ship ID is required' });
         }
 
-        const { ship_name, fleet_id } = req.body;
+        const { ship_name, ship_description } = req.body;
 
         await Ship.update({ 
             ship_name,
-            fleet_id,
+            ship_description
         }, {
             where: { ship_uuid: id } 
         });
@@ -128,9 +237,14 @@ const updateShip = async (req, res) => {
     }
 };
 
-// @desc Delete a ship
-// @route DELETE /api/ships/:id
-// @access Private
+/**
+ * @desc Supprime un navire par son identifiant.
+ * @route DELETE /api/ships/:id
+ * @access Private
+ * @param {Object} req - Requête HTTP.
+ * @param {Object} res - Réponse HTTP.
+ * @returns {Object} - Message indiquant la suppression réussie du navire.
+ */
 const deleteShip = async (req, res) => {
     try {
         const { id } = req.params;
@@ -144,9 +258,8 @@ const deleteShip = async (req, res) => {
                 ship_uuid: id,
             },
         });
-        res.json({
-            message: 'Navire supprimé avec succès.',
-        });
+
+        res.json({ message: 'Navire supprimé avec succès.' });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Une erreur est survenue lors de la suppression du navire.' });
@@ -160,4 +273,6 @@ module.exports = {
     updateShip,
     deleteShip,
     getAllShipsByFleet,
+    getAllShipsByUser,
+    getAllShipsByCustomer,
 };

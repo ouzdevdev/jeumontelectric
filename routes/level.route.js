@@ -7,10 +7,12 @@
 
 /**
  * @swagger
- * /levels:
+ * /api/v1/levels:
  *   get:
  *     summary: Récupérer tous les niveaux (levels)
  *     tags: [Levels]
+ *     security:
+ *       - BearerAuth: []
  *     responses:
  *       200:
  *         description: Succès - Renvoie tous les niveaux (levels)
@@ -20,7 +22,7 @@
 
 /**
  * @swagger
- * /levels:
+ * /api/v1/levels:
  *   post:
  *     summary: Créer un nouveau niveau (level)
  *     tags: [Levels]
@@ -31,9 +33,15 @@
  *           schema:
  *             type: object
  *             properties:
- *               // Définissez ici les propriétés attendues dans la requête POST pour créer un nouveau niveau (level)
+ *               level_label:
+ *                 type: string
+ *               level_desc:
+ *                 type: string
  *             example:
- *               // Exemple de corps de requête JSON pour créer un nouveau niveau (level)
+ *               level_label: "Level x"
+ *               level_desc: "Level description"
+ *     security:
+ *       - BearerAuth: []
  *     responses:
  *       201:
  *         description: Succès - Le niveau (level) a été créé avec succès
@@ -43,9 +51,10 @@
  *         description: Erreur serveur - Impossible de créer le niveau (level)
  */
 
+
 /**
  * @swagger
- * /levels/:id:
+ * /api/v1/levels/{id}:
  *   get:
  *     summary: Récupérer un niveau (level) par ID
  *     tags: [Levels]
@@ -56,7 +65,9 @@
  *         description: ID du niveau à récupérer
  *         schema:
  *           type: integer
- *         example: 123
+ *         example: 1
+ *     security:
+ *       - BearerAuth: []
  *     responses:
  *       200:
  *         description: Succès - Renvoie le niveau (level) spécifié par ID
@@ -68,7 +79,7 @@
 
 /**
  * @swagger
- * /levels/:id:
+ * /api/v1/levels/{id}:
  *   delete:
  *     summary: Supprimer un niveau (level) par ID
  *     tags: [Levels]
@@ -79,7 +90,9 @@
  *         description: ID du niveau à supprimer
  *         schema:
  *           type: integer
- *         example: 123
+ *         example: 1
+ *     security:
+ *       - BearerAuth: []
  *     responses:
  *       200:
  *         description: Succès - Le niveau (level) a été supprimé avec succès
@@ -89,22 +102,55 @@
  *         description: Erreur serveur - Impossible de supprimer le niveau (level) par ID
  */
 
-
-// level.route.js
 const express = require('express');
 const router = express.Router();
 const { levelController } = require('../controllers');
 
 const veryJWT = require('../middlewares/verifyJWT');
 
-// Handles GET and POST requests for '/levels' route
+/**
+* Route : /api/v1/levels
+* Méthode : GET
+* Description : Récupérer tous les niveaux
+* Authentification requise : Oui
+* Permissions requises : N/A
+* @returns {Object} - Liste de tous les niveaux
+*/
 router.route('/')
-    .get(veryJWT ,levelController.getAllLevels)     // Get all levels
-    .post(veryJWT ,levelController.createNewLevel); // Create a new level
+    .get(veryJWT, levelController.getAllLevels)    
 
-// Handles GET and DELETE requests for '/levels/:id' route
+/**
+* Route : /api/v1/levels
+* Méthode : POST
+* Description : Créer un nouveau niveau
+* Authentification requise : Oui
+* Permissions requises : N/A
+* @body {Object} levelData - Les données du niveau à créer
+* @returns {Object} - Le niveau créé
+*/
+    .post(veryJWT, levelController.createNewLevel);
+
+/**
+* Route : /api/v1/levels/:id
+* Méthode : GET
+* Description : Récupérer un niveau par ID
+* Authentification requise : Oui
+* Permissions requises : N/A
+* @param {string} id - L'identifiant du niveau à récupérer
+* @returns {Object} - Le niveau spécifié par ID
+*/
 router.route('/:id')
-    .get(veryJWT ,levelController.getLevelById)    // Get a specific level by ID
-    .delete(veryJWT ,levelController.deleteLevel); // Delete a level by ID
+    .get(veryJWT, levelController.getLevelById)   
 
+/**
+* Route : /api/v1/levels/:id
+* Méthode : DELETE
+* Description : Supprimer un niveau par ID
+* Authentification requise : Oui
+* Permissions requises : N/A
+* @param {string} id - L'identifiant du niveau à supprimer
+* @returns {Object} - Confirmation de la suppression du niveau
+*/
+    .delete(veryJWT, levelController.deleteLevel);
+    
 module.exports = router;

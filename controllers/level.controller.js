@@ -1,12 +1,21 @@
 // level.controller.js
 const { Level } = require('../models');
 
-// Récupérer tous les niveaux
-// GET /api/levels
-// Accès : Privé
+/**
+ * Récupérer tous les niveaux triés par ordre croissant d'ID.
+ * @route GET /api/levels
+ * @access Privé
+ * @returns {Object} - Les niveaux récupérés.
+ * @throws {Error} - Une erreur si la récupération des niveaux échoue.
+ * @example
+ * // Exemple d'appel de la fonction
+ * getAllLevels(req, res);
+ */
 const getAllLevels = async (req, res) => {
     try {
-        const levels = await Level.findAll();
+        const levels = await Level.findAll({
+            order: [['level_id', 'ASC']], // Remplacez "columnName" par le nom du champ sur lequel vous souhaitez trier
+        })
         if (!levels.length) {
             return res.status(404).json({ message: 'No Levels found' });
         }
@@ -17,9 +26,17 @@ const getAllLevels = async (req, res) => {
     }
 }
 
-// Récupérer un niveau par son ID
-// GET /api/levels/:id
-// Accès : Privé
+/**
+ * Récupérer un niveau par son ID.
+ * @route GET /api/levels/:id
+ * @access Privé
+ * @param {string} id - L'ID du niveau à récupérer.
+ * @returns {Object} - Le niveau trouvé.
+ * @throws {Error} - Une erreur si la récupération du niveau échoue.
+ * @example
+ * // Exemple d'appel de la fonction
+ * getLevelById(req, res);
+ */
 const getLevelById = async (req, res) => {
     try {
         const { id } = req.params;
@@ -34,15 +51,24 @@ const getLevelById = async (req, res) => {
     }
 }
 
-// Créer un nouveau niveau
-// POST /api/levels
-// Accès : Privé
+/**
+ * Créer un nouveau niveau.
+ * @route POST /api/levels
+ * @access Privé
+ * @param {string} level_label - Le libellé du niveau à créer.
+ * @param {string} level_desc - La description du niveau à créer.
+ * @returns {Object} - Le niveau créé.
+ * @throws {Error} - Une erreur si la création du niveau échoue.
+ * @example
+ * // Exemple d'appel de la fonction
+ * createNewLevel(req, res);
+ */
 const createNewLevel = async (req, res) => {
     try {
-        const { level_id, level_label, level_desc } = req.body;
+        const { level_label, level_desc } = req.body;
 
         const level = await Level.create({
-            level_id, level_label, level_desc
+            level_label, level_desc
         });
         res.status(201).json(level);
     } catch (error) {
@@ -51,9 +77,17 @@ const createNewLevel = async (req, res) => {
     }
 }
 
-// Supprimer un niveau par son ID
-// DELETE /api/levels/:id
-// Accès : Privé
+/**
+ * Supprimer un niveau par son ID.
+ * @route DELETE /api/levels/:id
+ * @access Privé
+ * @param {string} id - L'ID du niveau à supprimer.
+ * @returns {Object} - Un message confirmant que le niveau a été supprimé avec succès.
+ * @throws {Error} - Une erreur si la suppression du niveau échoue.
+ * @example
+ * // Exemple d'appel de la fonction
+ * deleteLevel(req, res);
+ */
 const deleteLevel = async (req, res) => {
     try {
         const { id } = req.params;

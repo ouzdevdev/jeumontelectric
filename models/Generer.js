@@ -1,13 +1,7 @@
+// generer.js
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db');
-const Asked = require('./Asked');
 const Effect = require('./Effect')
-
-// -- Table: génerer :
-// -- Un fault peut avoir un ou plusieurs effect
-// -- Un effect peut être sur un ou plusieurs fault
-
-
 
 const Generer = sequelize.define('Generer', {
   fault_uuid: {
@@ -23,9 +17,9 @@ const Generer = sequelize.define('Generer', {
 }, {
   tableName: 'generer',
   timestamps: false,
+  schema: 'backend', 
 });
 
-// Ajoutez les contraintes de clé étrangère
 Generer.belongsTo(Fault, { foreignKey: 'fault_uuid' });
 Generer.belongsTo(Effect, { foreignKey: 'effect_id' });
 

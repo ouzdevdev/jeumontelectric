@@ -1,9 +1,8 @@
+// function.js
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db');
 const EquipementExterne = require('./EquipementExterne');
 const Piece = require('./Piece');
-
-// Fonction dans les donnée  comme dans "E_MatrixFlt".
 
 const Functionality = sequelize.define('Functionality', {
   function_uuid: {
@@ -39,9 +38,9 @@ const Functionality = sequelize.define('Functionality', {
 }, {
   tableName: 'functionality',
   timestamps: false,
+  schema: 'backend', 
 });
 
-// Ajoutez la contrainte de clé étrangère
 Functionality.belongsTo(EquipementExterne, { foreignKey: 'eqp_ext_id' });
 Functionality.belongsTo(Piece, { foreignKey: 'piece_uuid' });
 

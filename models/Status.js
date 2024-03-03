@@ -1,17 +1,12 @@
+// status.js
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db');
 
-// Cette table servira à définir les status possible d'une demande
-// 'Opened ', '#55FF33'
-// 'Investigation ', '#FFA833'
-// 'Satuts to be confirmed', '#33FFDA'
-// 'Observation ', '#FFFF33'
-// 'Closed ', '#FF3333'
-// 'Resolved ', '#FF335B'
 const Status = sequelize.define('Status', {
   status_id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
+    autoIncrement: true, 
   },
   status_label: {
     type: DataTypes.TEXT,
@@ -24,6 +19,7 @@ const Status = sequelize.define('Status', {
 }, {
   tableName: 'status',
   timestamps: false,
+  schema: 'backend', 
 });
 
 module.exports = Status;

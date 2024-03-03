@@ -1,15 +1,29 @@
-// To config by administrator 
+// model -> index.js
+// export all models
+module.exports.DocumentInterneShip = require('./DocumentInterneShip');
 module.exports.User = require('./User');
 module.exports.Customer = require('./Customer');
 module.exports.Fleet = require('./Fleet');
 module.exports.Ship = require('./Ship');
 module.exports.Tag = require('./Tag');
-
-// Tickets Management
+module.exports.RelatedPrfsOfPrfm = require('./RelatedPrfsOfPrfm');
+module.exports.Planifier = require('./Planifier');
 module.exports.Asked = require('./Asked');
 module.exports.PRFM = require('./PRFM');
-
-// ??
+module.exports.PRFS = require('./PRFS');
+module.exports.PRMP = require('./PRMP');
+module.exports.DocumentInterne = require('./DocumentInterne');
+module.exports.Categorie = require('./Categorie');
+module.exports.AskedLog = require('./AskedLog');
+module.exports.AskedLogType = require('./AskedLogType');
+module.exports.Conversation = require('./Conversation');
+module.exports.Message = require('./Message');
+module.exports.TagAsked = require('./TagAsked');
+module.exports.EffectAsked = require('./EffectAsked');
+module.exports.AskedUserInChargeOf = require('./AskedUserInChargeOf');
+module.exports.Attachment = require('./Attachement');
+module.exports.Document = require('./Document');
+module.exports.Piece = require('./Piece');
 module.exports.Effect = require('./Effect');
 module.exports.EffectType = require('./EffectType');
 module.exports.Level = require('./Level');
@@ -20,3 +34,8 @@ module.exports.Skill = require('./Skill');
 module.exports.Status = require('./Status');
 module.exports.CustomerProject = require('./CustomerProject');
 module.exports.UserSkill = require('./UserSkill');
+module.exports.Week = require('./Week');
+module.exports.Year = require('./Year');
+module.exports.PrmaEqpInternal = require('./PrmaEqpInternal');
+module.exports.EquipementInterne = require('./EquipementInterne');
+module.exports.SupportType = require('./SupportType');

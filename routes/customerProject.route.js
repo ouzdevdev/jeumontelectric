@@ -7,10 +7,12 @@
 
 /**
  * @swagger
- * /customerProjects:
+ * /api/v1/customerProjects:
  *   get:
  *     summary: Récupérer tous les projets clients (customer projects)
  *     tags: [Customer Projects]
+ *     security:
+ *       - BearerAuth: []
  *     responses:
  *       200:
  *         description: Succès - Renvoie tous les projets clients (customer projects)
@@ -20,7 +22,7 @@
 
 /**
  * @swagger
- * /customerProjects:
+ * /api/v1/customerProjects:
  *   post:
  *     summary: Créer un nouveau projet client (customer project)
  *     tags: [Customer Projects]
@@ -31,9 +33,17 @@
  *           schema:
  *             type: object
  *             properties:
- *               // Définissez ici les propriétés attendues dans la requête POST pour créer un nouveau projet client (customer project)
+ *               project_uuid:
+ *                 type: string
+ *                 format: uuid
+ *               ship_uuid:
+ *                 type: string
+ *                 format: uuid
  *             example:
- *               // Exemple de corps de requête JSON pour créer un nouveau projet client (customer project)
+ *               project_uuid: "xxxxxxxx-xxx-xxx-xxxx-xxxxxxxxxx"
+ *               ship_uuid: "xxxxxxxx-xxx-xxx-xxxx-xxxxxxxxxx"
+ *     security:
+ *       - BearerAuth: []
  *     responses:
  *       201:
  *         description: Succès - Le projet client (customer project) a été créé avec succès
@@ -43,9 +53,10 @@
  *         description: Erreur serveur - Impossible de créer le projet client (customer project)
  */
 
+
 /**
  * @swagger
- * /customerProjects/:idProjet/:idShip:
+ * /api/v1/customerProjects/{idProjet}/{idShip}:
  *   get:
  *     summary: Récupérer un projet client (customer project) par ID de projet et ID de vaisseau
  *     tags: [Customer Projects]
@@ -55,15 +66,19 @@
  *         required: true
  *         description: ID du projet à récupérer
  *         schema:
- *           type: integer
- *         example: 123
+ *           type: string
+ *           format: uuid
+ *         example: "xxxxxxxx-xxx-xxx-xxxx-xxxxxxxxxx"
  *       - name: idShip
  *         in: path
  *         required: true
  *         description: ID du vaisseau associé au projet à récupérer
  *         schema:
- *           type: integer
- *         example: 456
+ *           type: string
+ *           format: uuid
+ *         example: "xxxxxxxx-xxx-xxx-xxxx-xxxxxxxxxx"
+ *     security:
+ *       - BearerAuth: []
  *     responses:
  *       200:
  *         description: Succès - Renvoie le projet client (customer project) spécifié par ID de projet et ID de vaisseau
@@ -75,7 +90,7 @@
 
 /**
  * @swagger
- * /customerProjects/:idProjet/:idShip:
+ * /api/v1/customerProjects/{idProjet}/{idShip}:
  *   delete:
  *     summary: Supprimer un projet client (customer project) par ID de projet et ID de vaisseau
  *     tags: [Customer Projects]
@@ -83,17 +98,21 @@
  *       - name: idProjet
  *         in: path
  *         required: true
- *         description: ID du projet à supprimer
+ *         description: ID du projet à récupérer
  *         schema:
- *           type: integer
- *         example: 123
+ *           type: string
+ *           format: uuid
+ *         example: "xxxxxxxx-xxx-xxx-xxxx-xxxxxxxxxx"
  *       - name: idShip
  *         in: path
  *         required: true
- *         description: ID du vaisseau associé au projet à supprimer
+ *         description: ID du vaisseau associé au projet à récupérer
  *         schema:
- *           type: integer
- *         example: 456
+ *           type: string
+ *           format: uuid
+ *         example: "xxxxxxxx-xxx-xxx-xxxx-xxxxxxxxxx"
+ *     security:
+ *       - BearerAuth: []
  *     responses:
  *       200:
  *         description: Succès - Le projet client (customer project) a été supprimé avec succès
@@ -103,21 +122,58 @@
  *         description: Erreur serveur - Impossible de supprimer le projet client (customer project) par ID de projet et ID de vaisseau
  */
 
-// customerProject.route.js
 const express = require('express');
 const router = express.Router();
 const { customerProjectController } = require('../controllers');
 
 const veryJWT = require('../middlewares/verifyJWT');
 
-// Handles GET and POST requests for '/customerProjects' route
+/**
+* Route : /api/v1/customerProjects
+* Méthode : GET
+* Description : Récupérer tous les projets clients
+* Authentification requise : Oui
+* Permissions requises : N/A
+* @returns {Object} - Liste de tous les projets clients
+*/
 router.route('/')
-  .get(veryJWT ,customerProjectController.getAllCustomers)    // Get all customer projects
-  .post(veryJWT ,customerProjectController.createNewCustomer); // Create a new customer project
+  .get(veryJWT, customerProjectController.getAllCustomers)    
 
-// Handles GET and DELETE requests for '/customerProjects/:idProjet/:idShip' route
+/**
+* Route : /api/v1/customerProjects
+* Méthode : POST
+* Description : Créer un nouveau projet client
+* Authentification requise : Oui
+* Permissions requises : N/A
+* @body {Object} customerProjectData - Les données du projet client à créer
+* @returns {Object} - Le projet client créé
+*/
+  .post(veryJWT, customerProjectController.createNewCustomer); 
+  
+/**
+* Route : /api/v1/customerProjects/:idProjet/:idShip
+* Méthode : GET
+* Description : Récupérer un projet client par ID
+* Authentification requise : Oui
+* Permissions requises : N/A
+* @param {string} idProjet - L'identifiant du projet
+* @param {string} idShip - L'identifiant du navire associé au projet
+* @returns {Object} - Le projet client spécifié par ID
+*/
 router.route('/:idProjet/:idShip')
-  .get(veryJWT ,customerProjectController.getCustomerById)    // Get a specific customer project by project ID and ship ID
-  .delete(veryJWT ,customerProjectController.deleteCustomer); // Delete a customer project by project ID and ship ID
+  .get(veryJWT, customerProjectController.getCustomerById)    
 
+/**
+* Route : /api/v1/customerProjects/:idProjet/:idShip
+* Méthode : DELETE
+* Description : Supprimer un projet client par ID
+* Authentification requise : Oui
+* Permissions requises : N/A
+* @param {string} idProjet - L'identifiant du projet
+* @param {string} idShip - L'identifiant du navire associé au projet
+* @returns {Object} - Confirmation de la suppression du projet client
+*/
+  .delete(veryJWT, customerProjectController.deleteCustomer); 
+  
 module.exports = router;
+

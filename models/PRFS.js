@@ -1,24 +1,49 @@
-const { DataTypes } = require('sequelize');
-const Asked = require('./Asked');
+// prfs.js
+const { DataTypes } = require('sequelize');;
+const sequelize = require('../config/db');
+const Status = require('./Status');
+const Ship = require('./Ship');
 const PRFM = require('./PRFM');
 const Side = require('./Side');
-const Speciality = require('./Speciality');
-const Effect = require('./Effect');
+const Skill = require('./Skill');
 const EffectType = require('./EffectType');
+const Level = require('./Level');
+const User = require('./User');
 
-// Enfant de la table de demande , ce ticket sert pour les demande support.
-
-  // prfs_analyse                                TEXT        NOT NULL,
-  // prfs_root_cause                             TEXT        NOT NULL,
-  // asked_uuid_process_request_for_modification UUID        NULL,
-  // effect_type_id                              INTEGER     NOT NULL,
-  // effect_id                                   INTEGER     NOT NULL,
-  // side_id                                     INTEGER     NOT NULL,
-  // speciality_id                               INTEGER     NOT NULL,
-
-  
-
-const PRFS = Asked.define('ProcessRequestForSupport', {
+const PRFS = sequelize.define('ProcessRequestForSupport', {
+  asked_uuid: {
+    type: DataTypes.UUID,
+    primaryKey: true,
+    defaultValue: DataTypes.UUIDV4,
+  },
+  asked_ref: {
+    type: DataTypes.TEXT,
+    unique: true,
+  },
+  asked_description: {
+    type: DataTypes.TEXT,
+    allowNull: false,
+  },
+  asked_created_date: {
+    type: DataTypes.DATE,
+    defaultValue: DataTypes.NOW,
+  },
+  asked_updated_date: {
+    type: DataTypes.DATE,
+    allowNull: true,
+  },
+  status_id: {
+    type: DataTypes.INTEGER,
+    defaultValue: 1,
+  },
+  ship_uuid: {
+    type: DataTypes.UUID,
+    allowNull: false,
+  },
+  prfs_resume: {
+    type: DataTypes.TEXT,
+    allowNull: false,
+  },
   prfs_analyse: {
     type: DataTypes.TEXT,
     allowNull: false,
@@ -27,35 +52,71 @@ const PRFS = Asked.define('ProcessRequestForSupport', {
     type: DataTypes.TEXT,
     allowNull: false,
   },
-  asked_uuid_process_request_for_modification: {
+  prfs_action_taken: {
+    type: DataTypes.TEXT,
+    allowNull: false,
+  },
+  asked_prfm: {
     type: DataTypes.UUID,
     allowNull: true,
   },
   effect_type_id: {
     type: DataTypes.INTEGER,
-    allowNull: false,
-  },
-  effect_id: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
+    allowNull: true,
   },
   side_id: {
     type: DataTypes.INTEGER,
-    allowNull: false,
+    allowNull: true,
   },
-  speciality_id: {
+  skill_id: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+  },
+  level_id: {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
+  prfs_date_resolution : {
+    type: DataTypes.DATE,
+    allowNull: true,
+  },
+  validation_customer : {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
+  }, 
+  validation_technician : {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
+  }, 
+  validation_manager : {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
+  },
+  urgency : {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
+  },
+  user_uuid: {
+    type: DataTypes.UUID,
+    allowNull: false,
+  },
+  Incident_report : {
+    type: DataTypes.TEXT,
+    allowNull: true,
+  },
 }, {
-  tableName: 'process_request_for_support',
+  tableName: 'asked_process_request_for_support',
   timestamps: false,
+  schema: 'backend', 
 });
 
-PRFS.belongsTo(PRFM, {foreignKey: 'asked_uuid_process_request_for_modification'})
+PRFS.belongsTo(User, { foreignKey: 'user_uuid' });
+PRFS.belongsTo(Status, { foreignKey: 'status_id' });
+PRFS.belongsTo(Ship, { foreignKey: 'ship_uuid' });
+PRFS.belongsTo(PRFM, { foreignKey:'asked_prfm', targetKey: 'asked_uuid' });
 PRFS.belongsTo(EffectType, { foreignKey: 'effect_type_id' });
-PRFS.belongsTo(Effect, { foreignKey: 'effect_id' });
 PRFS.belongsTo(Side, { foreignKey: 'side_id' });
-PRFS.belongsTo(Speciality, { foreignKey: 'speciality_id' });
+PRFS.belongsTo(Skill, { foreignKey: 'skill_id' });
+PRFS.belongsTo(Level, { foreignKey: 'level_id' });
 
-module.exports = PRFS;
+module.exports = PRFS; 

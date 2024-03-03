@@ -1,37 +1,60 @@
 // userSkill.controller.js
+const { Sequelize } = require('sequelize');
+const sequelize = require('../config/db');
 const { UserSkill } = require('../models');
 
-// @desc Get all user skills
-// @route GET /api/usersk
-// @access Private
+/**
+ * Récupère toutes les compétences des utilisateurs.
+ * @param {Object} req - Requête HTTP.
+ * @param {Object} res - Réponse HTTP.
+ * @returns {Object} - Liste des compétences des utilisateurs trouvées.
+ */
 const getAllUserSkills = async (req, res) => {
     try {
-        const userSkills = await UserSkill.findAll();
-        if (!userSkills.length) {
-            return res.status(404).json({ message: 'No user skill found' });
-        }
-        res.json(userSkills);
+        
+        const query = `
+            SELECT 
+                u.user_uuid, 
+                u.user_email, 
+                us.skill_id,
+                u.user_name,
+                u.user_first_name,
+                u.role_id
+            FROM backend.user u
+            LEFT JOIN backend.user_skill us ON u.user_uuid = us.user_uuid
+            WHERE u.user_uuid IS NOT NULL
+            AND u.role_id IN (1, 2, 4);        
+        `;
+    
+
+        const results = await  sequelize.query(query, { 
+            type: Sequelize.QueryTypes.SELECT 
+        });
+        
+        res.status(200).json(results);
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Une erreur est survenue lors de la récupération des compétences des utilisateurs.' });
     }
 };
 
-// @desc Get user skill by id
-// @route GET /api/usersk/:idUser/:idSkill
-// @access Private
+/**
+ * Récupère une compétence utilisateur par identifiant utilisateur.
+ * @param {Object} req - Requête HTTP.
+ * @param {Object} res - Réponse HTTP.
+ * @returns {Object} - Compétence utilisateur trouvée.
+ */
 const getUserSkillById = async (req, res) => {
     try {
-        const { idSkill, idUser } = req.params;
+        const { user } = req.params;
 
         const userSkill = await UserSkill.findOne({
             where: {
-                user_uuid: idUser,
-                skill_id: idSkill,
+                user_uuid: user,
             },
         });
 
-        if (!userSkill) { // Use strict comparison to check for null
+        if (!userSkill) { 
             return res.status(404).json({ message: 'Compétence utilisateur non trouvée' });
         }
         res.json(userSkill);
@@ -41,14 +64,20 @@ const getUserSkillById = async (req, res) => {
     }
 };
 
-// @desc Create new user skill
-// @route POST /api/usersk
-// @access Private
+/**
+ * Crée une nouvelle compétence utilisateur.
+ * @param {Object} req - Requête HTTP contenant les données de la compétence utilisateur.
+ * @param {Object} res - Réponse HTTP.
+ * @returns {Object} - Compétence utilisateur créée.
+ */
 const createNewUserSkill = async (req, res) => {
     try {
         const { user_uuid, skill_id } = req.body;
 
-        const userSkill = await UserSkill.create({ user_uuid, skill_id });
+        const userSkill = await UserSkill.create({ 
+            user_uuid, 
+            skill_id 
+        });
 
         res.json(userSkill);
     } catch (error) {
@@ -57,19 +86,22 @@ const createNewUserSkill = async (req, res) => {
     }
 };
 
-// @desc Delete a user skill
-// @route DELETE /api/usersk/:idUser/:idSkill
-// @access Private
+/**
+ * Supprime une compétence utilisateur par identifiant utilisateur.
+ * @param {Object} req - Requête HTTP.
+ * @param {Object} res - Réponse HTTP.
+ * @returns {Object} - Message de confirmation de suppression de la compétence utilisateur.
+ */
 const deleteUserSkill = async (req, res) => {
     try {
-        const { idSkill, idUser } = req.params;
+        const { user } = req.params;
 
         await UserSkill.destroy({
             where: {
-                user_uuid: idUser,
-                skill_id: idSkill,
+                user_uuid: user,
             },
         });
+        
         res.json({
             message: 'Compétence utilisateur supprimée avec succès.',
         });

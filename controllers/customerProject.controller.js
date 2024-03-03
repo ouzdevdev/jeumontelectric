@@ -8,9 +8,11 @@ const { CustomerProject } = require('../models');
 const getAllCustomers = async (req, res) => {
     try {
         const customers = await CustomerProject.findAll();
+
         if (!customers.length) {
             return res.status(404).json({ message: 'No customers-projects found' });
         }
+        
         res.json(customers);
     } catch (error) {
         console.error(error);
@@ -34,9 +36,9 @@ const getCustomerById = async (req, res) => {
 
         if (!customer) {
             return res.status(404).json({ message: 'Customer-Project not found' });
-        } else {
-            res.json(customer);
-        }
+        } 
+
+        res.json(customer);
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'An error occurred while fetching the customer-project' });
@@ -50,7 +52,7 @@ const createNewCustomer = async (req, res) => {
     try {
         const { project_uuid, ship_uuid } = req.body;
 
-        const customer = await Customer.CustomerProject({ project_uuid, ship_uuid });
+        const customer = await CustomerProject.create({ project_uuid, ship_uuid });
 
         res.status(201).json(customer);
     } catch (error) {
@@ -66,11 +68,11 @@ const deleteCustomer = async (req, res) => {
     try {
         const { idShip, idProjet } = req.params;
 
-        const deletedCount = await Customer.CustomerProject({
-        where: {
-            project_uuid: idProjet, 
-            ship_uuid: idShip
-        }
+        const deletedCount = await CustomerProject.destroy({
+            where: {
+                project_uuid: idProjet, 
+                ship_uuid: idShip
+            }
         });
 
         if (!deletedCount) {

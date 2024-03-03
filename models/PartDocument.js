@@ -1,11 +1,10 @@
+// partDocument.js
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db');
 const Document = require('./Document');
 const Categorie = require('./Categorie');
 const User = require('./User');
 const Piece = require('./Piece');
-
-// Enfant de la table document , Correspond au document en référence à une pièce spécifique.
 
 const PartDocument = sequelize.define('PartDocument', {
   doc_uuid: {
@@ -80,6 +79,7 @@ const PartDocument = sequelize.define('PartDocument', {
 }, {
   tableName: 'part_document',
   timestamps: false,
+  schema: 'backend', 
 });
 
 PartDocument.belongsTo(Document, { foreignKey: 'doc_uuid' });

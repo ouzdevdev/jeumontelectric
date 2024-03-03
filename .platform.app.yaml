@@ -1,0 +1,21 @@
+# The app's name, which must be unique within the project.
+name: 'app'
+
+# The language and version for your app.
+type: 'nodejs:18'
+
+# The size of the app's persistent disk (in MB).
+disk: 2048
+
+# The app's configuration when it's exposed to the web.
+web:
+    locations:
+        '/':
+            # The public directory relative to the app root.
+            root: './'
+            # Forward resources to the app.
+            passthru: true
+            # What files to use when serving a directory.
+            index: ["index.js"]
+            # Allow files even without specified rules.
+            allow: true

@@ -1,0 +1,77 @@
+/* Styles pour le corps de la page */
+body {
+    background-color: #E30039;
+    margin: 0;
+    padding: 0;
+}
+
+/* Styles pour le conteneur de l'e-mail */
+.email-container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    background-color: #F7F7F7;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+/* Styles pour l'en-tête */
+.email-header {
+    background-color: #E30039;
+    color: white;
+    text-align: center;
+    padding: 20px;
+}
+
+.email-header h1 {
+    font-size: 28px;
+    margin: 0;
+}
+
+/* Styles pour le contenu principal */
+.email-content {
+    background-color: #F7F7F7;
+    padding: 20px;
+    margin: 20px 0;
+}
+
+.email-content h2 {
+    color: #E30039;
+    font-size: 24px;
+    margin-top: 0;
+}
+
+.email-content p {
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+.email-content ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.email-content ul li {
+    margin-bottom: 10px;
+}
+
+.email-content ul li strong {
+    font-weight: bold;
+}
+
+/* Style pour le paragraphe de remerciement */
+.thank-you {
+    color: #E30039;
+    font-size: 18px;
+}
+
+/* Styles pour le pied de page */
+.email-footer {
+    background-color: #E30039;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    font-size: 14px;
+}

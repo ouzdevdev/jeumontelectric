@@ -7,10 +7,12 @@
 
 /**
  * @swagger
- * /tags:
+ * /api/v1/tags:
  *   get:
  *     summary: Récupérer tous les tags
  *     tags: [Tags]
+ *     security:
+ *       - BearerAuth: []
  *     responses:
  *       200:
  *         description: Succès - Renvoie tous les tags
@@ -20,7 +22,7 @@
 
 /**
  * @swagger
- * /tags:
+ * /api/v1/tags:
  *   post:
  *     summary: Créer un nouveau tag
  *     tags: [Tags]
@@ -31,9 +33,12 @@
  *           schema:
  *             type: object
  *             properties:
- *               // Définissez ici les propriétés attendues dans la requête POST pour créer un nouveau tag
+ *               tag_label:
+ *                 type: string
  *             example:
- *               // Exemple de corps de requête JSON pour créer un nouveau tag
+ *               tag_label: "Tag label"
+ *     security:
+ *       - BearerAuth: []
  *     responses:
  *       201:
  *         description: Succès - Le tag a été créé avec succès
@@ -45,7 +50,7 @@
 
 /**
  * @swagger
- * /tags/:id:
+ * /api/v1/tags/{id}:
  *   get:
  *     summary: Récupérer un tag par ID
  *     tags: [Tags]
@@ -56,7 +61,9 @@
  *         description: ID du tag à récupérer
  *         schema:
  *           type: integer
- *         example: 123
+ *         example: 1
+ *     security:
+ *       - BearerAuth: []
  *     responses:
  *       200:
  *         description: Succès - Renvoie le tag spécifié par ID
@@ -68,7 +75,7 @@
 
 /**
  * @swagger
- * /tags/:id:
+ * /api/v1/tags/{id}:
  *   put:
  *     summary: Mettre à jour un tag par ID
  *     tags: [Tags]
@@ -79,7 +86,7 @@
  *         description: ID du tag à mettre à jour
  *         schema:
  *           type: integer
- *         example: 123
+ *         example: 1
  *     requestBody:
  *       required: true
  *       content:
@@ -87,9 +94,12 @@
  *           schema:
  *             type: object
  *             properties:
- *               // Définissez ici les propriétés attendues dans la requête PUT pour mettre à jour un tag
+ *               tag_label:
+ *                 type: string
  *             example:
- *               // Exemple de corps de requête JSON pour mettre à jour un tag
+ *               tag_label: "TAG"
+ *     security:
+ *       - BearerAuth: []
  *     responses:
  *       200:
  *         description: Succès - Le tag a été mis à jour avec succès
@@ -101,7 +111,7 @@
 
 /**
  * @swagger
- * /tags/:id:
+ * /api/v1/tags/{id}:
  *   delete:
  *     summary: Supprimer un tag par ID
  *     tags: [Tags]
@@ -112,7 +122,9 @@
  *         description: ID du tag à supprimer
  *         schema:
  *           type: integer
- *         example: 123
+ *         example: 1
+ *     security:
+ *       - BearerAuth: []
  *     responses:
  *       200:
  *         description: Succès - Le tag a été supprimé avec succès
@@ -122,22 +134,67 @@
  *         description: Erreur serveur - Impossible de supprimer le tag
  */
 
-// tag.route.js
 const express = require('express');
 const router = express.Router();
 const { tagController } = require('../controllers');
 
 const veryJWT = require('../middlewares/verifyJWT');
 
-// Handles GET and POST requests for '/tags' route
+/**
+* Route : /api/v1/tag
+* Méthode : GET
+* Description : Récupérer tous les tags
+* Authentification requise : Oui
+* Permissions requises : N/A
+* @returns {Object} - Liste de tous les tags
+*/
 router.route('/')
-  .get(veryJWT ,tagController.getAllTags)    // Get all tags
-  .post(veryJWT ,tagController.createNewTag); // Create a new tag
+  .get(veryJWT ,tagController.getAllTags)     
 
-// Handles GET and DELETE requests for '/tags/:id' route
+/**
+* Route : /api/v1/tag
+* Méthode : POST
+* Description : Créer un nouveau tag
+* Authentification requise : Oui
+* Permissions requises : N/A
+* @body {Object} tagData - Les données du tag à créer
+* @returns {Object} - Le tag créé
+*/
+  .post(veryJWT ,tagController.createNewTag); 
+  
+/**
+* Route : /api/v1/tag/:id
+* Méthode : GET
+* Description : Récupérer un tag par ID
+* Authentification requise : Oui
+* Permissions requises : N/A
+* @param {string} id - L'identifiant du tag à récupérer
+* @returns {Object} - Le tag correspondant à l'ID spécifié
+*/
 router.route('/:id')
-  .get(veryJWT ,tagController.getTagById)    // Get a specific tag by ID
-  .put(veryJWT ,tagController.updateTag)     // Update tag by ID
-  .delete(veryJWT ,tagController.deleteTag); // Delete a tag by ID
+  .get(veryJWT ,tagController.getTagById)    
 
+/**
+* Route : /api/v1/tag/:id
+* Méthode : PUT
+* Description : Mettre à jour un tag par ID
+* Authentification requise : Oui
+* Permissions requises : N/A
+* @param {string} id - L'identifiant du tag à mettre à jour
+* @body {Object} tagData - Les nouvelles données du tag
+* @returns {Object} - Le tag mis à jour
+*/
+  .put(veryJWT ,tagController.updateTag)     
+
+/**
+* Route : /api/v1/tag/:id
+* Méthode : DELETE
+* Description : Supprimer un tag par ID
+* Authentification requise : Oui
+* Permissions requises : N/A
+* @param {string} id - L'identifiant du tag à supprimer
+* @returns {Object} - Confirmation de la suppression du tag
+*/
+  .delete(veryJWT ,tagController.deleteTag); 
+  
 module.exports = router;

@@ -1,16 +1,24 @@
 // effectType.controller.js
-
 const { EffectType } = require('../models');
 
-// Récupérer tous les types d'effets
-// GET /api/effectTypes
-// Accès : Privé
+/**
+ * Récupérer tous les types d'effets.
+ * @route GET /api/effectTypes
+ * @access Privé
+ * @returns {Object} - Les types d'effets récupérés.
+ * @throws {Error} - Une erreur si la récupération des types d'effets échoue.
+ * @example
+ * // Exemple d'appel de la fonction
+ * getAllEffects(req, res);
+ */
 const getAllEffects = async (req, res) => {
     try {
         const effectTypes = await EffectType.findAll();
+
         if (!effectTypes.length) {
             return res.status(404).json({ message: 'No effect types found' });
         }
+        
         res.json(effectTypes);
     } catch (error) {
         console.error(error);
@@ -18,9 +26,17 @@ const getAllEffects = async (req, res) => {
     }
 }
 
-// Récupérer un type d'effet par son ID
-// GET /api/effectTypes/:id
-// Accès : Privé
+/**
+ * Récupérer un type d'effet par son ID.
+ * @route GET /api/effectTypes/:id
+ * @access Privé
+ * @param {string} id - L'ID du type d'effet à récupérer.
+ * @returns {Object} - Le type d'effet récupéré.
+ * @throws {Error} - Une erreur si la récupération du type d'effet échoue.
+ * @example
+ * // Exemple d'appel de la fonction
+ * getEffectById(req, res);
+ */
 const getEffectById = async (req, res) => {
     try {
         const { id } = req.params;
@@ -35,15 +51,23 @@ const getEffectById = async (req, res) => {
     }
 }
 
-// Créer un nouveau type d'effet
-// POST /api/effectTypes
-// Accès : Privé
+/**
+ * Créer un nouveau type d'effet.
+ * @route POST /api/effectTypes
+ * @access Privé
+ * @param {string} effect_type_label - Libellé du type d'effet.
+ * @param {string} effect_type_description - Description du type d'effet.
+ * @returns {Object} - Le type d'effet créé.
+ * @throws {Error} - Une erreur si la création du type d'effet échoue.
+ * @example
+ * // Exemple d'appel de la fonction
+ * createNewEffect(req, res);
+ */
 const createNewEffect = async (req, res) => {
     try {   
-        const { effect_type_id, effect_type_label, effect_type_description } = req.body;
+        const { effect_type_label, effect_type_description } = req.body;
 
         const effectType = await EffectType.create({
-            effect_type_id, 
             effect_type_label, 
             effect_type_description
         });
@@ -55,9 +79,17 @@ const createNewEffect = async (req, res) => {
     }
 }
 
-// Supprimer un type d'effet par son ID
-// DELETE /api/effectTypes/:id
-// Accès : Privé
+/**
+ * Supprimer un type d'effet par son ID.
+ * @route DELETE /api/effectTypes/:id
+ * @access Privé
+ * @param {string} id - L'ID du type d'effet à supprimer.
+ * @returns {Object} - Message indiquant que le type d'effet a été supprimé avec succès.
+ * @throws {Error} - Une erreur si la suppression du type d'effet échoue.
+ * @example
+ * // Exemple d'appel de la fonction
+ * deleteEffect(req, res);
+ */
 const deleteEffect = async (req, res) => {
     try {
         const { id } = req.params;

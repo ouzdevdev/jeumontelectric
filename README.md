@@ -19,7 +19,7 @@ Cet outil doit permettre de gérer la charge du support, d'améliorer la relatio
 ### Git code
 
 ```bash
-git clone https://github.com/Chdpro/Jeumont-.git
+git clone git-link
 ```
 
 ### Installation des packages
@@ -31,10 +31,10 @@ npm i
 ## Configuration
 
 Ajoutez le fichier .env avec les variables suivantes :
-- DATABASE_USERNAME= postgres    
-- DATABASE_PASSWORD=postgres OR moc_support_03072023
-- DATABASE_NAME= jeumont
-- DATABASE_HOST= db.jeumont.chd-pro.fr OR  
+- DATABASE_USERNAME=utilisateur    
+- DATABASE_PASSWORD=motdepasse
+- DATABASE_NAME=nomdelabase
+- DATABASE_HOST=hôte
 - DATABASE_PORT=5432
 - DATABASE_DIALECT=postgres
 
@@ -49,9 +49,9 @@ Pour utiliser la base de données chez Jeumont OVH, suivez ces étapes :
 
 1 - Connectez-vous à distance à l'adresse IP avec SSH :
 ```bash
-ssh ubuntu@149.202.89.203
+ssh mail@ip
 ```
-2 - Entrez le mot de passe : U2IGd787DadkXmsD
+2 - Entrez le mot de passe
 3 - Démarrez le service PostgreSQL 
 ```bash
 sudo service postgresql start
