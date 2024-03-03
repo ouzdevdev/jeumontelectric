@@ -60,9 +60,25 @@ export class StatistiqueClientComponent implements OnInit {
     { label: 'All', value: -1 }
   ];
   selectedDuration: number = -1;
+  ships: any[] = [];
+  customers: any[] = [];
+  skills: any[] = [];
+  effects: any[] = [];
+  sides: any[] = [];
+  tags: any[] = [];
+  effectTypes: any[] = [];
+  levels: any[] = [];
+  users: any[] = [];
 
   client: string = '';
   ship: string = '';
+  user: string = '';
+  skill: number = 0;
+  effect: number = 0;
+  side: number = 0;
+  tag: number = 0;
+  effectType: number = 0;
+  level: number = 0;
 
   constructor(
     private ticketsService: TicketsService,
@@ -76,7 +92,18 @@ export class StatistiqueClientComponent implements OnInit {
     this.sharedTitleService.changeTitle('statisticsTickets');
     this.getGlobalStatistics();
     this.updateChartData();
+    this.fetchShips();
+  }
 
+  private fetchShips(): void {
+    this.infosService.getShipsByCustomer(this.client).subscribe(
+      data => {
+        this.ships = data;
+      },
+      error => {
+        console.error('Erreur:', error);
+      }
+    );
   }
 
   getGlobalStatistics() {
@@ -146,6 +173,17 @@ export class StatistiqueClientComponent implements OnInit {
     );
   }
 
+  calculateTime() {
+    const totalSeconds = this.statistics.totalResponseTime;
+    const days = Math.floor(totalSeconds / (24 * 60 * 60));
+    let remainingSeconds = totalSeconds % (24 * 60 * 60);
+    const hours = Math.floor(remainingSeconds / (60 * 60));
+    remainingSeconds = remainingSeconds % (60 * 60);
+    const minutes = Math.floor(remainingSeconds / 60);
+    const seconds = Math.floor(remainingSeconds % 60);
+
+    return `${days} J ${hours} h ${minutes} m ${seconds} s`;
+  }
 
   updateChartData() {
     if (this.selectedMode === 'number') {

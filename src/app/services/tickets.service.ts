@@ -133,10 +133,10 @@ export class TicketsService {
   }
 
   getAskedDataChart(
-    selectedDuration: number, 
-    client: string, 
+    selectedDuration: number,
+    client: string,
     user: string,
-    ship: string,    
+    ship: string,
     skill: number,
     effect: number,
     side: number,
@@ -158,6 +158,17 @@ export class TicketsService {
 
     return this.http.get(`${this.apiUrl}/asked/chart`, { headers: this.getHeaders(), params });
   }
+
+  getTicketStatisticsByEffect(effect: number, customer: string, ship: string, user: string): Observable<any> {
+    let params = new HttpParams()
+      .set('effect', effect)
+      .set('customer', customer)
+      .set('ship', ship)
+      .set('user', user);
+
+    return this.http.get<any>(`${this.apiUrl}/asked/statistics/Effect`, { headers: this.getHeaders(), params });
+  }
+
 
   getAskedDataChartClient(selectedDuration: number, client: string, ship: string): Observable<any> {
     let params = new HttpParams()
