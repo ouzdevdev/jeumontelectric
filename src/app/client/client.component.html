@@ -6,6 +6,7 @@
                 <select class="ml-2 dashboard-menu-item-select" [(ngModel)]="sortOption" (ngModelChange)="sort($event)">
                     <option value="">Default</option>
                     <option value="status">Status</option>
+                    <option value="client_name">Client</option>
                     <option value="asked_created_date">Creation date</option>
                     <option value="asked_updated_date">Last update</option>
                 </select>
@@ -19,6 +20,24 @@
                     <label class="mr-2 page-title">Desc</label>
                     <input type="radio" name="sortOption" [(ngModel)]="selectedOptionSort" (ngModelChange)="onSortOptionChange()" value="desc" />
                 </div>
+            </div>
+        </div>
+        <div class="dashboard-menu-item-2">
+            
+        </div>
+        <div class="dashboard-menu-item-3">
+            <div class="dashboard-menu-item-1 relative">
+                <input
+                    class="dashboard-menu-item-search"
+                    placeholder="Research"
+                    [(ngModel)]="searchDescription"
+                />
+                <img
+                    alt="loupe"
+                    src="assets/icons/loupe.png"
+                    class="-ml-8 header-buttons-item-logo cursor-pointer"
+                    (click)="search()"
+                />
             </div>
         </div>
     </aside>

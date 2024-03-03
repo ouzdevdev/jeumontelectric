@@ -204,31 +204,6 @@ export class StatistiqueComponent implements OnInit {
     return `${days} J ${hours} h ${minutes} m ${seconds} s`;
   }
 
-
-fetchTicketStatisticsByEffect(): void {
-
-console.log('Client:', this.client);
-console.log('Ship:', this.ship);
-console.log('User:', this.user);
-console.log('effect:', this.effect);
-
-
-    this.ticketsService.getTicketStatisticsByEffect(this.effect, this.client, this.ship, this.user)
-    .subscribe(
-
-      (data) => {
-        // Handle the response data here
-        this.statistics.effect=data.statistics;
-        console.log(data);
-      },
-      (error) => {
-        console.error('Error fetching ticket statistics by effect:', error);
-      }
-    );
-this.updateChartData();
-
-}
-
   getGlobalStatisticsChart() {
     this.ticketsService.getAskedDataChart(
       this.selectedDuration,
@@ -299,12 +274,9 @@ this.updateChartData();
 
   updateChartData() {
     this.fetchShips();
-
     if (this.selectedMode === 'number') {
-
       this.getGlobalStatisticsChart()
     } else if (this.selectedMode === 'percent') {
-
       this.getGlobalStatisticsChart()
     }
   }

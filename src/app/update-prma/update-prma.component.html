@@ -233,8 +233,8 @@
                             [ngClass]="updateDescription ? 'bg-custom p-2 rounded-md w-8 h-8 ml-2':'bg-[#F5F5F5] p-2 rounded-md w-8 h-8 ml-2'"
                         >
                     </button>
-                    <p *ngIf="!updateDescription"  class="bg-[#F5F5F5] p-1 h-[60px] overflow-y-scroll custom-scrollbar my-2">{{asked.asked_description}}</p>
-                    <input *ngIf="updateDescription"  [(ngModel)]="asked.asked_description" class="bg-[#F5F5F5] p-1 h-[60px] overflow-y-scroll custom-scrollbar my-2" />
+                    <p *ngIf="!updateDescription"  class="bg-[#F5F5F5] w-[100%] p-1 h-[60px] overflow-y-scroll custom-scrollbar my-2">{{asked.asked_description}}</p>
+                    <input *ngIf="updateDescription"  [(ngModel)]="asked.asked_description" class=" w-[100%] bg-[#F5F5F5] p-1 h-[60px] overflow-y-scroll custom-scrollbar my-2" />
                 </div>
                 <div class="grid grid-cols-2 gap-2">
                     <div>

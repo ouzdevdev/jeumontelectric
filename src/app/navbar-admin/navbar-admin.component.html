@@ -48,7 +48,7 @@
                 <div class="nav-planning-item-right">
                     <div *ngFor="let oncall of onCallsLastWeek">
                         <ng-container *ngIf="oncall.emergency_backup">
-                            <div class="relative" (mouseleave)="isHovered = false && isLast = false && isEmergency = false  && mail= ''" (mouseenter)="isHovered = true && isLast = true && isEmergency = true && mail= oncall.user_email">
+                            <div class="relative mx-1" (mouseleave)="isHovered = false && isLast = false && isEmergency = false  && mail= ''" (mouseenter)="isHovered = true && isLast = true && isEmergency = true && mail= oncall.user_email">
                                 <div class="icon-user"
                                     [ngClass]="{
                                         'bg-[#E3D617]': oncall.skill_id === 1,
@@ -108,7 +108,7 @@
                 <div class="nav-planning-item-right">
                     <div *ngFor="let oncall of onCallsThisWeek">
                         <ng-container *ngIf="oncall.emergency_backup">
-                            <div class="relative" 
+                            <div class="relative mx-1" 
                                 (mouseleave)="isHovered = false && isCurrent = false && isEmergency = false && mail= ''" 
                                 (mouseenter)="isHovered = true && isCurrent = true && isEmergency = true && mail= oncall.user_email"
                             >
@@ -171,7 +171,7 @@
                 <div class="nav-planning-item-right">
                     <div *ngFor="let oncall of onCallsNextWeek">
                         <ng-container *ngIf="oncall.emergency_backup">
-                            <div class="relative" 
+                            <div class="relative mx-1" 
                                 (mouseleave)="isHovered = false && isNext = false && isEmergency = false && mail= ''" 
                                 (mouseenter)="isHovered = true && isNext = true && isEmergency = true && mail= oncall.user_email"
                             >
@@ -183,7 +183,7 @@
                                         'bg-[#D3D3D3]': oncall.skill_id !== 1 && oncall.skill_id !== 2 && oncall.skill_id !== 3
                                     }"
                                 >
-                                <h1><span>{{ oncall.user_first_name.charAt(0) }}{{ oncall.user_name.charAt(0) }}{{ oncall.user_name.charAt(oncall.user_name.length - 1) }}</span></h1>
+                                    <h1><span>{{ oncall.user_first_name.charAt(0) }}{{ oncall.user_name.charAt(0) }}{{ oncall.user_name.charAt(oncall.user_name.length - 1) }}</span></h1>
                                 </div>
                                 <div class="z-50 absolute bottom-0 right-6 w-max p-1 bg-white text-black text-[9px] rounded-md border border-solid border-black" 
                                     *ngIf="isHovered && mail === oncall.user_email && isNext && isEmergency">

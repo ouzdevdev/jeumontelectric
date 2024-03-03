@@ -86,7 +86,7 @@ export class CalendrierComponent implements OnInit {
       }
     );
   }
-
+  
   getAddEvent(year: number, weekNumber: number, text: string,  user_id: string) {
     const startDate = this.getStartDateOfWeek(year, weekNumber);
     const endDate = this.getEndDateOfWeek(year, weekNumber);

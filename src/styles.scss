@@ -682,7 +682,6 @@ input, select, textarea {
 }
 
 .documents-table {
-    height: 100%;
     width: 100%;
     background: #fff;
 }
@@ -690,7 +689,7 @@ input, select, textarea {
 .documents-table-t {
     background: #fff;
     width: 100%;
-    height: 30rem;
+    height: auto;
     overflow-y: scroll;
 }
 
@@ -699,6 +698,7 @@ input, select, textarea {
 }
 
 .documents-tbody-tr {
+    height: 3rem;
     padding: 1rem .5rem;
 }
 

@@ -28,9 +28,11 @@ export class MessageService {
     return this.http.get(`${this.apiUrl}/messages/conversation/${ConversationUuid}`, { headers: this.getHeaders() });
   }
 
-  findMessagesByClient(user_uuid: string, ship_uuid: string): Observable<any> {
+  findMessagesByClient(user_uuid: string, ship_uuid: string, page: number, pageSize: number): Observable<any> {
     let params = new HttpParams()
-      .set('ship_uuid', ship_uuid)
+      .set('page', page || 1)
+      .set('pageSize', pageSize || 10)
+      .set('ship_uuid', ship_uuid);
 
     return this.http.get(`${this.apiUrl}/messages/client/${user_uuid}`, { headers: this.getHeaders(), params });
   }

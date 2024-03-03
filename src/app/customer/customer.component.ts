@@ -25,8 +25,11 @@ export class CustomerComponent implements OnInit {
   user_uuid: string = '';
   ship_uuid: string = '';
   currentPage: number = 1;
+  currentPageMessage: number = 1;
   count: number = 0;
+  countMessage: number = 0;
   pageSize: number = 10;
+  pageSizeMessage: number = 10;
 
   constructor(
     private route: ActivatedRoute,
@@ -47,11 +50,15 @@ export class CustomerComponent implements OnInit {
       }
     });
     this.fetchDocuments(this.currentPage, this.pageSize);
-    this.fetchMessagesClient();
+    this.fetchMessagesClient(this.currentPageMessage, this.pageSizeMessage);
   }
 
   setText(text: string) {
     this.text = text;
+  }
+
+  get totalPagesMessage() {
+    return Math.ceil(this.countMessage / this.pageSizeMessage);
   }
 
   get totalPages() {
@@ -122,12 +129,33 @@ export class CustomerComponent implements OnInit {
     this.fetchDocuments(this.currentPage, this.pageSize);
   }
 
+  changePageMessage(offset: number): void {
+    this.isLoading = true;
+    this.currentPageMessage += offset;
+    if (this.currentPageMessage < 1) {
+      this.currentPageMessage = 1;
+    } else if (this.currentPageMessage > this.totalPagesMessage) {
+      this.currentPageMessage = this.totalPagesMessage;
+    }
+
+    this.fetchDocuments(this.currentPageMessage, this.pageSizeMessage);
+  }
+
   goToPage(pageNumber: any): void {
     const parsedPageNumber = parseInt(pageNumber, 10);
     if (!isNaN(parsedPageNumber)) {
       this.currentPage = Math.max(1, Math.min(parsedPageNumber, this.totalPages));
           
-      this.fetchDocuments(this.currentPage, this.pageSize);
+      this.fetchMessagesClient(this.currentPage, this.pageSize);
+    }
+  }
+
+  goToPageMessage(pageNumber: any): void {
+    const parsedPageNumber = parseInt(pageNumber, 10);
+    if (!isNaN(parsedPageNumber)) {
+      this.currentPageMessage = Math.max(1, Math.min(parsedPageNumber, this.totalPagesMessage));
+          
+      this.fetchMessagesClient(this.currentPageMessage, this.pageSizeMessage);
     }
   }
 
@@ -176,10 +204,15 @@ export class CustomerComponent implements OnInit {
     return pageNumbers;
   }
 
-  fetchMessagesClient(): void {
-    this.messageService.findMessagesByClient(this.user_uuid, this.ship_uuid).subscribe(
+  fetchMessagesClient(
+    page: number,
+    pageSize: number
+  ): void {
+    this.messageService.findMessagesByClient(this.user_uuid, this.ship_uuid, page, pageSize).subscribe(
       data => {
-        this.messages = data; 
+        console.log(data);
+        this.countMessage = data.count;
+        this.messages = data.messages; 
       },
       error => {
         console.error('Error:', error);
@@ -217,7 +250,7 @@ export class CustomerComponent implements OnInit {
     this.ship_uuid = ship.ship_uuid; 
     this.shipName = ship.ship_name;
     this.shipDescription = ship.ship_description;
-    this.fetchMessagesClient();
+    this.fetchMessagesClient(this.currentPageMessage, this.pageSizeMessage);
     this.fetchDocuments(this.currentPage, this.pageSize);
   }
 }

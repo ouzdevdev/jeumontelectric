@@ -80,7 +80,7 @@ export class ListTicketClientComponent implements OnInit {
   fetchTickets() {
     this.ticketsService.getAskedDataClient(this.page, this.searchDescription ,this.sortOption, this.typeFilter, this.statusFilter, this.client, this.selectedOptionSort, this.itemSize).subscribe(
       (data) => {
-        this.tickets = data;
+        this.tickets = data.askedsList;
         this.isLoading = false;
       },
       (error) => {

@@ -4,7 +4,6 @@
         *ngIf="!isExpanded"
         [ngStyle]="{ 'background-color': 'rgb(' + getColorRGB(data.Status.status_id) + ', 0.5)' }"
     >
-    <!-- aa -->
         <div class="ticket-left">
             <div class="ticket-flex-center">
                 <div class="ticket-col-between1  overflow-x-auto overflow-y-auto custom-scrollbar">
@@ -42,12 +41,6 @@
                 </div>
 
             </div>
-                 <!-- <div class="mx-1">
-                      <p class="ticket-description overflow-x-hidden overflow-y-auto custom-scrollbar">
-                          {{ data.asked_description }}
-                      </p>
-
-                </div> -->
         </div>
         <div class="ticket-right">
             <div class="ticket-flex-center">
@@ -61,10 +54,10 @@
                     <h2 class="ticket-title-element-gras">Level : <span class="ticket-title-element">{{ data?.Level?.level_label }}</span></h2>
                     <h2 class="ticket-title-element-gras">Side : <span class="ticket-title-element">{{ data?.Side?.side_label }}</span></h2>
                 </div>
-                  <div class="flex justify-center items-center">
+                <div class="flex justify-center items-center">
                     <div *ngFor="let oncall of onCallsWeek" class="flex flex-col justify-center items-center" [ngClass]="{'flex': true}">
                         <div class="relative" (mouseleave)="isHovered = false && userMail = ''" (mouseenter)="isHovered = true && userMail = oncall.user_email">
-                            <div class="mx-6 w-6 h-6 text-[10px] rounded-full border border-solid border-black m-[1px] flex justify-center items-center"
+                            <div class="mx-2 w-6 h-6 text-[10px] rounded-full border border-solid border-black m-[1px] flex justify-center items-center"
                                 [ngClass]="{
                                     'bg-[#E3D617]': oncall.skill_id === 1,
                                     'bg-[#17AFE3]': oncall.skill_id === 2,
@@ -83,8 +76,18 @@
                             </div>
                         </div>
                     </div>
-                    <div *ngIf="onCallsWeek && onCallsWeek.length === 0">
-                        <p class="font-semibold text-custom">No supports</p>
+                    <div class="relative" (mouseleave)="isHovered = false && userMail = ''" (mouseenter)="isHovered = true && userMail = data.User.user_email">
+                        <div class="bg-[#D3D3D3] ml-2 w-6 h-6 text-[10px] rounded-full border border-solid border-black m-[1px] flex justify-center items-center">
+                            <h1><span>{{ data?.User?.user_first_name?.charAt(0) }}{{ data?.User?.user_name?.charAt(0) }}{{  data?.User?.user_name?.charAt( data?.User?.user_name?.length - 1) }}</span></h1>
+                        </div>
+                        <div class="z-50 absolute -top-2 right-16 w-max p-1 bg-white text-black text-[9px] rounded-md border border-solid border-black"
+                            *ngIf="isHovered && userMail == data.User.user_email">
+                            <div *ngIf="!isCustomerEnabled()">Mail: {{ data.User.user_email }} </div>
+                            <div class="text-[8px]">
+                                <div>Name: {{ data.User.user_first_name }} {{ data.User.user_name }}</div>
+                                <div>Phone: {{ data.User.user_phone }}</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="">
@@ -163,12 +166,20 @@
                                         <div>Phone: {{ oncall.user_phone }}</div>
                                     </div>
                                 </div>
-                                <h1 class="font-semibold">{{ oncall.user_name }}</h1>
                             </div>
-
                         </div>
-                        <div *ngIf="onCallsWeek && onCallsWeek.length === 0">
-                          <p class="font-semibold text-custom">No supports</p>
+                        <div class="relative" (mouseleave)="isHovered = false && userMail = ''" (mouseenter)="isHovered = true && userMail = data.User.user_email">
+                            <div class="bg-[#D3D3D3] mx-2 w-6 h-6 text-[10px] rounded-full border border-solid border-black m-[1px] flex justify-center items-center">
+                                <h1><span>{{ data?.User?.user_first_name?.charAt(0) }}{{ data?.User?.user_name?.charAt(0) }}{{  data?.User?.user_name?.charAt( data?.User?.user_name?.length - 1) }}</span></h1>
+                            </div>
+                            <div class="z-50 absolute -top-2 right-16 w-max p-1 bg-white text-black text-[9px] rounded-md border border-solid border-black"
+                                *ngIf="isHovered && userMail == data.User.user_email">
+                                <div *ngIf="!isCustomerEnabled()">Mail: {{ data.User.user_email }} </div>
+                                <div class="text-[8px]">
+                                    <div>Name: {{ data.User.user_first_name }} {{ data.User.user_name }}</div>
+                                    <div>Phone: {{ data.User.user_phone }}</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -36,7 +36,6 @@ export class ScheduleTestComponent implements OnInit {
 
   constructor(
     private infosService: InfosService, 
-    private usersService: UsersService, 
     private onCallService: OnCallService,
   ) {}
 
@@ -82,6 +81,8 @@ export class ScheduleTestComponent implements OnInit {
     this.isUpdateEventVisible = !this.isUpdateEventVisible;
   }
 
+  
+
   onAddToPlanning() {
 
     if ( this.primary_backup && this.emergency_backup ) {
@@ -102,22 +103,45 @@ export class ScheduleTestComponent implements OnInit {
       response => {
         console.log('Successfully:', response);
         
+        this.getAddEventSche(response);
+
         this.idWeek = 0;
         this.idYear = 0;
         this.userId = '';
         this.primary_backup = false;
         this.emergency_backup = false;
 
-        this.getFetchData();
-        this.updateData();
         this.toggleAddEvent();
-        this.scheduleObj?.refresh()
       },
       error => {
         console.error('Erreur:', error);
       }
     )
   }
+
+  
+
+  getAddEventSche(response: any) {
+    const startDate = this.getStartDateOfWeek(response.year_id, response.week_id);
+    const endDate = this.getEndDateOfWeek(response.year_id, response.week_id);
+
+    console.log(startDate);
+    console.log(endDate);
+
+    const newEvent = {
+      EmployeeId: response.user_uuid,
+      Subject: response.primary_backup ? `${response.reason} : Primary`: `${response.reason} : Emergency`,
+      StartTime: new Date(startDate), 
+      EndTime: new Date(endDate),
+    };
+
+    console.log(newEvent);
+
+    this.eventSettings.dataSource.push(newEvent);
+    
+    this.scheduleObj?.refresh();
+  }
+
 
   getFetchData () {
     this.onCallService.findOnCalls().subscribe(
