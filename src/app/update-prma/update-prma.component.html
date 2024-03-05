@@ -18,14 +18,14 @@
                         (click) = "toggleStatus()"
                         *ngIf="!isCustomerEnabled()"
                     >
-                        <img                                        
+                        <img
                             src="assets/icons/update.png"
                             [ngClass]="updateStatus ? 'bg-custom p-2 rounded-md w-8 h-8 ml-2':'bg-[#F5F5F5] p-2 rounded-md w-8 h-8 ml-2'"
                         >
                     </button>
                 </div>
                 <div *ngIf="updateStatus" class="my-1">
-                    <select 
+                    <select
                         [(ngModel)]="asked.status_id"
                         class="bg-[#F5F5F5] mb-2 px-3 py-1 rounded-[10px] w-full">
                         <option value="0">None</option>
@@ -50,7 +50,7 @@
                                 <label class="custom-checkbox">
                                     <input type="checkbox" [(ngModel)]="asked.offer_received" class="sr-only peer">
                                     <div class="checkbox-background"></div>
-                                </label>                            
+                                </label>
                             </td>
                         </tr>
                         <tr *ngIf="!isCustomerEnabled()">
@@ -60,7 +60,7 @@
                                 <label class="custom-checkbox">
                                     <input type="checkbox"  [disabled]="!isPreviousElementTrue('quote_sent_to_supplier')" [(ngModel)]="asked.quote_sent_to_supplier" class="sr-only peer">
                                     <div class="checkbox-background"></div>
-                                </label>                            
+                                </label>
                             </td>
                         </tr>
                         <tr *ngIf="!isCustomerEnabled()">
@@ -70,7 +70,7 @@
                                 <label class="custom-checkbox">
                                     <input type="checkbox"  [disabled]="!isPreviousElementTrue('quote_received_from_supplier')" [(ngModel)]="asked.quote_received_from_supplier" class="sr-only peer">
                                     <div class="checkbox-background"></div>
-                                </label>                            
+                                </label>
                             </td>
                         </tr>
                         <tr>
@@ -80,7 +80,7 @@
                                 <label class="custom-checkbox">
                                     <input type="checkbox"  [disabled]="!isPreviousElementTrue('offre_sent')" [(ngModel)]="asked.offre_sent" class="sr-only peer">
                                     <div class="checkbox-background"></div>
-                                </label>                            
+                                </label>
                             </td>
                         </tr>
                         <tr *ngIf="!isCustomerEnabled()">
@@ -90,7 +90,7 @@
                                 <label class="custom-checkbox">
                                     <input type="checkbox" [disabled]="!isPreviousElementTrue('customer_response')" [(ngModel)]="asked.customer_response" class="sr-only peer">
                                     <div class="checkbox-background"></div>
-                                </label>                            
+                                </label>
                             </td>
                         </tr>
                         <tr>
@@ -100,7 +100,7 @@
                                 <label class="custom-checkbox">
                                     <input type="checkbox" [disabled]="!isPreviousElementTrue('recovery_of_purchase_orders')" [(ngModel)]="asked.recovery_of_purchase_orders" class="sr-only peer">
                                     <div class="checkbox-background"></div>
-                                </label>                            
+                                </label>
                             </td>
                         </tr>
                         <tr *ngIf="!isCustomerEnabled()">
@@ -110,7 +110,7 @@
                                 <label class="custom-checkbox">
                                     <input type="checkbox" [disabled]="!isPreviousElementTrue('creation_of_the_project')" [(ngModel)]="asked.creation_of_the_project" class="sr-only peer">
                                     <div class="checkbox-background"></div>
-                                </label>                            
+                                </label>
                             </td>
                         </tr>
                         <tr *ngIf="!isCustomerEnabled()">
@@ -120,7 +120,7 @@
                                 <label class="custom-checkbox">
                                     <input type="checkbox" [disabled]="!isPreviousElementTrue('creation_of_the_purchase_request')" [(ngModel)]="asked.creation_of_the_purchase_request" class="sr-only peer">
                                     <div class="checkbox-background"></div>
-                                </label>                            
+                                </label>
                             </td>
                         </tr>
                         <tr *ngIf="!isCustomerEnabled()">
@@ -130,7 +130,7 @@
                                 <label class="custom-checkbox">
                                     <input type="checkbox" [disabled]="!isPreviousElementTrue('release_of_purchase_requisition')" [(ngModel)]="asked.release_of_purchase_requisition" class="sr-only peer">
                                     <div class="checkbox-background"></div>
-                                </label>                            
+                                </label>
                             </td>
                         </tr>
                         <tr *ngIf="!isCustomerEnabled()">
@@ -140,7 +140,7 @@
                                 <label class="custom-checkbox">
                                     <input type="checkbox" [disabled]="!isPreviousElementTrue('creating_the_purchase_order')" [(ngModel)]="asked.creating_the_purchase_order" class="sr-only peer">
                                     <div class="checkbox-background"></div>
-                                </label>                            
+                                </label>
                             </td>
                         </tr>
                         <tr *ngIf="!isCustomerEnabled()">
@@ -150,7 +150,7 @@
                                 <label class="custom-checkbox">
                                     <input type="checkbox" [disabled]="!isPreviousElementTrue('material_reception')" [(ngModel)]="asked.material_reception" class="sr-only peer">
                                     <div class="checkbox-background"></div>
-                                </label>                            
+                                </label>
                             </td>
                         </tr>
                         <tr>
@@ -160,7 +160,7 @@
                                 <label class="custom-checkbox">
                                     <input type="checkbox" [disabled]="!isPreviousElementTrue('provisionning_jeumont')" [(ngModel)]="asked.provisionning_jeumont" class="sr-only peer">
                                     <div class="checkbox-background"></div>
-                                </label>                            
+                                </label>
                             </td>
                         </tr>
                         <tr>
@@ -170,7 +170,7 @@
                                 <label class="custom-checkbox">
                                     <input type="checkbox" [disabled]="!isPreviousElementTrue('material_sent')" [(ngModel)]="asked.material_sent" class="sr-only peer">
                                     <div class="checkbox-background"></div>
-                                </label>                            
+                                </label>
                             </td>
                         </tr>
                         <tr>
@@ -180,7 +180,7 @@
                                 <label class="custom-checkbox">
                                     <input type="checkbox" [disabled]="!isPreviousElementTrue('bill_sent')" [(ngModel)]="asked.bill_sent" class="sr-only peer">
                                     <div class="checkbox-background"></div>
-                                </label>                            
+                                </label>
                             </td>
                         </tr>
                     </tbody>
@@ -193,7 +193,7 @@
                         <h1 class="font-bold text-base">Action lists</h1>
                     </div>
                     <div>
-                        
+
                     </div>
                 </div>
                 <div class="h-[115px] overflow-y-scroll custom-scrollbar">
@@ -222,9 +222,9 @@
             <div class="my-2">
                 <div class="mb-2">
                     <p *ngIf="isCustomerEnabled()" class="text-base font-bold flex items-center">Description</p>
-                    <button     
+                    <button
                         *ngIf="!isCustomerEnabled()"
-                        class="text-base font-bold flex items-center" 
+                        class="text-base font-bold flex items-center"
                         (click)="toggleUpdateDescription()"
                     >
                         Description
@@ -304,7 +304,7 @@
                                         <h2 class="creation-title-content">{{ sparepart.status_ifs }}</h2>
                                     </div>
                                 </div>
-                            </div>                        
+                            </div>
                             <div *ngFor="let sparepart of spare_parts; let i = index" class="w-[100%] bg-[#e4738f] p-[.5rem] mb-1 flex-container-center">
                                 <button (click)="deleteSparePart(i)">
                                     <img
@@ -369,7 +369,7 @@
                             <button
                                 class="flex justify-center items-center"
                             >
-                                <img 
+                                <img
                                     (click)="addToSpareParts()"
                                     src="assets/icons/plus.png"
                                     class="header-buttons-item-logo mt-2"
@@ -390,15 +390,15 @@
                             </div>
                         </div>
                     </div>
-    
+
                 </div>
-                <div 
+                <div
                     class="border-style justify-around py-2"
                     (dragover)="onDragOver($event)"
                     (drop)="onDrop($event)"
                 >
                     <div class="bg-[#ffffff99] h-auto py-2 px-2 rounded-[10px] mb-2 grid grid-cols-2">
-                        <div class="bg-[#D9D9D9] p-2 mx-2 rounded-[10px] h-[90px] overflow-y-scroll custom-scrollbar">   
+                        <div class="bg-[#D9D9D9] p-2 mx-2 rounded-[10px] h-[90px] overflow-y-scroll custom-scrollbar">
                             <table class="table">
                                 <thead>
                                     <tr>
@@ -441,13 +441,13 @@
                                             </div>
                                         </td>
                                     </tr>
-                                
+
                                     <tr *ngFor="let file of files">
                                         <td class="text-[9px] lowercase">
                                             {{ getFileNameWithoutExtension(file.name) }}
                                         </td>
                                         <td class="text-[9px]">
-                                            {{ file.size }} 
+                                            {{ file.size }}
                                         </td>
                                         <td>
                                             <div class="flex justify-center items-center">
@@ -473,11 +473,11 @@
                                         </td>
                                     </tr>
                                 </tbody>
-                            </table>                                        
+                            </table>
                         </div>
-                        <div 
+                        <div
                             (drop)="onDrop($event)"
-                            (dragover)="onDragOver($event)" 
+                            (dragover)="onDragOver($event)"
                             class="border border-dotted border-black p-2 rounded-[10px] text-[10px]"
                         >
                             <div class="flex justify-center">
@@ -497,8 +497,8 @@
                 </div>
             </div>
             <div class="grid grid-cols-2 gap-4">
-                <button 
-                    (click)="submitForm()" 
+                <button
+                    (click)="submitForm()"
                     class="button-save"
                 >
                     <img
@@ -508,7 +508,7 @@
                     />
                     Save
                 </button>
-                <button 
+                <button
                     (click)="cancel()"
                     class="button-cancel"
                 >
@@ -543,11 +543,11 @@
                 class="w-4 h-4 cursor-pointer"
             />
         </div>
-    </div>   
+    </div>
     <div class="px-2">
         <hr class="px-2 border border-dashed border-gray-600">
         <h2 class="text-sm text-center mt-4">Are you certain that you intended to delete this file?</h2>
-    </div>   
+    </div>
     <div class="flex justify-between px-6 py-8">
         <button class="rounded-[10px] px-8 py-2 border border-black font-bold shadow-lg" (click)="cancelDeleteFile()">Cancel</button>
         <button class="rounded-[10px] bg-custom text-white font-bold shadow-lg py-2 px-8" (click)="clickDeleteFile()">Delete</button>
@@ -569,11 +569,11 @@
                 class="w-4 h-4 cursor-pointer"
             />
         </div>
-    </div>   
+    </div>
     <div class="px-2">
         <hr class="px-2 border border-dashed border-gray-600">
         <h2 class="text-sm text-center mt-4">Are you certain that you intended to delete this file?</h2>
-    </div>   
+    </div>
     <div class="flex justify-between px-6 py-8">
         <button class="rounded-[10px] px-8 py-2 border border-black font-bold shadow-lg" (click)="cancelDeleteFileToDownload()">Cancel</button>
         <button class="rounded-[10px] bg-custom text-white font-bold shadow-lg py-2 px-8" (click)="clickDeleteFileToDownload()">Delete</button>

@@ -1,4 +1,4 @@
-import { Constants } from '../utils/constants'; 
+import { Constants } from '../utils/constants';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { JwtHelperService } from '@auth0/angular-jwt';
@@ -34,11 +34,11 @@ export class AuthService {
         const { accessToken } = response;
         this.cookieService.set('access_token', accessToken);
         this.cookieService.set('user_uuid', this.getUserId());
-        
+
         const roleUser = this.getUserRole();
-  
+
         if (roleUser === 1 || roleUser === 2 || roleUser === 3 || roleUser === 4) {
-          this.router.navigate(['/']); 
+          this.router.navigate(['/']);
         } else if (roleUser === 10 || roleUser === 11 || roleUser === 12) {
           this.router.navigate(['/client']);
         }
@@ -60,7 +60,7 @@ export class AuthService {
 
   getUserId(): string {
     const token = this.getToken();
-    if (token) { 
+    if (token) {
       const decodedToken = this.jwtHelper.decodeToken(token);
       return decodedToken.id || null;
     } else { return '' }
@@ -82,6 +82,6 @@ export class AuthService {
   logout(): void {
     this.cookieService.delete('access_token');
     this.cookieService.delete('user_uuid');
-    this.router.navigate(['/login']); 
+    this.router.navigate(['/login']);
   }
 }

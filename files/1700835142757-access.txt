@@ -1,0 +1,7 @@
+- ssh debian@51.83.32.53
+- mdp :  q8NSnsWWbMny
+- Le nom de votre VPS est:Jeumont-SAV24/7-PROD | vps-a7eeb33c.vps.ovh.net
+ -   - adresse IPv4: 51.83.32.53
+ -   - adresse IPv6: 2001:41d0:404:200::2f70
+ -   - nom d'utilisateur: debian
+

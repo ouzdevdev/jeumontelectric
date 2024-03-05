@@ -20,14 +20,14 @@
                         (click) = "toggleStatus()"
                         *ngIf="!isCustomerEnabled() && !isSalesSupportDisabled()"
                     >
-                        <img                                        
+                        <img
                             src="assets/icons/update.png"
                             [ngClass]="updateStatus ? 'bg-custom p-2 rounded-md w-8 h-8 ml-2':'bg-[#F5F5F5] p-2 rounded-md w-8 h-8 ml-2'"
                         >
                     </button>
                 </div>
                 <div *ngIf="updateStatus" class="my-1">
-                    <select 
+                    <select
                         [(ngModel)]="asked.status_id"
                         class="bg-[#F5F5F5] mb-2 px-3 py-1 rounded-[10px] w-full">
                         <option value="0">None</option>
@@ -37,7 +37,7 @@
                 <div class="flex justify-around my-1">
                     <h2 class="text-white bg-custom w-1/2 py-1 px-2 rounded-l-[10px]">Type</h2>
                     <h2 class="flex justify-between items-center bg-[#F5F5F5] w-1/2 py-1 px-2 rounded-r-[10px]">
-                        {{ asked?.Skill?.skill_label }}                
+                        {{ asked?.Skill?.skill_label }}
                     </h2>
                     <button
                         (click) = "toggleType()"
@@ -50,7 +50,7 @@
                     </button>
                 </div>
                 <div *ngIf="updateType" class="my-1">
-                    <select 
+                    <select
                         [(ngModel)]="asked.skill_id"
                         class="bg-[#F5F5F5] mb-2 px-3 py-1 rounded-[10px] w-full">
                         <option value="0">None</option>
@@ -73,7 +73,7 @@
                     </button>
                 </div>
                 <div *ngIf="updateSide" class="my-1">
-                    <select 
+                    <select
                         [(ngModel)]="asked.side_id"
                         class="bg-[#F5F5F5] mb-2 px-3 py-1 rounded-[10px] w-full">
                         <option value="0">None</option>
@@ -96,7 +96,7 @@
                     </button>
                 </div>
                 <div *ngIf="updateTypeEffect" class="my-1">
-                    <select 
+                    <select
                         [(ngModel)]="asked.effect_type_id"
                         class="bg-[#F5F5F5] mb-2 px-3 py-1 rounded-[10px] w-full">
                         <option value="0">None</option>
@@ -108,7 +108,7 @@
                     <h2 class="flex justify-between items-center bg-[#F5F5F5] w-1/2 py-1 px-2 rounded-r-[10px]">
                         {{ asked?.Level.level_label }}
                     </h2>
-                    
+
                     <button
                         (click) = "toggleLevel()"
                         *ngIf="!isCustomerEnabled() && !isSalesSupportDisabled()"
@@ -120,7 +120,7 @@
                     </button>
                 </div>
                 <div *ngIf="updateLevel" class="my-1">
-                    <select 
+                    <select
                         [(ngModel)]="asked.level_id"
                         class="bg-[#F5F5F5] mb-2 px-3 py-1 rounded-[10px] w-full">
                         <option value="0">None</option>
@@ -137,7 +137,7 @@
                                 <option value="0">None</option>
                                 <option *ngFor="let effect of effects" [value]="effect.effect_id">{{ effect.effect_label }}</option>
                             </select>
-                            <button  
+                            <button
                                 *ngIf="!isCustomerEnabled() && !isSalesSupportDisabled()"
                                 (click)="addEventToAsked()"
                                 class="flex items-center justify-center text-[#777] text-xs pb-2"
@@ -157,7 +157,7 @@
                                     <rect x="18.2998" width="7.13924" height="25.8798" transform="rotate(45 18.2998 0)" fill="black"/>
                                 </svg>
                             </button>
-                        </div> 
+                        </div>
                     </div>
                 </div>
                 <div class="border-t border-dashed border-black">
@@ -168,7 +168,7 @@
                                 <option value="0">None</option>
                                 <option *ngFor="let tag of tags" [value]="tag.tag_id">{{ tag.tag_label }}</option>
                             </select>
-                            <button  
+                            <button
                                 *ngIf="!isCustomerEnabled() && !isSalesSupportDisabled()"
                                 (click)="addTagToAsked()"
                                 class="flex items-center justify-center text-[#777] text-xs pb-2"
@@ -188,7 +188,7 @@
                                     <rect x="18.2998" width="7.13924" height="25.8798" transform="rotate(45 18.2998 0)" fill="black"/>
                                 </svg>
                             </button>
-                        </div> 
+                        </div>
                     </div>
                 </div>
             </div>
@@ -200,7 +200,7 @@
                         <h1 class="font-bold text-base">Action lists</h1>
                     </div>
                     <div>
-                        
+
                     </div>
                 </div>
                 <div class="h-[115px] overflow-y-scroll custom-scrollbar">
@@ -224,7 +224,7 @@
                 <div class="text-left mt-1 text-[11px]">
                     <h5>Creation: <span class="font-semibold">{{ asked?.asked_created_date | date:'dd MMM yyyy HH:mm:ss' }}</span></h5>
                     <h5 *ngIf="asked?.asked_updated_date">Update: <span class="font-semibold">{{ asked?.asked_updated_date | date:'dd MMM yyyy HH:mm:ss' }}</span></h5>
-                </div> 
+                </div>
             </div>
             <div class="py-4">
                 <div *ngIf="errorMessage" class="text-left text-[#FF0000] capitalize my-2 text-sm font-semibold">
@@ -232,9 +232,9 @@
                 </div>
                 <div class="mb-4">
                     <p *ngIf="isCustomerEnabled() || isSalesSupportDisabled()" class="text-base font-bold flex items-center">Description</p>
-                    <button                             
+                    <button
                         *ngIf="!isCustomerEnabled() && !isSalesSupportDisabled()"
-                        class="text-base font-bold flex items-center" 
+                        class="text-base font-bold flex items-center"
                         (click)="toggleUpdateDescription()">
                         Description
                         <img
@@ -248,9 +248,9 @@
                 </div>
                 <div class="mb-4">
                     <p *ngIf="isCustomerEnabled() || isSalesSupportDisabled()" class="text-base font-bold flex items-center">Analysis</p>
-                    <button     
+                    <button
                         *ngIf="!isCustomerEnabled() && !isSalesSupportDisabled()"
-                        class="text-base font-bold flex items-center" 
+                        class="text-base font-bold flex items-center"
                         (click)="toggleUpdateAnalysis()">
                         Analysis
                         <img
@@ -265,9 +265,9 @@
                 </div>
                 <div>
                     <p *ngIf="isCustomerEnabled() || isSalesSupportDisabled()" class="text-base font-bold flex items-center">Incident report</p>
-                    <button     
+                    <button
                         *ngIf="!isCustomerEnabled() && !isSalesSupportDisabled()"
-                        class="text-base font-bold flex items-center" 
+                        class="text-base font-bold flex items-center"
                         (click)="toggleIncidentReport()">
                         Incident report
                         <img
@@ -282,9 +282,9 @@
                 <div class="grid grid-cols-2 mb-4">
                     <div>
                         <p *ngIf="isCustomerEnabled() || isSalesSupportDisabled()" class="text-base font-bold flex items-center">Root Cause</p>
-                        <button     
+                        <button
                             *ngIf="!isCustomerEnabled() && !isSalesSupportDisabled()"
-                            class="text-base font-bold flex items-center" 
+                            class="text-base font-bold flex items-center"
                             (click)="toggleUpdateRootCause()">
                             Root Cause
                             <img
@@ -299,9 +299,9 @@
                     </div>
                     <div>
                         <p *ngIf="isCustomerEnabled() || isSalesSupportDisabled()" class="text-base font-bold flex items-center">Action Taken</p>
-                        <button     
+                        <button
                             *ngIf="!isCustomerEnabled() && !isSalesSupportDisabled()"
-                            class="text-base font-bold flex items-center" 
+                            class="text-base font-bold flex items-center"
                             (click)="toggleActionTaken()">
                             Action Taken
                             <img
@@ -331,13 +331,13 @@
                                 <input type="checkbox" [(ngModel)]="asked.validation_manager" [disabled]="!isManagerEnabled()" />
                             </div>
                         </div>
-                        <div 
+                        <div
                             class="border-style justify-around py-2"
                             (dragover)="onDragOver($event)"
                             (drop)="onDrop($event)"
                         >
                             <div class="bg-[#ffffff99] h-auto py-2 px-2 rounded-[10px] mb-2 grid grid-cols-2">
-                                <div class="bg-[#D9D9D9] p-2 mx-2 rounded-[10px] h-[90px] overflow-y-scroll custom-scrollbar">   
+                                <div class="bg-[#D9D9D9] p-2 mx-2 rounded-[10px] h-[90px] overflow-y-scroll custom-scrollbar">
                                     <table class="table">
                                         <thead>
                                             <tr>
@@ -380,13 +380,13 @@
                                                     </div>
                                                 </td>
                                             </tr>
-                                    
+
                                             <tr *ngFor="let file of files">
                                                 <td class="text-[9px] lowercase">
                                                     {{ getFileNameWithoutExtension(file.name) }}
                                                 </td>
                                                 <td class="text-[9px]">
-                                                    {{ file.size }} 
+                                                    {{ file.size }}
                                                 </td>
                                                 <td>
                                                     <div class="flex justify-center items-center">
@@ -412,11 +412,11 @@
                                                 </td>
                                             </tr>
                                         </tbody>
-                                    </table>                                        
+                                    </table>
                                 </div>
-                                <div 
+                                <div
                                     (drop)="onDrop($event)"
-                                    (dragover)="onDragOver($event)" 
+                                    (dragover)="onDragOver($event)"
                                     class="border border-dotted border-black p-2 rounded-[10px] text-[10px]"
                                 >
                                     <div class="flex justify-center">
@@ -428,8 +428,8 @@
                                         <div class="flex-1 border-t-2 border-[#E30039]"></div>
                                     </div>
                                     <div class="flex justify-center">
-                                        <input type="file" disabled="*!isCustomerEnabled() && !isSalesSupportDisabled()" accept="image/*,.pdf,.doc,.docx,.per,.zip,.rar" class="hidden" id="fileInput" (change)="onFileChange($event)" multiple>
-                                        <label for="fileInput" class="rounded-[10px] bg-custom text-white py-1 px-8">Browse files</label>
+                                          <input type="file" accept="image/*,.pdf,.doc,.docx,.per,.zip,.rar" class="hidden" id="fileInput" (change)="onFileChange($event)" multiple>
+                        <label for="fileInput" class="rounded-[10px] bg-custom text-white py-1 px-8 cursor-pointer">Browse files</label>
                                     </div>
                                 </div>
                             </div>
@@ -446,7 +446,7 @@
                             alt=""
                             class="mr-2"
                         />
-                        Save    
+                        Save
                     </span>
                     <span *ngIf="loading" class="flex items-center">
                         <svg class="animate-spin h-5 w-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -456,7 +456,7 @@
                         Loading...
                     </span>
                 </button>
-                <button 
+                <button
                     (click)="cancel()"
                     class="flex items-center bg-white font-bold px-16 py-2 rounded-[10px] text-custom border border-solid border-black"
                 >
@@ -491,11 +491,11 @@
                 class="w-4 h-4 cursor-pointer"
             />
         </div>
-    </div>   
+    </div>
     <div class="px-2">
         <hr class="px-2 border border-dashed border-gray-600">
         <h2 class="text-sm text-center mt-4">Are you certain that you intended to delete this file?</h2>
-    </div>   
+    </div>
     <div class="flex justify-between px-6 py-8">
         <button class="rounded-[10px] px-8 py-2 border border-black font-bold shadow-lg" (click)="cancelDeleteFile()">Cancel</button>
         <button class="rounded-[10px] bg-custom text-white font-bold shadow-lg py-2 px-8" (click)="clickDeleteFile()">Delete</button>
@@ -517,11 +517,11 @@
                 class="w-4 h-4 cursor-pointer"
             />
         </div>
-    </div>   
+    </div>
     <div class="px-2">
         <hr class="px-2 border border-dashed border-gray-600">
         <h2 class="text-sm text-center mt-4">Are you certain that you intended to delete this file?</h2>
-    </div>   
+    </div>
     <div class="flex justify-between px-6 py-8">
         <button class="rounded-[10px] px-8 py-2 border border-black font-bold shadow-lg" (click)="cancelDeleteFileToDownload()">Cancel</button>
         <button class="rounded-[10px] bg-custom text-white font-bold shadow-lg py-2 px-8" (click)="clickDeleteFileToDownload()">Delete</button>

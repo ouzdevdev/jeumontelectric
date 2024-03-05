@@ -11,7 +11,7 @@ import { SharedTitleService } from '../services/shared-title.service';
   templateUrl: './update-prfm.component.html',
   styleUrls: ['./update-prfm.component.scss']
 })
-export class UpdatePrfmComponent implements OnInit {  
+export class UpdatePrfmComponent implements OnInit {
   selectedFiles: File[] = [];
   text: string  = 'Your ticket has been successfully modified.';
   askedUuid!: string | null;
@@ -33,17 +33,17 @@ export class UpdatePrfmComponent implements OnInit {
   isDeleteFileToDownloadTicketVisible: boolean = false;
   isDeleteFileTicketVisible: boolean = false;
   maxFileCount: number = 10;
-  effectsAsked: any[] = []; 
+  effectsAsked: any[] = [];
   prfss: any[] = [];
   prfssAsked: any[] = [];
   prfssAdded: any[] = [];
   loading: boolean = false;
 
   constructor(
-    private router: Router,   
+    private router: Router,
     private route: ActivatedRoute,
     private authService: AuthService,
-    private infosService: InfosService, 
+    private infosService: InfosService,
     private ticketsService: TicketsService,
     private cookieService: CookieService,
     private sharedTitleService: SharedTitleService,
@@ -134,7 +134,7 @@ export class UpdatePrfmComponent implements OnInit {
       );
     }
   }
-  
+
   addAskedToTable() {
     if (this.askedUuid && !this.prfssAdded.includes(this.prfs_asked_uuid)) {
       this.ticketsService.getOneAskedPRFSData(this.prfs_asked_uuid).subscribe(
@@ -144,7 +144,7 @@ export class UpdatePrfmComponent implements OnInit {
         error => {
           console.error('Erreur:', error);
         }
-      );      
+      );
 
       this.prfs_asked_uuid = '';
     }
@@ -165,9 +165,9 @@ export class UpdatePrfmComponent implements OnInit {
       }
     );
   }
-  
+
   private getAttachements() {
-    if (this.askedUuid !== null) { 
+    if (this.askedUuid !== null) {
       this.ticketsService.getAttachements(this.askedUuid).subscribe(
         data => {
           console.log(data, 'Data attachements');
@@ -179,10 +179,30 @@ export class UpdatePrfmComponent implements OnInit {
       );
     }
   }
-  
-  onDragOver(event: DragEvent) {
+
+   onDragOver(event: DragEvent) {
     event.preventDefault();
     event.stopPropagation();
+  }
+  onDrop(event: DragEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    const droppedFiles = event.dataTransfer?.files;
+
+    console.log(droppedFiles)
+
+    if (droppedFiles && droppedFiles.length > 0) {
+       this.selectedFiles=Array.from(droppedFiles);
+      const droppedFilesWithNameAndSize = Array.from(droppedFiles).map((file) => ({ name: file.name, size: file.size }));
+      this.handleFiles(droppedFilesWithNameAndSize);
+    }
+  }
+
+onFileChange(event: any) {
+    this.selectedFiles = Array.from(event.target.files);
+    const files = event.target.files;
+    this.handleFiles(files);
   }
 
   toggleDeleteFileToDownloadTicket(att: any) {
@@ -190,13 +210,9 @@ export class UpdatePrfmComponent implements OnInit {
     this.isDeleteFileToDownloadTicketVisible = !this.isDeleteFileToDownloadTicketVisible;
   }
 
-  onFileChange(event: any) {
-    this.selectedFiles = Array.from(event.target.files);
-    const files = event.target.files;
-    this.handleFiles(files);
-  }
 
-  handleFiles(files: File[]) {
+
+  handleFiles(files: any[]) {
     console.log(files);
     for (const file of files) {
       this.files.push({ name: file.name, size: this.formatFileSize(file.size) });
@@ -204,14 +220,14 @@ export class UpdatePrfmComponent implements OnInit {
   }
 
   formatFileSize(size: number): string {
-    const megabytes = size / (1024 * 1024); 
+    const megabytes = size / (1024 * 1024);
     return megabytes.toFixed(2) + ' Mo';
   }
 
   toggleUpdateDescription() {
     this.updateDescription = !this.updateDescription;
   }
-  
+
   toggleSide() {
     this.updateSide = !this.updateSide;
   }
@@ -238,19 +254,19 @@ export class UpdatePrfmComponent implements OnInit {
 
   submitForm() {
     this.loading = true;
-    
+
     const user_uuid = this.cookieService.get('user_uuid');
-    
+
     this.ticketsService.updateAskedPRFM(this.asked, this.asked.asked_uuid, user_uuid).subscribe(
       response => {
         this.openPopup();
-      
+
         for (const prfs of this.prfssAdded) {
 
           const dataRelatedPrfsToPrfm = {
-            asked_prfs_uuid: prfs.asked_uuid, 
-            asked_prfm_uuid: this.askedUuid, 
-            asked_prfs_ref: prfs.asked_ref, 
+            asked_prfs_uuid: prfs.asked_uuid,
+            asked_prfm_uuid: this.askedUuid,
+            asked_prfs_ref: prfs.asked_ref,
             asked_prfm_ref: this.asked.asked_ref
           }
 
@@ -263,7 +279,7 @@ export class UpdatePrfmComponent implements OnInit {
         }
         setTimeout(() => {
           this.router.navigate(['/']);
-        }, 4000); 
+        }, 4000);
       },
       error => {
         console.error('Erreur:', error);
@@ -289,10 +305,10 @@ export class UpdatePrfmComponent implements OnInit {
       );
     }
   }
-  
+
   getFileNameWithoutExtension(fileName: string): string {
     const lastIndex = fileName.lastIndexOf('.');
-    
+
     if (lastIndex !== -1) {
       const baseName = fileName.slice(0, lastIndex);
       const generatedFileName = baseName.slice(0, 4).padEnd(4, '0');
@@ -314,14 +330,14 @@ export class UpdatePrfmComponent implements OnInit {
     const b = bigint & 255;
     return r + ',' + g + ',' + b;
   }
-  
+
   downloadFile(filename: string) {
     const pathSegments = filename.split('/');
 
     const fileName = pathSegments[pathSegments.length - 1];
 
     this.ticketsService.downloadAttachement(fileName).subscribe(
-      data => { 
+      data => {
         const blob = new Blob([data], { type: 'application/octet-stream' });
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
@@ -346,7 +362,7 @@ export class UpdatePrfmComponent implements OnInit {
     this.deleteFiles(this.fileToDelete.name);
     this.isDeleteFileToDownloadTicketVisible = !this.isDeleteFileToDownloadTicketVisible;
   }
-  
+
   cancelDeleteFile () {
     this.attachementToDelete = null;
     this.isDeleteFileTicketVisible = !this.isDeleteFileTicketVisible;
@@ -375,7 +391,7 @@ export class UpdatePrfmComponent implements OnInit {
   deleteFile(attachementId: string) {
     if ( this.askedUuid ) {
       this.ticketsService.removeAttachement(attachementId).subscribe(
-        data => { 
+        data => {
           this.getAttachements();
 
         },
@@ -390,12 +406,12 @@ export class UpdatePrfmComponent implements OnInit {
 
   DeletePrfsRelated(asked_prfs_uuid: string, asked_prfm_uuid: string) {
     const data = {
-      asked_prfs_uuid: asked_prfs_uuid, 
+      asked_prfs_uuid: asked_prfs_uuid,
       asked_prfm_uuid: asked_prfm_uuid
     }
 
     this.ticketsService.deletePrfsRelatedToPrfm(data).subscribe(
-      data => { 
+      data => {
         this.fetchRelatedPrfs(asked_prfm_uuid);
       },
       error => {
@@ -404,29 +420,7 @@ export class UpdatePrfmComponent implements OnInit {
     );
   }
 
-  onDrop(event: DragEvent) {
-    event.preventDefault();
-    event.stopPropagation();
-  
-    const droppedFiles = event.dataTransfer?.files;
-  
-    if (droppedFiles && droppedFiles.length > 0) {
-      for (let i = 0; i < droppedFiles.length; i++) {
-        if (this.files.length < this.maxFileCount) {
-          const file = droppedFiles[i];
-  
-          const filePath = URL.createObjectURL(file);
-  
-          this.files.push({
-            name: file.name,
-            path: filePath
-          });
-        } else {
-          alert("files has been truncated to 10 files.");
-        }
-      }
-    }
-  }
+
 
   cancel() {
     if (this.authService.getUserRole() === 10 || this.authService.getUserRole() === 11 || this.authService.getUserRole() === 12) {
@@ -444,7 +438,7 @@ export class UpdatePrfmComponent implements OnInit {
       error => {
         console.error('Erreur:', error);
       }
-    );    
+    );
   }
 
 }

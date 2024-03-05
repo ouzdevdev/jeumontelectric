@@ -13,7 +13,7 @@ import { AuthService } from '../services/auth.service';
   styleUrls: ['./update-prfs.component.scss']
 })
 
-export class UpdatePrfsComponent implements OnInit {  
+export class UpdatePrfsComponent implements OnInit {
   errorMessage!: string;
   isLoadingPage: boolean = true;
   selectedFiles: File[] = [];
@@ -40,8 +40,8 @@ export class UpdatePrfsComponent implements OnInit {
   allStatus: any[] = [];
   isVisible: boolean = false;
   conversation: any;
-  effectsAsked: any[] = []; 
-  tagsAsked: any[] = []; 
+  effectsAsked: any[] = [];
+  tagsAsked: any[] = [];
   attachements: any[] = [];
   effect_id: number = 0;
   tag_id: number = 0;
@@ -51,17 +51,17 @@ export class UpdatePrfsComponent implements OnInit {
   attachementToDelete: any;
   fileToDelete: any;
   loading: boolean = false;
-  
+
   files: any[] = [];
   maxFileCount: number = 10;
 
   @ViewChildren('messageDiv') messageDivs!: QueryList<ElementRef>;
 
   constructor(
-    private router: Router,   
+    private router: Router,
     private route: ActivatedRoute,
     private authService: AuthService,
-    private infosService: InfosService, 
+    private infosService: InfosService,
     private ticketsService: TicketsService,
     private tagsService: TagsService,
     private cookieService: CookieService,
@@ -87,14 +87,14 @@ export class UpdatePrfsComponent implements OnInit {
     this.fetchEffects();
     this.fetchTags();
     this.fetchStatus();
-    
+
     setTimeout(() => {
       this.isLoadingPage = false;
     }, 2000);
   }
 
   isSalesSupportDisabled(): boolean {
-    return this.authService.getUserRole() === 3 
+    return this.authService.getUserRole() === 3
   }
 
   private fetchStatus(): void {
@@ -143,7 +143,7 @@ export class UpdatePrfsComponent implements OnInit {
   }
 
   private fetchAskedTags(): void {
-    if (this.askedUuid !== null) { 
+    if (this.askedUuid !== null) {
       this.infosService.getTagsByAsked(this.askedUuid).subscribe(
         data => {
           this.tagsAsked = data;
@@ -186,7 +186,7 @@ export class UpdatePrfsComponent implements OnInit {
     this.deleteFiles(this.fileToDelete.name);
     this.isDeleteFileToDownloadTicketVisible = !this.isDeleteFileToDownloadTicketVisible;
   }
-  
+
   cancelDeleteFile () {
     this.attachementToDelete = null;
     this.isDeleteFileTicketVisible = !this.isDeleteFileTicketVisible;
@@ -196,9 +196,9 @@ export class UpdatePrfsComponent implements OnInit {
     this.fileToDelete = null;
     this.isDeleteFileToDownloadTicketVisible = !this.isDeleteFileToDownloadTicketVisible;
   }
-  
+
   private getAttachements() {
-    if (this.askedUuid !== null) { 
+    if (this.askedUuid !== null) {
       this.ticketsService.getAttachements(this.askedUuid).subscribe(
         data => {
           console.log(data, 'Data attachements');
@@ -274,7 +274,7 @@ export class UpdatePrfsComponent implements OnInit {
   }
 
   fetchEffectsByAsked(): void {
-    if (this.askedUuid !== null) { 
+    if (this.askedUuid !== null) {
       this.infosService.getEffectsByAsked(this.askedUuid).subscribe(
         data => {
           this.effectsAsked = data;
@@ -285,7 +285,7 @@ export class UpdatePrfsComponent implements OnInit {
       );
     }
   }
-   
+
   fetchAskedData(): void {
     if (this.askedUuid !== null) {
       this.ticketsService.getOneAskedPRFSData(this.askedUuid).subscribe(
@@ -308,7 +308,7 @@ export class UpdatePrfsComponent implements OnInit {
       response => {
         this.loading = false;
         this.openPopup();
-      
+
         if (this.askedUuid) {
           const user_uuid = this.cookieService.get('user_uuid');
           this.uploadFile(this.askedUuid, user_uuid);
@@ -320,7 +320,7 @@ export class UpdatePrfsComponent implements OnInit {
           } else {
             this.router.navigate(['/']);
           }
-        }, 4000); 
+        }, 4000);
       },
       error => {
         this.loading = false;
@@ -374,18 +374,14 @@ export class UpdatePrfsComponent implements OnInit {
   isImage(fileName: string): boolean {
     const imageExtensions = ['jpeg', 'jpg', 'png', 'gif', 'bmp', 'tiff', 'tif', 'svg', 'webp', 'raw', 'ico', 'heic', 'heif', 'psd', 'ai'];
     const fileExtension = fileName.split('.').pop()?.toLowerCase();
-    
+
     if (fileExtension !== undefined) {
       return imageExtensions.includes(fileExtension);
     }
 
-    return false; 
+    return false;
   }
 
-  onDragOver(event: DragEvent) {
-    event.preventDefault();
-    event.stopPropagation();
-  }
 
   onFileChange(event: any) {
     this.selectedFiles = Array.from(event.target.files);
@@ -393,7 +389,7 @@ export class UpdatePrfsComponent implements OnInit {
     this.handleFiles(files);
   }
 
-  handleFiles(files: File[]) {
+  handleFiles(files: any[]) {
     console.log(files);
     for (const file of files) {
       this.files.push({ name: file.name, size: this.formatFileSize(file.size) });
@@ -401,37 +397,31 @@ export class UpdatePrfsComponent implements OnInit {
   }
 
   formatFileSize(size: number): string {
-    const megabytes = size / (1024 * 1024); 
+    const megabytes = size / (1024 * 1024);
     return megabytes.toFixed(2) + ' Mo';
   }
-
+   onDragOver(event: DragEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+  }
   onDrop(event: DragEvent) {
     event.preventDefault();
     event.stopPropagation();
-  
+
     const droppedFiles = event.dataTransfer?.files;
-  
+
+    console.log(droppedFiles)
+
     if (droppedFiles && droppedFiles.length > 0) {
-      for (let i = 0; i < droppedFiles.length; i++) {
-        if (this.files.length < this.maxFileCount) {
-          const file = droppedFiles[i];
-  
-          const filePath = URL.createObjectURL(file);
-  
-          this.files.push({
-            name: file.name,
-            path: filePath
-          });
-        } else {
-          alert("files has been truncated to 10 files.");
-        }
-      }
+       this.selectedFiles=Array.from(droppedFiles);
+      const droppedFilesWithNameAndSize = Array.from(droppedFiles).map((file) => ({ name: file.name, size: file.size }));
+      this.handleFiles(droppedFilesWithNameAndSize);
     }
   }
-  
+
   getFileNameWithoutExtension(fileName: string): string {
     const lastIndex = fileName.lastIndexOf('.');
-    
+
     if (lastIndex !== -1) {
       const baseName = fileName.slice(0, lastIndex);
       return baseName;
@@ -446,7 +436,7 @@ export class UpdatePrfsComponent implements OnInit {
     const fileName = pathSegments[pathSegments.length - 1];
 
     this.ticketsService.downloadAttachement(fileName).subscribe(
-      data => { 
+      data => {
         const blob = new Blob([data], { type: 'application/octet-stream' });
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
@@ -475,7 +465,7 @@ export class UpdatePrfsComponent implements OnInit {
   deleteFile(attachementId: string) {
     if ( this.askedUuid ) {
       this.ticketsService.removeAttachement(attachementId).subscribe(
-        data => { 
+        data => {
           this.getAttachements();
 
         },
@@ -496,12 +486,12 @@ export class UpdatePrfsComponent implements OnInit {
     if (this.tag_id && this.askedUuid ) {
       const user_uuid = this.cookieService.get('user_uuid');
 
-      const data = { 
+      const data = {
         user_uuid,
-        asked_uuid: this.askedUuid, 
+        asked_uuid: this.askedUuid,
         tag_id: this.tag_id
       }
-  
+
       this.ticketsService.askedAddTag(data).subscribe(
         response => {
           console.log(response);
@@ -538,12 +528,12 @@ export class UpdatePrfsComponent implements OnInit {
     if (this.effect_id && this.askedUuid ) {
       const user_uuid = this.cookieService.get('user_uuid');
 
-      const data = { 
-        asked_uuid: this.askedUuid, 
+      const data = {
+        asked_uuid: this.askedUuid,
         effect_id: this.effect_id,
         user_uuid
       }
-  
+
       this.ticketsService.askedAddEvent(data).subscribe(
         response => {
           console.log(response);

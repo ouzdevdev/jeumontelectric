@@ -6,12 +6,13 @@ import { TicketsService } from '../services/tickets.service';
 import { CookieService } from 'ngx-cookie-service';
 import { SharedTitleService } from '../services/shared-title.service';
 
+
 @Component({
   selector: 'app-update-prma',
   templateUrl: './update-prma.component.html',
   styleUrls: ['./update-prma.component.scss']
 })
-export class UpdatePrmaComponent implements OnInit {  
+export class UpdatePrmaComponent implements OnInit {
   selectedFiles: File[] = [];
   attachements: any[] = [];
   files: any[] = [];
@@ -36,7 +37,7 @@ export class UpdatePrmaComponent implements OnInit {
   equipementsinterne: any[] = [];
 
   // tables spare parts
-  spare_parts_database: any[] = [];  
+  spare_parts_database: any[] = [];
   spare_parts: any[] = [];
 
   // value spare
@@ -45,13 +46,13 @@ export class UpdatePrmaComponent implements OnInit {
   quantity: number = 0;
   purchase_order_number!: string;
   expected_date!: Date;
-  status_ifs!: string; 
+  status_ifs!: string;
 
   constructor(
-    private router: Router,   
+    private router: Router,
     private route: ActivatedRoute,
     private authService: AuthService,
-    private infosService: InfosService, 
+    private infosService: InfosService,
     private ticketsService: TicketsService,
     private cookieService: CookieService,
     private sharedTitleService: SharedTitleService,
@@ -116,7 +117,7 @@ export class UpdatePrmaComponent implements OnInit {
           'expected_date': this.expected_date,
           'status_ifs': this.status_ifs
         })
-    
+
         this.piece_uuid = ""
         this.piece= null;
         this.quantity= 0;
@@ -129,9 +130,9 @@ export class UpdatePrmaComponent implements OnInit {
       }
     );
   }
-  
+
   private getAttachements() {
-    if (this.askedUuid !== null) { 
+    if (this.askedUuid !== null) {
       this.ticketsService.getAttachements(this.askedUuid).subscribe(
         data => {
           console.log(data, 'Data attachements');
@@ -189,15 +190,24 @@ export class UpdatePrmaComponent implements OnInit {
       }
     );
   }
-  
-  onDragOver(event: DragEvent) {
+
+   onDragOver(event: DragEvent) {
     event.preventDefault();
     event.stopPropagation();
   }
+  onDrop(event: DragEvent) {
+    event.preventDefault();
+    event.stopPropagation();
 
-  toggleDeleteFileToDownloadTicket(att: any) {
-    this.fileToDelete = att;
-    this.isDeleteFileToDownloadTicketVisible = !this.isDeleteFileToDownloadTicketVisible;
+    const droppedFiles = event.dataTransfer?.files;
+
+    console.log(droppedFiles)
+
+    if (droppedFiles && droppedFiles.length > 0) {
+       this.selectedFiles=Array.from(droppedFiles);
+      const droppedFilesWithNameAndSize = Array.from(droppedFiles).map((file) => ({ name: file.name, size: file.size }));
+      this.handleFiles(droppedFilesWithNameAndSize);
+    }
   }
 
   onFileChange(event: any) {
@@ -206,15 +216,19 @@ export class UpdatePrmaComponent implements OnInit {
     this.handleFiles(files);
   }
 
-  handleFiles(files: File[]) {
+  handleFiles(files: any[]) {
     console.log(files);
     for (const file of files) {
       this.files.push({ name: file.name, size: this.formatFileSize(file.size) });
     }
   }
 
+ toggleDeleteFileToDownloadTicket(att: any) {
+    this.fileToDelete = att;
+    this.isDeleteFileToDownloadTicketVisible = !this.isDeleteFileToDownloadTicketVisible;
+  }
   formatFileSize(size: number): string {
-    const megabytes = size / (1024 * 1024); 
+    const megabytes = size / (1024 * 1024);
     return megabytes.toFixed(2) + ' Mo';
   }
 
@@ -236,21 +250,21 @@ export class UpdatePrmaComponent implements OnInit {
 
   submitForm() {
     this.loading = true;
-    
+
     const user_uuid = this.cookieService.get('user_uuid');
 
     this.ticketsService.updateAskedPRMA(this.asked, this.asked.asked_uuid, user_uuid).subscribe(
       response => {
         this.openPopup();
-      
+
         if (this.askedUuid) {
           const user_uuid = this.cookieService.get('user_uuid');
           this.uploadFile(this.askedUuid, user_uuid);
-          
+
           this.spare_parts.forEach((spare_parts) =>{
             this.ticketsService.createAskedPRMAEqpInternal(this.askedUuid, spare_parts).subscribe(
               response => {
-                console.log(response);  
+                console.log(response);
               },
               error => {
                 console.error('Erreur:', error);
@@ -262,7 +276,7 @@ export class UpdatePrmaComponent implements OnInit {
 
         setTimeout(() => {
           this.router.navigate(['/']);
-        }, 4000); 
+        }, 4000);
       },
       error => {
         console.error('Error creating PRFS:', error);
@@ -333,14 +347,14 @@ export class UpdatePrmaComponent implements OnInit {
       );
     }
   }
-  
+
   openPopup() {
     this.isVisible = true;
   }
-  
+
   getFileNameWithoutExtension(fileName: string): string {
     const lastIndex = fileName.lastIndexOf('.');
-    
+
     if (lastIndex !== -1) {
       const baseName = fileName.slice(0, lastIndex);
       const generatedFileName = baseName.slice(0, 4).padEnd(4, '0');
@@ -366,14 +380,14 @@ export class UpdatePrmaComponent implements OnInit {
     const b = bigint & 255;
     return r + ',' + g + ',' + b;
   }
-  
+
   downloadFile(filename: string) {
     const pathSegments = filename.split('/');
 
     const fileName = pathSegments[pathSegments.length - 1];
 
     this.ticketsService.downloadAttachement(fileName).subscribe(
-      data => { 
+      data => {
         const blob = new Blob([data], { type: 'application/octet-stream' });
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
@@ -394,29 +408,7 @@ export class UpdatePrmaComponent implements OnInit {
     this.isDeleteFileTicketVisible = !this.isDeleteFileTicketVisible;
   }
 
-  onDrop(event: DragEvent) {
-    event.preventDefault();
-    event.stopPropagation();
-  
-    const droppedFiles = event.dataTransfer?.files;
-  
-    if (droppedFiles && droppedFiles.length > 0) {
-      for (let i = 0; i < droppedFiles.length; i++) {
-        if (this.files.length < this.maxFileCount) {
-          const file = droppedFiles[i];
-  
-          const filePath = URL.createObjectURL(file);
-  
-          this.files.push({
-            name: file.name,
-            path: filePath
-          });
-        } else {
-          alert("files has been truncated to 10 files.");
-        }
-      }
-    }
-  }
+
 
   deleteSparePartDatabase(ref: any) {
     this.ticketsService.deletePRMAEqpInternals(ref).subscribe(
@@ -427,7 +419,7 @@ export class UpdatePrmaComponent implements OnInit {
         console.error('Erreur:', error);
         this.loading = false;
       }
-    );   
+    );
   }
 
   deleteSparePart(index: number): void {
@@ -447,7 +439,7 @@ export class UpdatePrmaComponent implements OnInit {
   deleteFile(attachementId: string) {
     if ( this.askedUuid ) {
       this.ticketsService.removeAttachement(attachementId).subscribe(
-        data => { 
+        data => {
           this.getAttachements();
         },
         error => {
