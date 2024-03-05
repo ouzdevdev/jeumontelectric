@@ -199,18 +199,17 @@ export class UpdatePrfmComponent implements OnInit {
     }
   }
 
-onFileChange(event: any) {
-    this.selectedFiles = Array.from(event.target.files);
-    const files = event.target.files;
-    this.handleFiles(files);
-  }
 
   toggleDeleteFileToDownloadTicket(att: any) {
     this.fileToDelete = att;
     this.isDeleteFileToDownloadTicketVisible = !this.isDeleteFileToDownloadTicketVisible;
   }
 
-
+  onFileChange(event: any) {
+    this.selectedFiles = Array.from(event.target.files);
+    const files = event.target.files;
+    this.handleFiles(files);
+  }
 
   handleFiles(files: any[]) {
     console.log(files);

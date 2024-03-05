@@ -6,7 +6,6 @@ import { TicketsService } from '../services/tickets.service';
 import { CookieService } from 'ngx-cookie-service';
 import { SharedTitleService } from '../services/shared-title.service';
 
-
 @Component({
   selector: 'app-update-prma',
   templateUrl: './update-prma.component.html',
@@ -210,6 +209,12 @@ export class UpdatePrmaComponent implements OnInit {
     }
   }
 
+
+  toggleDeleteFileToDownloadTicket(att: any) {
+    this.fileToDelete = att;
+    this.isDeleteFileToDownloadTicketVisible = !this.isDeleteFileToDownloadTicketVisible;
+  }
+
   onFileChange(event: any) {
     this.selectedFiles = Array.from(event.target.files);
     const files = event.target.files;
@@ -223,10 +228,6 @@ export class UpdatePrmaComponent implements OnInit {
     }
   }
 
- toggleDeleteFileToDownloadTicket(att: any) {
-    this.fileToDelete = att;
-    this.isDeleteFileToDownloadTicketVisible = !this.isDeleteFileToDownloadTicketVisible;
-  }
   formatFileSize(size: number): string {
     const megabytes = size / (1024 * 1024);
     return megabytes.toFixed(2) + ' Mo';
@@ -315,6 +316,17 @@ export class UpdatePrmaComponent implements OnInit {
         return this.asked.material_sent;
       default:
         return false;
+    }
+  }
+
+  formatDate(date: any): Date {
+
+    if (date) {
+      const dataToShow = new Date(date);
+      return new Date(dataToShow.toISOString().slice(0, 10));
+    } else {
+      const dataToShow = new Date();
+      return new Date(dataToShow.toISOString().slice(0, 10));
     }
   }
 

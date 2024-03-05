@@ -70,6 +70,7 @@ export class StatistiqueComponent implements OnInit {
   effectTypes: any[] = [];
   levels: any[] = [];
   users: any[] = [];
+
   client: string = '';
   ship: string = '';
   user: string = '';
@@ -79,7 +80,8 @@ export class StatistiqueComponent implements OnInit {
   tag: number = 0;
   effectType: number = 0;
   level: number = 0;
-  statisticsEffect:any=null;
+  asked_type: string = '';
+
   constructor(
     private ticketsService: TicketsService,
     private infosService: InfosService,
@@ -203,187 +205,84 @@ export class StatistiqueComponent implements OnInit {
     return `${days} J ${hours} h ${minutes} m ${seconds} s`;
   }
 
-// handleChangeForPercentOption() {
-//   if ((this.selectedMode === 'percent' || this.selectedMode === 'number') && this.statisticsEffect!=null) {
-//     this.fetchTicketStatisticsByEffect();
-//   }else if((this.selectedMode === 'percent' || this.selectedMode === 'number') && this.statisticsEffect===null) {
-//     this.updateChartData();
-//   }
-// }
-
-
-generateChartFromTicketStatistics(statistics: any) {
-  if (!statistics || !Array.isArray(statistics)) {
-    console.error('Statistics data is invalid or empty.');
-    return;
-  }
-
-  console.log('Statistics data:', statistics);
-
-  const maxCount = 100;
-  const seriesData = statistics.map((item: any) => parseInt(item.nb_stat));
-  const categories = statistics.map((item: any) => item.status);
-
-  const yaxisFormatter = (value: any) => {
-    if (this.selectedMode === 'percent') {
-      return `${Math.floor(value)}%`;
-    } else {
-      return Math.floor(value).toString();
-    }
-  };
-
-  this.chartOptions = {
-    series: [{ name: "distributed", data: seriesData }],
-    chart: { height: 300, type: "bar", events: { click: function(chart, w, e) {}}},
-    colors: ["#E30039"],
-    plotOptions: { bar: { columnWidth: "45%" }},
-    dataLabels: { enabled: false },
-    legend: { show: false },
-    grid: { show: false },
-    xaxis: {
-      categories: categories,
-      labels: {
-        style: {
-          colors: "#000",
-          fontSize: "14px",
-        }
-      }
-    },
-    yaxis: {
-      max: maxCount,
-      min: 0,
-      tickAmount: 5,
-      labels: {
-        style: {
-          colors: "#000",
-          fontSize: "14px",
-          fontFamily: "font-inter",
-          fontWeight: "bold"
-        },
-        formatter: yaxisFormatter
-      }
-    }
-  };
-}
-
-
-
-
-fetchTicketStatisticsByEffect(): void {
-  console.log('Client:', this.client);
-  console.log('Ship:', this.ship);
-  console.log('User:', this.user);
-  console.log('effect:', this.effect);
-
-  this.ticketsService.getTicketStatisticsByEffect(this.effect, this.client, this.ship, this.user)
-    .subscribe(
+  getGlobalStatisticsChart() {
+    this.ticketsService.getAskedDataChart(
+      this.selectedDuration,
+      this.client,
+      this.user,
+      this.ship,
+      this.skill,
+      this.effect,
+      this.side,
+      this.tag,
+      this.effectType,
+      this.level
+    ).subscribe(
       (data) => {
-        // Handle the response data here
         console.log(data);
 
-        // Extract statistics array from the nested structure
-        this.statisticsEffect = data.Effects;
-
-        // Adjust the data if selectedMode is 'percent'
-      if (this.selectedMode === 'percent') {
-        // Assuming the data contains counts, calculate percentages
-        const total = this.statisticsEffect.reduce((acc: number, curr: any) => acc + parseInt(curr.nb_stat), 0);
-        this.statisticsEffect.forEach((item: any) => {
-          item.nb_stat = (parseInt(item.nb_stat) / total) * 100;
+        this.statisticsChart = data.statistics;
+        this.askedCount = data.askedCount;
+        const maxCount = this.selectedMode === 'number' ? this.askedCount : 100;
+        const seriesData = this.statisticsChart.map((item: any) => {
+          return this.selectedMode === 'number' ? item.count : (item.percentage > maxCount ? maxCount : item.percentage);
         });
-      }
 
-        console.log("stats",this.statisticsEffect)
-        // Generate chart from the fetched statistics
-        this.generateChartFromTicketStatistics(this.statisticsEffect);
-        // this.statisticsEffect=null;
-      },
-      (error) => {
-        console.error('Error fetching ticket statistics by effect:', error);
-      }
-    );
-}
-
-
-  getGlobalStatisticsChart() {
-        this.ticketsService.getAskedDataChart(
-          this.selectedDuration,
-          this.client,
-          this.user,
-          this.ship,
-          this.skill,
-          this.effect,
-          this.side,
-          this.tag,
-          this.effectType,
-          this.level
-        ).subscribe(
-          (data) => {
-            this.statisticsChart = data.statistics;
-            this.askedCount = data.askedCount;
-            const maxCount = this.selectedMode === 'number' ? this.askedCount : 100;
-            const seriesData = this.statisticsChart.map((item: any) => {
-              return this.selectedMode === 'number' ? item.count : (item.percentage > maxCount ? maxCount : item.percentage);
-            });
-
-            this.chartOptions = {
-              series: [{ name: "distibuted", data: seriesData }],
-              chart: { height: 300, type: "bar", events: { click: function(chart, w, e) {}}},
-              colors: ["#E30039", "#E30039", "#E30039", "#E30039", "#E30039", "#E30039"],
-              plotOptions: { bar: { columnWidth: "45%", distributed: true }},
-              dataLabels: { enabled: false },
-              legend: { show: false },
-              grid: { show: false },
-              xaxis: {
-                categories: this.statisticsChart.map((item: any) => item.status_label),
-                labels: {
-                  style: {
-                    colors: "#000",
-                    fontSize: "14px",
-                  }
-                }
+        this.chartOptions = {
+          series: [{ name: "distibuted", data: seriesData }],
+          chart: { height: 300, type: "bar", events: { click: function(chart, w, e) {}}},
+          colors: ["#E30039", "#E30039", "#E30039", "#E30039", "#E30039", "#E30039"],
+          plotOptions: { bar: { columnWidth: "45%", distributed: true }},
+          dataLabels: { enabled: false },
+          legend: { show: false },
+          grid: { show: false },
+          xaxis: {
+            categories: this.statisticsChart.map((item: any) => item.status_label),
+            labels: {
+              style: {
+                colors: "#000",
+                fontSize: "14px",
+              }
+            }
+          },
+          yaxis: {
+            max: maxCount,
+            min:0,
+            tickAmount: 5,
+            labels: {
+              style: {
+                colors: "#000",
+                fontSize: "14px",
+                fontFamily: "font-inter",
+                fontWeight: "bold"
               },
-              yaxis: {
-                max: maxCount,
-                min:0,
-                tickAmount: 5,
-                labels: {
-                  style: {
-                    colors: "#000",
-                    fontSize: "14px",
-                    fontFamily: "font-inter",
-                    fontWeight: "bold"
-                  },
-                  formatter:  (value: any) => {
-                    if (this.selectedMode === 'number') {
-                      return Math.floor(value).toString();
-                    } else {
-                      return Math.floor(value).toString() + ' %';
-                    }
-                  }
+              formatter:  (value: any) => {
+                if (this.selectedMode === 'number') {
+                  return Math.floor(value).toString();
+                } else {
+                  return Math.floor(value).toString() + ' %';
                 }
               }
-            };
-
-          },
-          (error) => {
-            console.error('Error:', error);
+            }
           }
-        );
+        };
+
+      },
+      (error) => {
+        console.error('Error:', error);
+      }
+    );
   }
 
 
- updateChartData() {
-  this.fetchShips();
-
-  if (this.selectedMode === 'percent' ||this.selectedMode === 'number' ) {
-    if (this.statisticsEffect) {
-      this.fetchTicketStatisticsByEffect();
-    } else {
-      this.getGlobalStatisticsChart();
+  updateChartData() {
+    this.fetchShips();
+    if (this.selectedMode === 'number') {
+      this.getGlobalStatisticsChart()
+    } else if (this.selectedMode === 'percent') {
+      this.getGlobalStatisticsChart()
     }
   }
-}
 
   updateDuration(duration: number) {
     this.selectedDuration = duration;

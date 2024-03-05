@@ -14,7 +14,7 @@
         </div>
         <div class="statistique-item">
             <h2 class="statistique-item-title">One-Touch</h2>
-            <h6 class="text-center p-3 page-title">{{ (statistics.oneTouch).toFixed(2) }}%</h6>
+            <h6 *ngIf="statistics.oneTouch !== undefined" class="text-center p-3 page-title">{{ (statistics.oneTouch).toFixed(2) }}%</h6>
         </div>
         <div class="statistique-item">
             <h2 class="statistique-item-title">Avg Resp</h2>
@@ -74,6 +74,21 @@
             </div>
             <div class="statistique-main-filter-item my-2">
                 <div class="dashboard-menu-item-1">
+                    <h1 class="alignements">Ticket type :</h1>
+                    <select
+                        [(ngModel)]="asked_type"
+                        (change)="updateChartData()"
+                        class="ml-2 dashboard-menu-item-select"
+                    >
+                        <option value="">None</option>
+                        <option value="PRFS">PRFS</option>
+                        <option value="PRFM">PRFM</option>
+                        <option value="PRMA">PRMA</option>
+                    </select>
+                </div>
+            </div>            
+            <div *ngIf="asked_type === 'PRFS'" class="statistique-main-filter-item my-2">
+                <div class="dashboard-menu-item-1">
                     <h1 class="alignements">Type :</h1>
                     <select
                         [(ngModel)]="skill"
@@ -85,20 +100,22 @@
                     </select>
                 </div>
             </div>
-            <div class="statistique-main-filter-item">
-                <div class="dashboard-menu-item-1">
-                    <h1 class="alignements">Effects :</h1>
-                    <select
-                        [(ngModel)]="effect"
-                        (change)="fetchTicketStatisticsByEffect()"
-                        class="ml-2 dashboard-menu-item-select"
-                    >
-                        <option value="0">None</option>
-                        <option *ngFor="let effect of effects" [value]="effect.effect_id">{{ effect.effect_label }}</option>
-                    </select>
+            <!--
+                <div class="statistique-main-filter-item">
+                    <div class="dashboard-menu-item-1">
+                        <h1 class="alignements">Effects :</h1>
+                        <select
+                            [(ngModel)]="effect"
+                            (change)="updateChartData()"
+                            class="ml-2 dashboard-menu-item-select"
+                        >
+                            <option value="0">None</option>
+                            <option *ngFor="let effect of effects" [value]="effect.effect_id">{{ effect.effect_label }}</option>
+                        </select>
+                    </div>
                 </div>
-            </div>
-            <div class="statistique-main-filter-item my-2">
+            -->
+            <div *ngIf="asked_type === 'PRFS'" class="statistique-main-filter-item my-2">
                 <div class="dashboard-menu-item-1">
                     <h1 class="alignements">Side :</h1>
                     <select
@@ -111,20 +128,22 @@
                     </select>
                 </div>
             </div>
-            <div class="statistique-main-filter-item">
-                <div class="dashboard-menu-item-1">
-                    <h1 class="alignements">Tag :</h1>
-                    <select
-                        [(ngModel)]="tag"
-                        (change)="updateChartData()"
-                        class="ml-2 dashboard-menu-item-select"
-                    >
-                        <option value="0">None</option>
-                        <option *ngFor="let tag of tags" [value]="tag.tag_id">{{ tag.tag_label }}</option>
-                    </select>
+            <!--
+                <div *ngIf="asked_type === 'PRFS'" class="statistique-main-filter-item">
+                    <div class="dashboard-menu-item-1">
+                        <h1 class="alignements">Tag :</h1>
+                        <select
+                            [(ngModel)]="tag"
+                            (change)="updateChartData()"
+                            class="ml-2 dashboard-menu-item-select"
+                        >
+                            <option value="0">None</option>
+                            <option *ngFor="let tag of tags" [value]="tag.tag_id">{{ tag.tag_label }}</option>
+                        </select>
+                    </div>
                 </div>
-            </div>
-            <div class="statistique-main-filter-item my-2">
+            -->
+            <div *ngIf="asked_type === 'PRFS'" class="statistique-main-filter-item my-2">
                 <div class="dashboard-menu-item-1">
                     <h1 class="alignements">Type effect :</h1>
                     <select
@@ -137,7 +156,7 @@
                     </select>
                 </div>
             </div>
-            <div class="statistique-main-filter-item">
+            <div *ngIf="asked_type === 'PRFS'" class="statistique-main-filter-item">
                 <div class="dashboard-menu-item-1">
                     <h1 class="alignements">Comp level :</h1>
                     <select

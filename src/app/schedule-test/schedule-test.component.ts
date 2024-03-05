@@ -2,9 +2,11 @@ import { Component, OnInit, Input, ViewChild, ViewEncapsulation } from '@angular
 import { extend } from '@syncfusion/ej2-base';
 import { ScheduleComponent, GroupModel } from '@syncfusion/ej2-angular-schedule';
 import { OnCallService } from '../services/on-call.service';
-import { UsersService } from '../services/users.service';
 import { InfosService } from '../services/infos.service';
 import { getISOWeek } from 'date-fns';
+import { ButtonComponent } from '@syncfusion/ej2-angular-buttons';
+import { Constants } from '../utils/constants';
+import { UrlAdaptor } from '@syncfusion/ej2-data';
 
 @Component({
   selector: 'app-schedule-test',
@@ -14,7 +16,15 @@ import { getISOWeek } from 'date-fns';
 })
 
 export class ScheduleTestComponent implements OnInit {
-  @ViewChild('scheduleObj') public scheduleObj: ScheduleComponent | undefined;
+  @ViewChild('scheduleObj') 
+  public scheduleObj?: ScheduleComponent;
+  @ViewChild('addButtonObj', { static: true })
+  public addButtonObj?: ButtonComponent;
+  @ViewChild('editButtonObj', { static: true })
+  public editButtonObj?: ButtonComponent;
+  @ViewChild('deleteButtonObj', { static: true })
+  public deleteButtonObj?: ButtonComponent;
+
   @Input() addToBackUp: any[] = [];
   @Input() addToEvents: Record<string, any>[] = [];
   public data: Record<string, any>[] = [];
@@ -70,7 +80,21 @@ export class ScheduleTestComponent implements OnInit {
   private updateData() {
     this.employeeDataSource = this.addToBackUp;
     this.data = extend([], this.addToEvents, undefined, true) as Record<string, any>[];
-    this.eventSettings = { dataSource: this.data };
+    this.data = this.data.map((event: Record<string, any>) => ({
+      ...event,
+      crudUrl: `${Constants.apiUrl}/oncall/test`,
+      adaptor: new UrlAdaptor
+    }));
+
+    this.eventSettings = { 
+      dataSource: this.data,
+      fields: {
+        subject: { title: 'Event Name', name: 'Subject', default: 'Add Name' },
+        description: { title: 'Summary', name: 'Description' },
+        startTime: { title: 'From', name: 'StartTime' },
+        endTime: { title: 'To', name: 'EndTime' }
+      } 
+    };
   }
 
   toggleAddEvent () {
@@ -81,7 +105,9 @@ export class ScheduleTestComponent implements OnInit {
     this.isUpdateEventVisible = !this.isUpdateEventVisible;
   }
 
-  
+  onActionFailure(eventData: any): void {
+    console.log(eventData);
+  }
 
   onAddToPlanning() {
 

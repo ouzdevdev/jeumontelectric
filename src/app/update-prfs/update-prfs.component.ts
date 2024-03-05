@@ -382,24 +382,6 @@ export class UpdatePrfsComponent implements OnInit {
     return false;
   }
 
-
-  onFileChange(event: any) {
-    this.selectedFiles = Array.from(event.target.files);
-    const files = event.target.files;
-    this.handleFiles(files);
-  }
-
-  handleFiles(files: any[]) {
-    console.log(files);
-    for (const file of files) {
-      this.files.push({ name: file.name, size: this.formatFileSize(file.size) });
-    }
-  }
-
-  formatFileSize(size: number): string {
-    const megabytes = size / (1024 * 1024);
-    return megabytes.toFixed(2) + ' Mo';
-  }
    onDragOver(event: DragEvent) {
     event.preventDefault();
     event.stopPropagation();
@@ -418,6 +400,26 @@ export class UpdatePrfsComponent implements OnInit {
       this.handleFiles(droppedFilesWithNameAndSize);
     }
   }
+
+
+  onFileChange(event: any) {
+    this.selectedFiles = Array.from(event.target.files);
+    const files = event.target.files;
+    this.handleFiles(files);
+  }
+
+  handleFiles(files: any[]) {
+    console.log(files);
+    for (const file of files) {
+      this.files.push({ name: file.name, size: this.formatFileSize(file.size) });
+    }
+  }
+
+  formatFileSize(size: number): string {
+    const megabytes = size / (1024 * 1024);
+    return megabytes.toFixed(2) + ' Mo';
+  }
+
 
   getFileNameWithoutExtension(fileName: string): string {
     const lastIndex = fileName.lastIndexOf('.');
